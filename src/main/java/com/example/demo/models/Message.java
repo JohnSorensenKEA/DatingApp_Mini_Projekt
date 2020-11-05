@@ -7,13 +7,13 @@ public class Message {
     private String text;
     private Date date;
     private Time time;
-    private int author_id;
+    private int authorID;
 
-    public Message(String text, Date date, Time time, int author_id) {
+    public Message(String text, Date date, Time time, int authorID) {
         this.text = text;
         this.date = date;
         this.time = time;
-        this.author_id = author_id;
+        this.authorID = authorID;
     }
 
     public String getText() {
@@ -40,11 +40,11 @@ public class Message {
         this.time = time;
     }
 
-    public int getAuthor_id() {
-        return author_id;
+    public int getAuthorID() {
+        return authorID;
     }
 
-    public void setAuthor_id(int author_id) {
-        this.author_id = author_id;
+    public void setAuthorID(int authorID) {
+        this.authorID = authorID;
     }
 }

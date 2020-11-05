@@ -7,18 +7,18 @@ public class Profile {
     private String email;
     private String firstName;
     private String surName;
-    private String picture_name;
-    private int user_id;
+    private String pictureName;
+    private int userID;
 
-    public Profile(String username, String password, String sex, String email, String firstName, String surName, String picture_name, int user_id){
+    public Profile(String username, String password, String sex, String email, String firstName, String surName, String pictureName, int userID){
         this.username = username;
         this.password = password;
         this.sex = sex;
         this.email = email;
         this.firstName = firstName;
         this.surName = surName;
-        this.picture_name = picture_name;
-        this.user_id = user_id;
+        this.pictureName = pictureName;
+        this.userID = userID;
     }
 
     public String getUsername() {
@@ -69,19 +69,19 @@ public class Profile {
         this.surName = surName;
     }
 
-    public String getPicture_name() {
-        return picture_name;
+    public String getPictureName() {
+        return pictureName;
     }
 
-    public void setPicture_name(String picture_name) {
-        this.picture_name = picture_name;
+    public void setPictureName(String pictureName) {
+        this.pictureName = pictureName;
     }
 
-    public int getUser_id() {
-        return user_id;
+    public int getUserID() {
+        return userID;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
 }

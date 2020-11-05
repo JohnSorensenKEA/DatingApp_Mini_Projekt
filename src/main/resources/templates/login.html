@@ -18,7 +18,13 @@
     <div class="col-lg-3"></div>
     <div class="col-lg-4">
         <div style="alignment: center">
-            <p style="align-self: center">Hello world</p>
+            <form method="post" action="/loginRequest">
+                <label for="username">Brugernavn</label><br>
+                <input type="text" id="username" name="username"><br>
+                <label for="password">Kodeord</label><br>
+                <input type="text" id="password" name="password"><br>
+                <input type="submit" value="Login">
+            </form>
         </div>
     </div>
     <div class="col-lg-3"></div>

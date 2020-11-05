@@ -1,16 +1,14 @@
 package com.example.demo.services;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class JDBC {
 
     private Connection connection;
 
-    public boolean setConnction(){
+    public boolean setConnection(){
         boolean bres = false;
-        String url = "jdbc:mysql://94.18.243.144:3306/clm1?serverTimezone=UTC";
+        String url = "jdbc:mysql://localhost:3306/clm1?serverTimezone=UTC";
         try{
             connection = DriverManager.getConnection(url,"clm_server","clm_server");
             bres = true;
@@ -20,4 +18,20 @@ public class JDBC {
         }
         return bres;
     }
+
+    public ResultSet getUserInfo(int userID){
+        ResultSet res = null;
+        String selectSQL = "SELECT * FROM users WHERE user_id = ?";
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(selectSQL);
+            preparedStatement.setInt(1, userID);
+            res =preparedStatement.executeQuery();
+        }
+        catch (SQLException e){
+            System.out.println("GetUserInfoError="+e.getMessage());
+        }
+        return res;
+    }
+
+
 }

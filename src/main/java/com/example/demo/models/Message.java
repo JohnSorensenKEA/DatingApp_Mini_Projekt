@@ -4,14 +4,24 @@ import java.sql.Time;
 import java.util.Date;
 
 public class Message {
+    private String text;
     private Date date;
     private Time time;
     private int author_id;
 
-    public Message(Date date, Time time, int author_id) {
+    public Message(String text, Date date, Time time, int author_id) {
+        this.text = text;
         this.date = date;
         this.time = time;
         this.author_id = author_id;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 
     public Date getDate() {

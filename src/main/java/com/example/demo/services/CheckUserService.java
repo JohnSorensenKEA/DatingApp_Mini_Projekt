@@ -7,12 +7,7 @@ import java.util.Random;
 
 public class CheckUserService {
 
-    private JDBC jdbc;
     private ArrayList<UserIdentification> list = new ArrayList<>();
-
-    public CheckUserService(JDBC jdbc) {
-        this.jdbc = jdbc;
-    }
 
     public UserIdentification checkUser(String cookieID){
         for(UserIdentification u : list){

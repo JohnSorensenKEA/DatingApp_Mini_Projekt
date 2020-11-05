@@ -33,11 +33,11 @@ public class MainController {
 
         candidateService = new CandidateService(jdbc);
         chatService = new ChatService(jdbc);
-        checkUserInput = new CheckUserInput(jdbc);
-        checkUserService = new CheckUserService(jdbc);
-        deleteService = new DeleteService(jdbc);
+        checkUserInput = new CheckUserInput();
+        checkUserService = new CheckUserService();
+        deleteService = new DeleteService();
         loginService = new LoginService(jdbc);
-        photoHandler = new PhotoHandler(jdbc);
+        photoHandler = new PhotoHandler();
         profileHandler = new ProfileHandler(jdbc);
     }
 

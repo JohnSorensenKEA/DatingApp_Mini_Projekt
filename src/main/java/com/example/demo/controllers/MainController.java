@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class MainController {
 
-    @GetMapping("/")
+    @GetMapping("/test")
     public String jegTesterLigeNogetMedCookiesBTW(){
 
         return "login";

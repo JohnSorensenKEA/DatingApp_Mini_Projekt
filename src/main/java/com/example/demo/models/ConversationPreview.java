@@ -1,23 +1,23 @@
 package com.example.demo.models;
 
 public class ConversationPreview {
-    private String conversationID;
+    private int conversationID;
     private String secondaryUsername;
     private String secondaryPhoto;
     private String latestMessage;
 
-    public ConversationPreview(String conversationID, String secondaryUsername, String secondaryPhoto, String latestMessage) {
+    public ConversationPreview(int conversationID, String secondaryUsername, String secondaryPhoto, String latestMessage) {
         this.conversationID = conversationID;
         this.secondaryUsername = secondaryUsername;
         this.secondaryPhoto = secondaryPhoto;
         this.latestMessage = latestMessage;
     }
 
-    public String getConversationID() {
+    public int getConversationID() {
         return conversationID;
     }
 
-    public void setConversationID(String conversationID) {
+    public void setConversationID(int conversationID) {
         this.conversationID = conversationID;
     }
 

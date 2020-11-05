@@ -3,9 +3,9 @@ package com.example.demo.models;
 public class Candidate {
     private String secondaryUsername;
     private String secondaryPhoto;
-    private String relationID;
+    private int relationID;
 
-    public Candidate(String secondaryUsername, String secondaryPhoto, String relationID) {
+    public Candidate(String secondaryUsername, String secondaryPhoto, int relationID) {
         this.secondaryUsername = secondaryUsername;
         this.secondaryPhoto = secondaryPhoto;
         this.relationID = relationID;
@@ -27,11 +27,11 @@ public class Candidate {
         this.secondaryPhoto = secondaryPhoto;
     }
 
-    public String getRelationID() {
+    public int getRelationID() {
         return relationID;
     }
 
-    public void setRelationID(String relationID) {
+    public void setRelationID(int relationID) {
         this.relationID = relationID;
     }
 }

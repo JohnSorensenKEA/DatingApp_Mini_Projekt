@@ -1,31 +1,31 @@
 package com.example.demo.models;
 
 public class Conversation {
-    private String conversationID;
-    private String secondaryUserID;
+    private int conversationID;
+    private int secondaryUserID;
     private String secondaryUsername;
     private String secondaryPhoto;
 
-    public Conversation(String conversationID, String secondaryUserID, String secondaryUsername, String secondaryPhoto) {
+    public Conversation(int conversationID, int secondaryUserID, String secondaryUsername, String secondaryPhoto) {
         this.conversationID = conversationID;
         this.secondaryUserID = secondaryUserID;
         this.secondaryUsername = secondaryUsername;
         this.secondaryPhoto = secondaryPhoto;
     }
 
-    public String getConversationID() {
+    public int getConversationID() {
         return conversationID;
     }
 
-    public void setConversationID(String conversationID) {
+    public void setConversationID(int conversationID) {
         this.conversationID = conversationID;
     }
 
-    public String getSecondaryUserID() {
+    public int getSecondaryUserID() {
         return secondaryUserID;
     }
 
-    public void setSecondaryUserID(String secondaryUserID) {
+    public void setSecondaryUserID(int secondaryUserID) {
         this.secondaryUserID = secondaryUserID;
     }
 

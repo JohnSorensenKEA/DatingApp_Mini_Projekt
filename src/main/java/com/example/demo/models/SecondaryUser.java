@@ -1,78 +1,77 @@
 package com.example.demo.models;
 
 public class SecondaryUser {
-    private String SecondaryUserName;
-    private String SecoundaryPhoto;
-    private String SecoundaryDescription;
-    private String SecoundaryUserid;
-    private String SecoundarySex;
-    private String SecoundaryFavorites;
-    private int SecoundaryAge;
+    private String secondaryUsername;
+    private String secondaryPhoto;
+    private String secondaryDescription;
+    private String secondaryUserID;
+    private String secondarySex;
+    private String secondaryFavorites;
+    private int secondaryAge;
 
-    public SecondaryUser(String secondaryUserName, String secoundaryPhoto, String secoundaryDescription,
-                         String secoundaryUserid, String secoundarySex, String secoundaryFavorites, int secoundaryAge) {
-        SecondaryUserName = secondaryUserName;
-        SecoundaryPhoto = secoundaryPhoto;
-        SecoundaryDescription = secoundaryDescription;
-        SecoundaryUserid = secoundaryUserid;
-        SecoundarySex = secoundarySex;
-        SecoundaryFavorites = secoundaryFavorites;
-        SecoundaryAge = secoundaryAge;
+    public SecondaryUser(String secondaryUsername, String secondaryPhoto, String secondaryDescription, String secondaryUserID, String secondarySex, String secondaryFavorites, int secondaryAge) {
+        this.secondaryUsername = secondaryUsername;
+        this.secondaryPhoto = secondaryPhoto;
+        this.secondaryDescription = secondaryDescription;
+        this.secondaryUserID = secondaryUserID;
+        this.secondarySex = secondarySex;
+        this.secondaryFavorites = secondaryFavorites;
+        this.secondaryAge = secondaryAge;
     }
 
-    public String getSecondaryUserName() {
-        return SecondaryUserName;
+    public String getSecondaryUsername() {
+        return secondaryUsername;
     }
 
-    public void setSecondaryUserName(String secondaryUserName) {
-        SecondaryUserName = secondaryUserName;
+    public void setSecondaryUsername(String secondaryUsername) {
+        this.secondaryUsername = secondaryUsername;
     }
 
-    public String getSecoundaryPhoto() {
-        return SecoundaryPhoto;
+    public String getSecondaryPhoto() {
+        return secondaryPhoto;
     }
 
-    public void setSecoundaryPhoto(String secoundaryPhoto) {
-        SecoundaryPhoto = secoundaryPhoto;
+    public void setSecondaryPhoto(String secondaryPhoto) {
+        this.secondaryPhoto = secondaryPhoto;
     }
 
-    public String getSecoundaryDescription() {
-        return SecoundaryDescription;
+    public String getSecondaryDescription() {
+        return secondaryDescription;
     }
 
-    public void setSecoundaryDescription(String secoundaryDescription) {
-        SecoundaryDescription = secoundaryDescription;
+    public void setSecondaryDescription(String secondaryDescription) {
+        this.secondaryDescription = secondaryDescription;
     }
 
-    public String getSecoundaryUserid() {
-        return SecoundaryUserid;
+    public String getSecondaryUserID() {
+        return secondaryUserID;
     }
 
-    public void setSecoundaryUserid(String secoundaryUserid) {
-        SecoundaryUserid = secoundaryUserid;
+    public void setSecondaryUserID(String secondaryUserID) {
+        this.secondaryUserID = secondaryUserID;
     }
 
-    public String getSecoundarySex() {
-        return SecoundarySex;
+    public String getSecondarySex() {
+        return secondarySex;
     }
 
-    public void setSecoundarySex(String secoundarySex) {
-        SecoundarySex = secoundarySex;
+    public void setSecondarySex(String secondarySex) {
+        this.secondarySex = secondarySex;
     }
 
-    public String getSecoundaryFavorites() {
-        return SecoundaryFavorites;
+    public String getSecondaryFavorites() {
+        return secondaryFavorites;
     }
 
-    public void setSecoundaryFavorites(String secoundaryFavorites) {
-        SecoundaryFavorites = secoundaryFavorites;
+    public void setSecondaryFavorites(String secondaryFavorites) {
+        this.secondaryFavorites = secondaryFavorites;
     }
 
-    public int getSecoundaryAge() {
-        return SecoundaryAge;
+    public int getSecondaryAge() {
+        return secondaryAge;
     }
 
-    public void setSecoundaryAge(int secoundaryAge) {
-        SecoundaryAge = secoundaryAge;
+    public void setSecondaryAge(int secondaryAge) {
+        this.secondaryAge = secondaryAge;
     }
 }

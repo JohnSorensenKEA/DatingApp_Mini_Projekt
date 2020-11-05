@@ -1,48 +1,47 @@
 package com.example.demo.models;
 
 public class ConversationPreview {
-    private String Conversation_id;
-    private String Secondary_username;
-    private String Secondary_photo;
-    private String latest_message;
+    private String conversationID;
+    private String secondaryUsername;
+    private String secondaryPhoto;
+    private String latestMessage;
 
-    public ConversationPreview(String conversation_id, String secondary_username, String secondary_photo,
-                               String latest_message) {
-        Conversation_id = conversation_id;
-        Secondary_username = secondary_username;
-        Secondary_photo = secondary_photo;
-        this.latest_message = latest_message;
+    public ConversationPreview(String conversationID, String secondaryUsername, String secondaryPhoto, String latestMessage) {
+        this.conversationID = conversationID;
+        this.secondaryUsername = secondaryUsername;
+        this.secondaryPhoto = secondaryPhoto;
+        this.latestMessage = latestMessage;
     }
 
-    public String getConversation_id() {
-        return Conversation_id;
+    public String getConversationID() {
+        return conversationID;
     }
 
-    public void setConversation_id(String conversation_id) {
-        Conversation_id = conversation_id;
+    public void setConversationID(String conversationID) {
+        this.conversationID = conversationID;
     }
 
-    public String getSecondary_username() {
-        return Secondary_username;
+    public String getSecondaryUsername() {
+        return secondaryUsername;
     }
 
-    public void setSecondary_username(String secondary_username) {
-        Secondary_username = secondary_username;
+    public void setSecondaryUsername(String secondaryUsername) {
+        this.secondaryUsername = secondaryUsername;
     }
 
-    public String getSecondary_photo() {
-        return Secondary_photo;
+    public String getSecondaryPhoto() {
+        return secondaryPhoto;
     }
 
-    public void setSecondary_photo(String secondary_photo) {
-        Secondary_photo = secondary_photo;
+    public void setSecondaryPhoto(String secondaryPhoto) {
+        this.secondaryPhoto = secondaryPhoto;
     }
 
-    public String getLatest_message() {
-        return latest_message;
+    public String getLatestMessage() {
+        return latestMessage;
     }
 
-    public void setLatest_message(String latest_message) {
-        this.latest_message = latest_message;
+    public void setLatestMessage(String latestMessage) {
+        this.latestMessage = latestMessage;
     }
 }

@@ -16,18 +16,29 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 public class MainController {
 
-    CandidateService candidateService = new CandidateService();
-    ChatService chatService = new ChatService();
-    CheckUserInput checkUserInput = new CheckUserInput();
-    CheckUserService checkUserService = new CheckUserService();
-    DeleteService deleteService = new DeleteService();
-    JDBC jdbc = new JDBC();
-    LoginService loginService = new LoginService();
-    PhotoHandler photoHandler = new PhotoHandler();
-    ProfileHandler profileHandler = new ProfileHandler();
+    JDBC jdbc;
+
+    CandidateService candidateService;
+    ChatService chatService;
+    CheckUserInput checkUserInput;
+    CheckUserService checkUserService;
+    DeleteService deleteService;
+    LoginService loginService;
+    PhotoHandler photoHandler;
+    ProfileHandler profileHandler;
 
     public MainController(){
+        jdbc = new JDBC();
         jdbc.setConnection();
+
+        candidateService = new CandidateService(jdbc);
+        chatService = new ChatService(jdbc);
+        checkUserInput = new CheckUserInput(jdbc);
+        checkUserService = new CheckUserService(jdbc);
+        deleteService = new DeleteService(jdbc);
+        loginService = new LoginService(jdbc);
+        photoHandler = new PhotoHandler(jdbc);
+        profileHandler = new ProfileHandler(jdbc);
     }
 
     @GetMapping("/test")
@@ -56,4 +67,6 @@ public class MainController {
 
         return "register";
     }
+
+
 }

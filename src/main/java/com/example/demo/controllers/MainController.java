@@ -70,6 +70,124 @@ public class MainController {
         return "register";
     }
 
+    @GetMapping("/login")
+    public String login(){
+        return "";
+    }
 
+    @PostMapping("/loginRequest")
+    public String loginRequest(){
+        return "";
+    }
+
+    @GetMapping("/register")
+    public String register(){
+        return "";
+    }
+
+    @PostMapping("/registrationRequest")
+    public String registrationRequest(){
+        return "";
+    }
+
+    @GetMapping("/")
+    public String index(){
+        return "";
+    }
+
+    @GetMapping("/match")
+    public String match(){
+        return "";
+    }
+
+    @PostMapping("/likeUser")
+    public String likeUser(){
+        return "";
+    }
+
+    @PostMapping("/nextUser")
+    public String nextUser(){
+        return "";
+    }
+
+    @GetMapping("/inbox")
+    public String inbox(){
+        return "";
+    }
+
+    @PostMapping("/conversation")
+    public String conversation(){
+        return "";
+    }
+
+    @PostMapping("/sendMessage")
+    public String sendMessage(){
+        return "";
+    }
+
+    @GetMapping("/candidates")
+    public String candidateList(){
+        return "";
+    }
+
+    @GetMapping("/profile")
+    public String profil(){
+        return "";
+    }
+
+    @PostMapping("/saveTextChanges")
+    public String saveTextChanges(){
+        return "";
+    }
+
+    @PostMapping("/uploadPicture")
+    public String uploadPicture(){
+        return "";
+    }
+
+    @PostMapping("/deletePicture")
+    public String deletePicture(){
+        return "";
+    }
+
+    @PostMapping("/logout")
+    public String logOut(){
+        return "";
+    }
+
+    @PostMapping("/deleteProfile")
+    public String deleteProfile(){
+        return "";
+    }
+
+    @PostMapping("/deleteConversation")
+    public String deleteConversation(){
+        return "";
+    }
+
+    @PostMapping("/deleteCandidate")
+    public String deleteCandidate(){
+        return "";
+    }
+
+    @GetMapping("/userList")
+    public String userList(){
+        return "";
+    }
+
+    @PostMapping("/searchUser")
+    public String searchUser(){
+        return "";
+    }
+
+    @GetMapping("/userProfile")
+    public String userProfile(){
+        return "";
+    }
+
+    @GetMapping("/userInbox")
+    public String userInbox(){
+        return "";
+    }
 
 }

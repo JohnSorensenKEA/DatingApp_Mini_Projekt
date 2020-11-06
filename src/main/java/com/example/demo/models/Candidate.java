@@ -3,12 +3,16 @@ package com.example.demo.models;
 public class Candidate {
     private String secondaryUsername;
     private String secondaryPhoto;
-    private int relationID;
+    private int secondaryID;
+    private int sex;
+    private String birthdate;
 
-    public Candidate(String secondaryUsername, String secondaryPhoto, int relationID) {
+    public Candidate(String secondaryUsername, String secondaryPhoto, int relationID, int sex, String birthdate) {
         this.secondaryUsername = secondaryUsername;
         this.secondaryPhoto = secondaryPhoto;
-        this.relationID = relationID;
+        this.secondaryID = relationID;
+        this.sex = sex;
+        this.birthdate = birthdate;
     }
 
     public String getSecondaryUsername() {
@@ -27,11 +31,27 @@ public class Candidate {
         this.secondaryPhoto = secondaryPhoto;
     }
 
-    public int getRelationID() {
-        return relationID;
+    public int getSecondaryID() {
+        return secondaryID;
     }
 
-    public void setRelationID(int relationID) {
-        this.relationID = relationID;
+    public void setSecondaryID(int secondaryID) {
+        this.secondaryID = secondaryID;
+    }
+
+    public String getBirthdate() {
+        return birthdate;
+    }
+
+    public void setBirthdate(String birthdate) {
+        this.birthdate = birthdate;
+    }
+
+    public int getSex() {
+        return sex;
+    }
+
+    public void setSex(int sex) {
+        this.sex = sex;
     }
 }

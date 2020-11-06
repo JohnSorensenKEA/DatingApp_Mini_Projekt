@@ -37,17 +37,21 @@ public class CheckUserService {
     }
 
     public UserIdentification createUserIdentification(int userID, boolean admin){
-        String cookieID = createCookieID();
+        int cookieIDSize = 40;
+        String cookieID = createCookieID(cookieIDSize);
         UserIdentification userIdentification = new UserIdentification(cookieID,userID,admin);
         list.add(userIdentification);
         return userIdentification;
     }
 
-    public String createCookieID(){
+    //Makes a String with chars from alphabet, size parameter
+    public String createCookieID(int cookieIDSize){
+        String alphabet = "0123456789aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ";
         String res = "";
         Random rand = new Random();
-        for(int i = 0; i < 10; i++){
-           res += rand.nextInt(10);
+        int alphabetSize = alphabet.length();
+        for(int i = 0; i < cookieIDSize; i++){
+           res += alphabet.charAt(rand.nextInt(alphabetSize));
         }
         return res;
     }

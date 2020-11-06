@@ -34,6 +34,6 @@ public class CandidateService {
     }
 
     public void deleteAllUserReferencedCandidates(int userID){
-
+        //Deletes all "like" and relations referencing to userID
     }
 }

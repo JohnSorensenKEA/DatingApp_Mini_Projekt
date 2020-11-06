@@ -19,6 +19,29 @@ public class JDBC {
         return bres;
     }
 
+    //CandidateService
+    public void createLike(int userID, int secondaryID){
+
+    }
+
+    //ChatService
+    public void createMessage(int conversationID, int authorID, String message){
+
+    }
+    public void createConversation(int userID, int secondaryID){
+
+    }
+
+    //LoginService
+    public void getUserFromLogin(){
+
+    }
+
+    //ProfileHandler
+    public void createProfile(){
+
+    }
+
     public ResultSet getUserInfo(int userID){
         ResultSet res = null;
         String selectSQL = "SELECT * FROM users WHERE user_id = ?";
@@ -32,6 +55,5 @@ public class JDBC {
         }
         return res;
     }
-
 
 }

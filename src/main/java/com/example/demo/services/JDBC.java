@@ -1,6 +1,7 @@
 package com.example.demo.services;
 
 import com.example.demo.models.Candidate;
+import com.example.demo.models.SecondaryUser;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -49,7 +50,7 @@ public class JDBC {
                 "FROM users uu " +
                 "JOIN user_like_relations ul ON uu.user_id = ul.user_id " +
                 "JOIN likes li ON ul.like_id = li.like_id " +
-                "Join users uu2 ON li.user_id = uu2.user_id " +
+                "JOIN users uu2 ON li.user_id = uu2.user_id " +
                 "WHERE uu.user_id = ? " +
                 "ORDER BY uu2.username";
         ResultSet resultSet;
@@ -61,7 +62,7 @@ public class JDBC {
         catch (SQLException e){
 
         }
-
+//Add
         ArrayList<Candidate> list = new ArrayList<>();
 
         return list;
@@ -78,9 +79,40 @@ public class JDBC {
         catch (SQLException e){
             System.out.println("Get all users failed="+e.getMessage());
         }
-
+//Add
         ArrayList<Candidate> list = new ArrayList<>();
         return list;
+    }
+
+    public SecondaryUser getRandomUnlikedUser(int userID){
+        String selectStatement =
+                "SELECT uu2.user_id, uu2.username, uu2.photo, uu2.description, uu2.sex, ke.keyword_1, uu2.birthdate " +
+                "FROM users uu " +
+                "JOIN user_like_relations ul ON uu.user_id = ul.user_id " +
+                "JOIN likes li ON ul.like_id = li.like_id " +
+                "RIGHT JOIN users uu2 ON li.user_id = uu2.user_id " +
+                "JOIN keywords ke ON uu2.user_id = ke.user_id " +
+                "WHERE uu.user_id != ? AND uu2.user_id != ? " +
+                "GROUP BY uu2.user_id " +
+                "ORDER BY RAND() " +
+                "LIMIT 1;";
+
+        ResultSet resultSet = null;
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(selectStatement);
+            preparedStatement.setInt(1, userID);
+            preparedStatement.setInt(2, userID);
+
+            resultSet = preparedStatement.executeQuery();
+        }
+        catch (SQLException e){
+            System.out.println("Failure trying to get random unliked user="+e.getMessage());
+        }
+        SecondaryUser secondaryUser = null;
+        if (resultSet != null){
+//Add
+        }
+        return secondaryUser;
     }
 
     //ChatService
@@ -180,6 +212,7 @@ public class JDBC {
 
     }
 
+    //Change
     public ResultSet getUserInfo(int userID){
         ResultSet res = null;
         String selectSQL = "SELECT * FROM users WHERE user_id = ?";
@@ -192,6 +225,7 @@ public class JDBC {
             System.out.println("GetUserInfoError="+e.getMessage());
         }
         return res;
+//Add
     }
 
     //Other

@@ -31,13 +31,14 @@ public class MainController {
         jdbc = new JDBC();
         jdbc.setConnection();
 
-        candidateService = new CandidateService(jdbc);
-        chatService = new ChatService(jdbc);
         checkUserInput = new CheckUserInput();
         checkUserService = new CheckUserService();
         deleteService = new DeleteService();
-        loginService = new LoginService(jdbc);
         photoHandler = new PhotoHandler();
+
+        candidateService = new CandidateService(jdbc);
+        chatService = new ChatService(jdbc);
+        loginService = new LoginService(jdbc);
         profileHandler = new ProfileHandler(jdbc);
     }
 

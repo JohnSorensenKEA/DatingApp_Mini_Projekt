@@ -8,6 +8,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.context.request.WebRequest;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -70,123 +71,170 @@ public class MainController {
         return "register";
     }
 
+    //Not tested
     @GetMapping("/login")
-    public String login(){
-        return "";
+    public String login(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
+        UserIdentification userIden = checkUserService.checkUser(cookieID);
+        if(userIden.isAdmin()){
+            return userList(cookieID, response, modelMap);
+        }
+        else if(userIden.getUserID() > 0){
+            return match(cookieID,response,modelMap);
+        }
+        return "login";
     }
 
+    //Not tested, loginService needs methods
     @PostMapping("/loginRequest")
-    public String loginRequest(){
-        return "";
+    public String loginRequest(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest webRequest){
+        String username = webRequest.getParameter("username");
+        String password = webRequest.getParameter("password");
+        UserIdentification userIden;
+        if(loginService.checkAdmin(username,password)){
+            userIden = checkUserService.createUserIdentification(-1, true);
+            Cookie cookie = new Cookie("cookieID",userIden.getCookieID());
+            response.addCookie(cookie);
+            return userList(userIden.getCookieID(), response, modelMap);
+        }
+        else{
+            int userID = loginService.getUserID(username,password);
+            if(userID > 0){
+                userIden = checkUserService.createUserIdentification(userID,false);
+                Cookie cookie = new Cookie("cookieID",userIden.getCookieID());
+                response.addCookie(cookie);
+                return match(userIden.getCookieID(),response,modelMap);
+            }
+        }
+        modelMap.addAttribute("errorMessage","Forkert Brugernavn eller Kodeord");
+        return "login";
     }
 
+    //Not tested
     @GetMapping("/register")
-    public String register(){
-        return "";
+    public String register(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
+        UserIdentification userIden = checkUserService.checkUser(cookieID);
+        if(userIden.isAdmin()){
+            return userList(cookieID, response, modelMap);
+        }
+        else if(userIden.getUserID() > 0){
+            return match(cookieID,response,modelMap);
+        }
+        return "register";
     }
 
+    //Not done...
     @PostMapping("/registrationRequest")
-    public String registrationRequest(){
+    public String registrationRequest(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
         return "";
     }
 
+    //Not tested
     @GetMapping("/")
-    public String index(){
-        return "";
+    public String index(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
+        return login(cookieID,response,modelMap);
     }
 
+    //Not tested
     @GetMapping("/match")
-    public String match(){
-        return "";
+    public String match(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
+        UserIdentification userIden = checkUserService.checkUser(cookieID);
+        if(userIden.isAdmin()){
+            return userList(cookieID, response, modelMap);
+        }
+        else if(userIden.getUserID() < 0){
+            return "login";
+        }
+        candidateService.getMatchCandidate(modelMap,userIden);
+        return "match";
     }
 
     @PostMapping("/likeUser")
-    public String likeUser(){
+    public String likeUser(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
         return "";
     }
 
     @PostMapping("/nextUser")
-    public String nextUser(){
+    public String nextUser(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
         return "";
     }
 
     @GetMapping("/inbox")
-    public String inbox(){
+    public String inbox(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
         return "";
     }
 
     @PostMapping("/conversation")
-    public String conversation(){
+    public String conversation(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
         return "";
     }
 
     @PostMapping("/sendMessage")
-    public String sendMessage(){
+    public String sendMessage(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
         return "";
     }
 
     @GetMapping("/candidates")
-    public String candidateList(){
+    public String candidateList(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
         return "";
     }
 
     @GetMapping("/profile")
-    public String profil(){
+    public String profil(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
         return "";
     }
 
     @PostMapping("/saveTextChanges")
-    public String saveTextChanges(){
+    public String saveTextChanges(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
         return "";
     }
 
     @PostMapping("/uploadPicture")
-    public String uploadPicture(){
+    public String uploadPicture(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
         return "";
     }
 
     @PostMapping("/deletePicture")
-    public String deletePicture(){
+    public String deletePicture(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
         return "";
     }
 
     @PostMapping("/logout")
-    public String logOut(){
+    public String logOut(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
         return "";
     }
 
     @PostMapping("/deleteProfile")
-    public String deleteProfile(){
+    public String deleteProfile(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
         return "";
     }
 
     @PostMapping("/deleteConversation")
-    public String deleteConversation(){
+    public String deleteConversation(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
         return "";
     }
 
     @PostMapping("/deleteCandidate")
-    public String deleteCandidate(){
+    public String deleteCandidate(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
         return "";
     }
 
     @GetMapping("/userList")
-    public String userList(){
+    public String userList(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
         return "";
     }
 
     @PostMapping("/searchUser")
-    public String searchUser(){
+    public String searchUser(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
         return "";
     }
 
     @GetMapping("/userProfile")
-    public String userProfile(){
+    public String userProfile(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
         return "";
     }
 
     @GetMapping("/userInbox")
-    public String userInbox(){
+    public String userInbox(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
         return "";
     }
 

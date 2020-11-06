@@ -46,7 +46,8 @@ public class JDBC {
     }
 
     public ArrayList<Candidate> getUsersCandidates(int userID){
-        String selectStatement = "SELECT uu2.user_id, uu2.username, uu2.photo, uu2.sex, uu2.birthdate " +
+        String selectStatement =
+                "SELECT uu2.user_id, uu2.username, uu2.photo, uu2.sex, uu2.birthdate " +
                 "FROM users uu " +
                 "JOIN user_like_relations ul ON uu.user_id = ul.user_id " +
                 "JOIN likes li ON ul.like_id = li.like_id " +
@@ -69,7 +70,10 @@ public class JDBC {
     }
 
     public ArrayList<Candidate> getAllUsersLike(String username){
-        String selectStatement = "SELECT user_id, username, photo, sex, birthdate FROM users WHERE username LIKE ? ORDER BY username";
+        String selectStatement =
+                "SELECT user_id, username, photo, sex, birthdate FROM users " +
+                "WHERE username LIKE ? " +
+                "ORDER BY username";
         ResultSet resultSet;
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(selectStatement);
@@ -125,7 +129,9 @@ public class JDBC {
 
     //LoginService
     public int getUserFromLogin(String username, String password){
-        String selectStatement = "SELECT user_id FROM users WHERE username = ? AND password = ?";
+        String selectStatement =
+                "SELECT user_id FROM users " +
+                "WHERE username = ? AND password = ?";
         int userID = -1;
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(selectStatement);
@@ -140,7 +146,9 @@ public class JDBC {
         return userID;
     }
     public boolean getAdminFromLogin(String username, String password){
-        String selectStatement = "SELECT admin_id FROM admins WHERE admin_username = ? AND admin_password = ?";
+        String selectStatement =
+                "SELECT admin_id FROM admins " +
+                "WHERE admin_username = ? AND admin_password = ?";
         boolean admin = false;
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(selectStatement);
@@ -212,10 +220,12 @@ public class JDBC {
 
     }
 
-    //Change
+    //Change return type
     public ResultSet getUserInfo(int userID){
         ResultSet res = null;
-        String selectSQL = "SELECT * FROM users WHERE user_id = ?";
+        String selectSQL =
+                "SELECT * FROM users " +
+                "WHERE user_id = ?";
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(selectSQL);
             preparedStatement.setInt(1, userID);

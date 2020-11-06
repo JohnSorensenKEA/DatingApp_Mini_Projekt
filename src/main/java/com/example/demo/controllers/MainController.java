@@ -33,13 +33,14 @@ public class MainController {
 
         checkUserInput = new CheckUserInput();
         checkUserService = new CheckUserService();
-        deleteService = new DeleteService();
         photoHandler = new PhotoHandler();
 
         candidateService = new CandidateService(jdbc);
         chatService = new ChatService(jdbc);
         loginService = new LoginService(jdbc);
         profileHandler = new ProfileHandler(jdbc);
+
+        deleteService = new DeleteService(candidateService,chatService,checkUserService, profileHandler, photoHandler);
     }
 
     @GetMapping("/test")

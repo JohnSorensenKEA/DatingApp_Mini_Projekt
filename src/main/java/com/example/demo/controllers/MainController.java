@@ -153,14 +153,24 @@ public class MainController {
         return "";
     }
 
+    //Not tested
     @PostMapping("/nextUser")
     public String nextUser(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
-        return "";
+        return match(cookieID,response,modelMap);
     }
 
+    //Not tested
     @GetMapping("/inbox")
     public String inbox(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
-        return "";
+        UserIdentification userIden = checkUserService.checkUser(cookieID);
+        if(userIden.isAdmin()){
+            return userList(cookieID, response, modelMap);
+        }
+        else if(userIden.getUserID() < 0){
+            return "login";
+        }
+        candidateService.getCandidates(modelMap,userIden);
+        return "inbox";
     }
 
     @PostMapping("/conversation")

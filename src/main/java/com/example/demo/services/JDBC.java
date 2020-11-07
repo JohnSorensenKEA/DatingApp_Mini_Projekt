@@ -1,6 +1,7 @@
 package com.example.demo.services;
 
 import com.example.demo.models.Candidate;
+import com.example.demo.models.Profile;
 import com.example.demo.models.SecondaryUser;
 
 import java.sql.*;
@@ -55,42 +56,59 @@ public class JDBC {
                 "WHERE uu.user_id = ? " +
                 "ORDER BY uu2.username";
         ResultSet resultSet;
+        ArrayList<Candidate> list = new ArrayList<>();
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(selectStatement);
             preparedStatement.setInt(1,userID);
             resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()){
+                String secondaryUsername = resultSet.getString("username");
+                String secondaryPhoto = resultSet.getString("photo");
+                int secondaryID = resultSet.getInt("user_id");
+                int sex = resultSet.getInt("sex");
+                String birthdate = resultSet.getString("birthdate");
+                Candidate candidate = new Candidate(secondaryUsername,secondaryPhoto,secondaryID,sex,birthdate);
+                list.add(candidate);
+            }
         }
         catch (SQLException e){
-
+            System.out.println("Failed getting users candidates="+e.getMessage());
         }
-//Add
-        ArrayList<Candidate> list = new ArrayList<>();
-
         return list;
     }
 
-    public ArrayList<Candidate> getAllUsersLike(String username){
+    public ArrayList<Candidate> getAllUsersLikeUsername(String username){
         String selectStatement =
                 "SELECT user_id, username, photo, sex, birthdate FROM users " +
                 "WHERE username LIKE ? " +
                 "ORDER BY username";
         ResultSet resultSet;
+        ArrayList<Candidate> list = new ArrayList<>();
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(selectStatement);
             preparedStatement.setString(1, "%" + username + "%");
             resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()){
+                String secondaryUsername = resultSet.getString("username");
+                String secondaryPhoto = resultSet.getString("photo");
+                int secondaryID = resultSet.getInt("user_id");
+                int sex = resultSet.getInt("sex");
+                String birthdate = resultSet.getString("birthdate");
+                Candidate candidate = new Candidate(secondaryUsername,secondaryPhoto,secondaryID,sex,birthdate);
+                list.add(candidate);
+            }
         }
         catch (SQLException e){
             System.out.println("Get all users failed="+e.getMessage());
         }
-//Add
-        ArrayList<Candidate> list = new ArrayList<>();
         return list;
     }
 
     public SecondaryUser getRandomUnlikedUser(int userID){
         String selectStatement =
-                "SELECT uu2.user_id, uu2.username, uu2.photo, uu2.description, uu2.sex, ke.keyword_1, uu2.birthdate " +
+                "SELECT uu2.user_id, uu2.username, uu2.photo, uu2.description, uu2.sex, ke.keyword_1, ke.keyword_2, ke.keyword_3, uu2.birthdate " +
                 "FROM users uu " +
                 "JOIN user_like_relations ul ON uu.user_id = ul.user_id " +
                 "JOIN likes li ON ul.like_id = li.like_id " +
@@ -100,7 +118,7 @@ public class JDBC {
                 "GROUP BY uu2.user_id " +
                 "ORDER BY RAND() " +
                 "LIMIT 1;";
-
+        SecondaryUser secondaryUser = null;
         ResultSet resultSet = null;
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(selectStatement);
@@ -108,11 +126,14 @@ public class JDBC {
             preparedStatement.setInt(2, userID);
 
             resultSet = preparedStatement.executeQuery();
+
+
+//add            secondaryUser = new SecondaryUser();
         }
         catch (SQLException e){
             System.out.println("Failure trying to get random unliked user="+e.getMessage());
         }
-        SecondaryUser secondaryUser = null;
+
         if (resultSet != null){
 //Add
         }
@@ -204,10 +225,17 @@ public class JDBC {
         }
     }
 
+    public void deleteKeywords(int userID){
+
+    }
+
+//CheckUsage
     public void changeProfile(int userID){
-        String insertStatement = "INSERT INTO users () VALUES () WHERE user_id = ? ";
+        String updateStatement =
+                "UPDATE users SET firstname = ?, surname = ? , password = ?, description = ? " +
+                "WHERE user_id = ? ";
         try{
-            PreparedStatement preparedStatement = connection.prepareStatement(insertStatement);
+            PreparedStatement preparedStatement = connection.prepareStatement(updateStatement);
 
             preparedStatement.executeUpdate();
         }
@@ -216,30 +244,87 @@ public class JDBC {
         }
     }
 
+    public void changePhoto(int userID, String photoName){
+        String updateStatement =
+                "UPDATE users SET photo = ? " +
+                "WHERE user_id = ?";
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(updateStatement);
+            preparedStatement.setString(1,"'" + photoName + "'");
+            preparedStatement.setInt(2,userID);
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException e){
+            System.out.println("Photo update failed="+e.getMessage());
+        }
+    }
+
+    public void changeKeywords(int userID, String keyword_1){
+        String updateStatement =
+                "UPDATE keywords SET keyword_1 = ? " +
+                "WHERE user_id = ?";
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(updateStatement);
+            preparedStatement.setString(1,"'" + keyword_1 + "'");
+            preparedStatement.setInt(2,userID);
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException e){
+            System.out.println("Change keywords failed="+e.getMessage());
+        }
+    }
+
     public void deleteProfile(int userID){
 
     }
 
     //Change return type
-    public ResultSet getUserInfo(int userID){
+    public Profile getUserInfo(int userID){
         ResultSet res = null;
         String selectSQL =
                 "SELECT * FROM users " +
+                "JOIN keywords using(user_id) " +
                 "WHERE user_id = ?";
+
+        String username = null;
+        String password = null;
+        int sex = -1;
+        String email = null;
+        String firstName = null;
+        String surName = null;
+        String pictureName = null;
+        int profileID = -1;
+        String keyword1 = null;
+        String keyword2 = null;
+        String keyword3 = null;
+
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(selectSQL);
             preparedStatement.setInt(1, userID);
             res =preparedStatement.executeQuery();
+
+            username = res.getString("username");
+            password = res.getString("password");
+            sex = res.getInt("sex");
+            email = res.getString("email");
+            firstName = res.getString("firstname");
+            surName = res.getString("surname");
+            pictureName = res.getString("photo");
+            profileID = res.getInt("user_id");
+            keyword1 = res.getString("keyword_1");
+            keyword2 = res.getString("keyword_2");
+            keyword3 = res.getString("keyword_3");
         }
         catch (SQLException e){
             System.out.println("GetUserInfoError="+e.getMessage());
         }
-        return res;
-//Add
+
+        Profile profile = new Profile(username,password,sex,email,firstName,surName,pictureName,profileID,keyword1,keyword2,keyword3);
+        return profile;
     }
 
     //Other
-    public int getLastCreatedID(){
+    public int getLastCreatedID(){ //Returns AI ID of last added row
         String selectStatement = "SELECT last_insert_id()";
         int res = -1;
         try{

@@ -6,17 +6,45 @@ public class SecondaryUser {
     private String secondaryDescription;
     private int secondaryUserID;
     private String secondarySex;
-    private String secondaryFavorites;
     private int secondaryAge;
+    private String keyword1;
+    private String keyword2;
+    private String keyword3;
 
-    public SecondaryUser(String secondaryUsername, String secondaryPhoto, String secondaryDescription, int secondaryUserID, String secondarySex, String secondaryFavorites, int secondaryAge) {
+    public String getKeyword1() {
+        return keyword1;
+    }
+
+    public void setKeyword1(String keyword1) {
+        this.keyword1 = keyword1;
+    }
+
+    public String getKeyword2() {
+        return keyword2;
+    }
+
+    public void setKeyword2(String keyword2) {
+        this.keyword2 = keyword2;
+    }
+
+    public String getKeyword3() {
+        return keyword3;
+    }
+
+    public void setKeyword3(String keyword3) {
+        this.keyword3 = keyword3;
+    }
+
+    public SecondaryUser(String secondaryUsername, String secondaryPhoto, String secondaryDescription, int secondaryUserID, String secondarySex, int secondaryAge, String keyword1, String keyword2, String keyword3) {
         this.secondaryUsername = secondaryUsername;
         this.secondaryPhoto = secondaryPhoto;
         this.secondaryDescription = secondaryDescription;
         this.secondaryUserID = secondaryUserID;
         this.secondarySex = secondarySex;
-        this.secondaryFavorites = secondaryFavorites;
         this.secondaryAge = secondaryAge;
+        this.keyword1 = keyword1;
+        this.keyword2 = keyword2;
+        this.keyword3 = keyword3;
     }
 
     public String getSecondaryUsername() {
@@ -57,14 +85,6 @@ public class SecondaryUser {
 
     public void setSecondarySex(String secondarySex) {
         this.secondarySex = secondarySex;
-    }
-
-    public String getSecondaryFavorites() {
-        return secondaryFavorites;
-    }
-
-    public void setSecondaryFavorites(String secondaryFavorites) {
-        this.secondaryFavorites = secondaryFavorites;
     }
 
     public int getSecondaryAge() {

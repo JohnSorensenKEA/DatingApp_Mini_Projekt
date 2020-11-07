@@ -3,14 +3,41 @@ package com.example.demo.models;
 public class Profile {
     private String username;
     private String password;
-    private String sex;
+    private int sex;
     private String email;
     private String firstName;
     private String surName;
     private String pictureName;
     private int userID;
+    private String keyword1;
+    private String keyword2;
+    private String keyword3;
 
-    public Profile(String username, String password, String sex, String email, String firstName, String surName, String pictureName, int userID){
+    public String getKeyword1() {
+        return keyword1;
+    }
+
+    public void setKeyword1(String keyword1) {
+        this.keyword1 = keyword1;
+    }
+
+    public String getKeyword2() {
+        return keyword2;
+    }
+
+    public void setKeyword2(String keyword2) {
+        this.keyword2 = keyword2;
+    }
+
+    public String getKeyword3() {
+        return keyword3;
+    }
+
+    public void setKeyword3(String keyword3) {
+        this.keyword3 = keyword3;
+    }
+
+    public Profile(String username, String password, int sex, String email, String firstName, String surName, String pictureName, int userID, String keyword1, String keyword2, String keyword3){
         this.username = username;
         this.password = password;
         this.sex = sex;
@@ -19,6 +46,9 @@ public class Profile {
         this.surName = surName;
         this.pictureName = pictureName;
         this.userID = userID;
+        this.keyword1 = keyword1;
+        this.keyword2 = keyword2;
+        this.keyword3 = keyword3;
     }
 
     public String getUsername() {
@@ -37,11 +67,11 @@ public class Profile {
         this.password = password;
     }
 
-    public String getSex() {
+    public int getSex() {
         return sex;
     }
 
-    public void setSex(String sex) {
+    public void setSex(int sex) {
         this.sex = sex;
     }
 

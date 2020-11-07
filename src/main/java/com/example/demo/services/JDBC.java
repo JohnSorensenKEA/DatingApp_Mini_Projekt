@@ -140,12 +140,90 @@ public class JDBC {
         return secondaryUser;
     }
 
-    //ChatService
-    public void createMessage(int conversationID, int authorID, String message){
+    public void deleteLike(int userID, int secondaryID){
 
     }
-    public void createConversation(int userID, int secondaryID){
 
+    public void deleteAllLikesWithUser(int userID){
+
+    }
+
+    //ChatService
+    public void createMessage(int conversationID, int authorID, String message){
+        String insertStatement = "INSERT INTO messages (conversation_id, message_text, message_author_id) VALUES (?, ?, ?)";
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(insertStatement);
+            preparedStatement.setInt(1, conversationID);
+            preparedStatement.setString(2, message);
+            preparedStatement.setInt(3, authorID);
+
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException e){
+            System.out.println("Failed to create new message="+e.getMessage());
+        }
+    }
+    public void createConversation(int userID, int secondaryID, String date){
+        String insertStatement = "INSERT INTO conversations (date) VALUES (?)";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(insertStatement);
+            preparedStatement.setString(1, date);
+            preparedStatement.executeUpdate();
+
+            int conversationID = getLastCreatedID();
+
+            createConversationRelation(conversationID,userID);
+            createConversationRelation(conversationID,secondaryID);
+        }
+        catch (SQLException e) {
+            System.out.println("Failed to create conversation="+e.getMessage());
+        }
+    }
+
+    public void createConversationRelation(int conversationID, int userID){
+        String insertStatement = "INSERT INTO user_conversation_relations (conversation_id, user_id) VALUES (?, ?)";
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(insertStatement);
+            preparedStatement.setInt(1, conversationID);
+            preparedStatement.setInt(2, userID);
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException e){
+            System.out.println("Conversation relation creation failed="+e.getMessage());
+        }
+    }
+
+    public void deleteMessages(int conversationID){
+        String deleteStatement = "DELETE FROM messages WHERE conversation_id = ?";
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(deleteStatement);
+            preparedStatement.setInt(1, conversationID);
+            preparedStatement.executeUpdate();
+        }
+        catch(SQLException e){
+            System.out.println("Failed to delete messages="+e.getMessage());
+        }
+    }
+
+    //???
+    public void deleteConversation(int conversationID){
+        String deleteStatement =
+                "DELETE conversations, user_conversation_relations FROM user_conversation_relations " +
+                "JOIN conversations using(conversation_id) " +
+                "WHERE conversation_id = ?";
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(deleteStatement);
+            preparedStatement.setInt(1, conversationID);
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException e){
+            System.out.println("Failed to delete conversation="+e.getMessage());
+        }
+    }
+
+//Welp, Use join on max date
+    public void getUserConversations(int userID){
+        String selectStatement = "SELECT";
     }
 
     //LoginService
@@ -162,7 +240,7 @@ public class JDBC {
             userID = resultSet.getInt("user_id");
         }
         catch (SQLException e){
-            System.out.println("Retriving userID from login failed="+e.getMessage());
+            System.out.println("Retrieving userID from login failed="+e.getMessage());
         }
         return userID;
     }
@@ -207,7 +285,7 @@ public class JDBC {
             createKeywords(getLastCreatedID());
         }
         catch (SQLException e){
-            System.out.println();
+            System.out.println("Profile creation failed="+e.getMessage());
         }
     }
 
@@ -225,7 +303,15 @@ public class JDBC {
     }
 
     public void deleteKeywords(int userID){
-
+        String deleteStatement = "DELETE FROM keywords WHERE user_id = ?";
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(deleteStatement);
+            preparedStatement.setInt(1,userID);
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException e){
+            System.out.println("Failed to delete keywords="+e.getMessage());
+        }
     }
 
 //CheckUsage
@@ -274,10 +360,17 @@ public class JDBC {
     }
 
     public void deleteProfile(int userID){
-
+        String deleteStatement = "DELETE FROM users WHERE user_id = ?";
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(deleteStatement);
+            preparedStatement.setInt(1,userID);
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException e){
+            System.out.println("Failed to delete profile="+e.getMessage());
+        }
     }
 
-    //Change return type
     public Profile getUserInfo(int userID){
         ResultSet res = null;
         String selectSQL =

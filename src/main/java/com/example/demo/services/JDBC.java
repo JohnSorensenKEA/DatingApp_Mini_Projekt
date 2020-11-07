@@ -209,7 +209,6 @@ public class JDBC {
         catch (SQLException e){
             System.out.println();
         }
-
     }
 
     public void createKeywords(int userID){

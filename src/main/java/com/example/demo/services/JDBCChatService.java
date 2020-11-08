@@ -1,6 +1,12 @@
 package com.example.demo.services;
 
+import com.example.demo.models.Conversation;
+import com.example.demo.models.ConversationPreview;
+import com.example.demo.models.Message;
+import org.springframework.ui.ModelMap;
+
 import java.sql.*;
+import java.util.ArrayList;
 
 public class JDBCChatService {
     private Connection connection;
@@ -92,8 +98,67 @@ public class JDBCChatService {
     }
 
     //Welp, Use join on max date
-    public void getUserConversations(int userID){
+    public ArrayList<ConversationPreview> getUserConversations(int userID){
         String selectStatement = "SELECT";
+        ArrayList<ConversationPreview> list = new ArrayList<>();
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(selectStatement);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()){
+                //ConversationPreview
+            }
+        }
+        catch (SQLException e){
+            System.out.println("Failed to get conversations="+e.getMessage());
+        }
+        return list;
+    }
+
+    public ArrayList<Message> getMessages(int conversationID){
+        String selectStatement =
+                "SELECT * FROM messages " +
+                "WHERE conversation_id = ? " +
+                "ORDER BY message_created_at ASC";
+        ArrayList<Message> list = new ArrayList<>();
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(selectStatement);
+            preparedStatement.setInt(1, conversationID);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()){
+                String messageText = resultSet.getString("message_text");
+                int authorID = resultSet.getInt("message_author_id");
+                String dateTime = resultSet.getString("message_created_at");
+//add
+                Message message = null;
+                list.add(message);
+            }
+        }
+        catch (SQLException e){
+            System.out.println("Failed getting messages="+e.getMessage());
+        }
+        return list;
+    }
+
+    public Conversation getConversation(int conversationID, int userID){
+        String selectStatement =
+                "SELECT * FROM user_conversation_relations uc " +
+                "JOIN users uu using(user_id) " +
+                "WHERE uc.conversation_id = ? AND uc.user_id != ?";
+        Conversation conversation = null;
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(selectStatement);
+            preparedStatement.setInt(1,conversationID);
+            preparedStatement.setInt(2, userID);
+            ResultSet resultSet = preparedStatement.executeQuery();
+//add
+        }
+        catch (SQLException e){
+            System.out.println("Failed getting conversation="+e.getMessage());
+        }
+        return conversation;
     }
 
     //Other

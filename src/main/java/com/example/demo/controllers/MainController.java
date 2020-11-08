@@ -117,7 +117,7 @@ public class MainController {
     public String register(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
         if(userIden == null){
-            return  "regiser";
+            return  "register";
         }
         else if(userIden.isAdmin()){
             return userList(cookieID, response, modelMap);
@@ -131,7 +131,17 @@ public class MainController {
     //Not done...
     @PostMapping("/registrationRequest")
     public String registrationRequest(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
-        return "";
+        UserIdentification userIden = checkUserService.checkUser(cookieID);
+        if(userIden == null){
+            return  "register";
+        }
+        else if(userIden.isAdmin()){
+            return userList(cookieID, response, modelMap);
+        }
+        else if(userIden.getUserID() > 0){
+            return match(cookieID,response,modelMap);
+        }
+        return "register";
     }
 
     //Not tested
@@ -179,9 +189,21 @@ public class MainController {
         return "inbox";
     }
 
+    //Not done
     @PostMapping("/conversation")
-    public String conversation(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
-        return "";
+    public String conversation(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
+        UserIdentification userIden = checkUserService.checkUser(cookieID);
+        if(userIden == null){
+            return "login";
+        }
+        else if(userIden.isAdmin()){
+            request.getParameter("conversationID");
+            //chatService.getMessages();
+        }
+        else if(userIden.getUserID() > 0){
+            return match(cookieID,response,modelMap);
+        }
+        return "conversation";
     }
 
     @PostMapping("/sendMessage")

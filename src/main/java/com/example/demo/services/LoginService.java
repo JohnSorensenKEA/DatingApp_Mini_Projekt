@@ -10,10 +10,10 @@ public class LoginService {
     }
 
     public int getUserID(String username, String password){
-        return -1;
+        return jdbc.getUserFromLogin(username,password);
     }
 
     public boolean checkAdmin(String username, String password){
-        return false;
+        return jdbc.getAdminFromLogin(username,password);
     }
 }

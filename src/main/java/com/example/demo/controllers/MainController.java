@@ -4,15 +4,20 @@ import com.example.demo.models.UserIdentification;
 import com.example.demo.services.*;
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.multipart.MultipartFile;
+
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @Controller
 public class MainController {
@@ -202,6 +207,34 @@ public class MainController {
     public String uploadPicture(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
         return "";
     }
+
+    public static String uploadDirectory = System.getProperty("user.dir")+ "/uploads";
+
+    @RequestMapping("PhotoTest")
+    public String UploadPage() {
+        return "Uploadview";
+    }
+
+    @RequestMapping("/upload")
+    public String upload(Model model,@RequestParam("files") MultipartFile[] files) {
+        StringBuilder fileNames = new StringBuilder();
+        // String fileNames = "";
+        for (MultipartFile file : files) {
+            Path fileNameAndPath = Paths.get(uploadDirectory, file.getOriginalFilename());
+            fileNames.append(file.getOriginalFilename()+" ");
+            // fileName = fileName + file.getOriginalFilename;
+            try {
+                Files.write(fileNameAndPath, file.getBytes());
+                // tager imod filens name og vej og files bytes(indhold)
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        model.addAttribute("msg", "Successfully uploaded files "+fileNames.toString());
+        model.addAttribute("filepath", uploadDirectory + fileNames.toString());
+        return "UploadStatusView";
+    }
+
 
     @PostMapping("/deletePicture")
     public String deletePicture(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){

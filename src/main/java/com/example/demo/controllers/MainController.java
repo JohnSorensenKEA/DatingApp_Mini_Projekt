@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,7 +31,6 @@ public class MainController {
     ProfileHandler profileHandler;
 
     public MainController(){
-
         checkUserInput = new CheckUserInput();
         checkUserService = new CheckUserService();
         photoHandler = new PhotoHandler();
@@ -264,15 +262,33 @@ public class MainController {
         return "";
     }
 
+    //Not tested
     @PostMapping("/logout")
     public String logOut(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
         checkUserService.removeUserIdentification(cookieID);
         return "login";
     }
 
+    //Not done
     @PostMapping("/deleteProfile")
     public String deleteProfile(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
-        return "";
+        UserIdentification userIden = checkUserService.checkUser(cookieID);
+        if(userIden == null){
+            return "login";
+        }
+        else if(userIden.isAdmin()){
+            deleteService.deleteAllUserData();
+        }
+        else if(userIden.getUserID() > 0){
+            deleteService.deleteAllUserData();
+        }
+
+        if (userIden.isAdmin()){
+            return userList(cookieID, response, modelMap);
+        }
+        else{
+            return "login";
+        }
     }
 
     @PostMapping("/deleteConversation")
@@ -304,5 +320,4 @@ public class MainController {
     public String userInbox(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
         return "";
     }
-
 }

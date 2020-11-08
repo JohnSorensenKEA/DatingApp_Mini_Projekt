@@ -85,8 +85,8 @@ public class JDBCChatService {
     public void deleteConversation(int conversationID){
         String deleteStatement =
                 "DELETE conversations, user_conversation_relations FROM user_conversation_relations " +
-                        "JOIN conversations using(conversation_id) " +
-                        "WHERE conversation_id = ?";
+                "JOIN conversations using(conversation_id) " +
+                "WHERE conversation_id = ?";
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(deleteStatement);
             preparedStatement.setInt(1, conversationID);

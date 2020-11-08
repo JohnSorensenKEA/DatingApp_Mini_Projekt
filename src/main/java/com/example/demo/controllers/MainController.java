@@ -80,7 +80,10 @@ public class MainController {
     @GetMapping("/login")
     public String login(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
-        if(userIden.isAdmin()){
+        if(userIden == null){
+            return "login";
+        }
+        else if(userIden.isAdmin()){
             return userList(cookieID, response, modelMap);
         }
         else if(userIden.getUserID() > 0){

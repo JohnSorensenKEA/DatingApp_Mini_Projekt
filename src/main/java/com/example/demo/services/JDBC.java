@@ -7,6 +7,10 @@ import com.example.demo.models.SecondaryUser;
 import java.sql.*;
 import java.util.ArrayList;
 
+/*
+Out dated, do not use
+ */
+
 public class JDBC {
 
     private Connection connection;

@@ -6,10 +6,11 @@ import java.util.ArrayList;
 
 public class ChatService {
 
-    private JDBC jdbc;
+    private JDBCChatService jdbc;
 
-    public ChatService(JDBC jdbc) {
-        this.jdbc = jdbc;
+    public ChatService() {
+        jdbc = new JDBCChatService();
+        jdbc.setConnection();
     }
 
 

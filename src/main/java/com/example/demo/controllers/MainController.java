@@ -22,8 +22,6 @@ import java.nio.file.Paths;
 @Controller
 public class MainController {
 
-    JDBC jdbc;
-
     CandidateService candidateService;
     ChatService chatService;
     CheckUserInput checkUserInput;
@@ -34,17 +32,14 @@ public class MainController {
     ProfileHandler profileHandler;
 
     public MainController(){
-        jdbc = new JDBC();
-        jdbc.setConnection();
 
         checkUserInput = new CheckUserInput();
         checkUserService = new CheckUserService();
         photoHandler = new PhotoHandler();
-
-        candidateService = new CandidateService(jdbc);
-        chatService = new ChatService(jdbc);
-        loginService = new LoginService(jdbc);
-        profileHandler = new ProfileHandler(jdbc);
+        candidateService = new CandidateService();
+        chatService = new ChatService();
+        loginService = new LoginService();
+        profileHandler = new ProfileHandler();
 
         deleteService = new DeleteService(candidateService,chatService,checkUserService, profileHandler, photoHandler);
     }
@@ -121,7 +116,10 @@ public class MainController {
     @GetMapping("/register")
     public String register(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
-        if(userIden.isAdmin()){
+        if(userIden == null){
+            return  "regiser";
+        }
+        else if(userIden.isAdmin()){
             return userList(cookieID, response, modelMap);
         }
         else if(userIden.getUserID() > 0){

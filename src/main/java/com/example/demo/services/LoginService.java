@@ -2,10 +2,11 @@ package com.example.demo.services;
 
 public class LoginService {
 
-    private JDBC jdbc;
+    private JDBCLoginService jdbc;
 
-    public LoginService(JDBC jdbc) {
-        this.jdbc = jdbc;
+    public LoginService() {
+        jdbc = new JDBCLoginService();
+        jdbc.setConnection();
     }
 
     public int getUserID(String username, String password){

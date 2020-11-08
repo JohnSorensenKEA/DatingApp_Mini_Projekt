@@ -26,6 +26,8 @@
                 <input type="submit" value="Login">
             </form>
             <img src="user_photos/stock_photo.png" alt="stock_photo">
+            <!--/*@thymesVar id="photoname" type="String"*/-->
+            <img th:src="${photoname}" th:alt="${photoname}">
         </div>
     </div>
     <div class="col-lg-3"></div>

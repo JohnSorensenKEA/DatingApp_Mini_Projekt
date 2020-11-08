@@ -5,10 +5,11 @@ import org.springframework.ui.ModelMap;
 
 public class CandidateService {
 
-    private JDBC jdbc;
+    private JDBCCandidateService jdbc;
 
-    public CandidateService(JDBC jdbc) {
-        this.jdbc = jdbc;
+    public CandidateService() {
+        jdbc = new JDBCCandidateService();
+        jdbc.setConnection();
     }
 
     public void getCandidates(ModelMap modelMap, UserIdentification userIdentification){

@@ -2,10 +2,11 @@ package com.example.demo.services;
 
 public class ProfileHandler {
 
-    private JDBC jdbc;
+    private JDBCProfileService jdbc;
 
-    public ProfileHandler(JDBC jdbc) {
-        this.jdbc = jdbc;
+    public ProfileHandler() {
+        jdbc = new JDBCProfileService();
+        jdbc.setConnection();
     }
 
 

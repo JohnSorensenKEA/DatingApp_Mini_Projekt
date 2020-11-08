@@ -197,7 +197,7 @@ public class MainController {
             return "login";
         }
         else if(userIden.isAdmin()){
-            request.getParameter("conversationID");
+            //int conversationID = request.getParameter("conversationID");
             //chatService.getMessages();
         }
         else if(userIden.getUserID() > 0){
@@ -266,7 +266,8 @@ public class MainController {
 
     @PostMapping("/logout")
     public String logOut(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
-        return "";
+        checkUserService.removeUserIdentification(cookieID);
+        return "login";
     }
 
     @PostMapping("/deleteProfile")

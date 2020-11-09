@@ -24,12 +24,12 @@ public class JDBCCandidateService {
 
     //CandidateService
     public void createLike(int userID, int secondaryID){
-        String insertStatement = "INSERT INTO likes (user_id) VALUES ( ? )";
+        String insertStatement1 = "INSERT INTO likes (user_id) VALUES ( ? )";
         String insertStatement2 = "INSERT INTO user_like_relations (user_id, like_id) VALUES ( ?, ?)";
         int lastID;
 
         try{
-            PreparedStatement preparedStatement = connection.prepareStatement(insertStatement);
+            PreparedStatement preparedStatement = connection.prepareStatement(insertStatement1);
             preparedStatement.setInt(1, secondaryID);
             preparedStatement.executeUpdate();
 

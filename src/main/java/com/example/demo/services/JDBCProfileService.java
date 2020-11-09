@@ -70,13 +70,13 @@ public class JDBCProfileService {
     }
 
     //CheckUsage
-    public void changeProfile(int userID){
+    public void changeProfile(int userID, String firstName, String surName, String password, String description){
         String updateStatement =
                 "UPDATE users SET firstname = ?, surname = ? , password = ?, description = ? " +
                         "WHERE user_id = ? ";
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(updateStatement);
-
+//add
             preparedStatement.executeUpdate();
         }
         catch (SQLException e){
@@ -99,14 +99,16 @@ public class JDBCProfileService {
         }
     }
 
-    public void changeKeywords(int userID, String keyword_1){
+    public void changeKeywords(int userID, String keyword1, String keyword2, String keyword3){
         String updateStatement =
-                "UPDATE keywords SET keyword_1 = ? " +
+                "UPDATE keywords SET keyword_1 = ?, keyword_2 = ?, keyword_3 = ?" +
                         "WHERE user_id = ?";
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(updateStatement);
-            preparedStatement.setString(1,"'" + keyword_1 + "'");
-            preparedStatement.setInt(2,userID);
+            preparedStatement.setString(1,"'" + keyword1 + "'");
+            preparedStatement.setString(2, "'" + keyword2 + "'");
+            preparedStatement.setString(3, "'" + keyword3 + "'");
+            preparedStatement.setInt(4,userID);
             preparedStatement.executeUpdate();
         }
         catch (SQLException e){

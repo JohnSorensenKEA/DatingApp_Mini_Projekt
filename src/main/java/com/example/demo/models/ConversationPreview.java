@@ -5,12 +5,14 @@ public class ConversationPreview {
     private String secondaryUsername;
     private String secondaryPhoto;
     private String latestMessage;
+    private String latestMessageDateTime;
 
-    public ConversationPreview(int conversationID, String secondaryUsername, String secondaryPhoto, String latestMessage) {
+    public ConversationPreview(int conversationID, String secondaryUsername, String secondaryPhoto, String latestMessage, String latestMessageDateTime) {
         this.conversationID = conversationID;
         this.secondaryUsername = secondaryUsername;
         this.secondaryPhoto = secondaryPhoto;
         this.latestMessage = latestMessage;
+        this.latestMessageDateTime = latestMessageDateTime;
     }
 
     public int getConversationID() {
@@ -43,5 +45,13 @@ public class ConversationPreview {
 
     public void setLatestMessage(String latestMessage) {
         this.latestMessage = latestMessage;
+    }
+
+    public String getLatestMessageDateTime() {
+        return latestMessageDateTime;
+    }
+
+    public void setLatestMessageDateTime(String latestMessageDateTime) {
+        this.latestMessageDateTime = latestMessageDateTime;
     }
 }

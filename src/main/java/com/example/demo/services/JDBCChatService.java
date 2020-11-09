@@ -3,7 +3,6 @@ package com.example.demo.services;
 import com.example.demo.models.Conversation;
 import com.example.demo.models.ConversationPreview;
 import com.example.demo.models.Message;
-import org.springframework.ui.ModelMap;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -96,17 +95,32 @@ public class JDBCChatService {
         }
     }
 
-    //Welp, Use join on max date
     public ArrayList<ConversationPreview> getUserConversations(int userID){
-        String selectStatement = "SELECT";
+        String selectStatement =
+                "SELECT uc.conversation_id, me2.message_created_at, me2.message_text, uu2.username, uu2.photo FROM users uu " +
+                "JOIN user_conversation_relations uc ON uu.user_id = uc.user_id " +
+                "JOIN (SELECT conversation_id, MAX(message_id) AS max_id, message_text FROM messages me GROUP BY conversation_id) me ON uc.conversation_id = me.conversation_id " +
+                "JOIN messages me2 ON me.max_id = me2.message_id " +
+                "JOIN user_conversation_relations uc2 ON uc.conversation_id = uc2.conversation_id " +
+                "JOIN users uu2 ON uc2.user_id = uu2.user_id " +
+                "WHERE uu.user_id = ? AND uu2.user_id != ? " +
+                "ORDER BY me2.message_created_at DESC;";
         ArrayList<ConversationPreview> list = new ArrayList<>();
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(selectStatement);
+            preparedStatement.setInt(1, userID);
+            preparedStatement.setInt(2, userID);
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()){
-                //ConversationPreview
+                int conversationID = resultSet.getInt("conversation_id");
+                String dateTime = resultSet.getString("message_created_at");
+                String text = resultSet.getString("message_text");
+                String photo = resultSet.getString("photo");
+                String username = resultSet.getString("username");
+                ConversationPreview conversationPreview = new ConversationPreview(conversationID,username,photo,text,dateTime);
+                list.add(conversationPreview);
             }
         }
         catch (SQLException e){

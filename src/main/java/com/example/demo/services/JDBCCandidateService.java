@@ -125,8 +125,18 @@ public class JDBCCandidateService {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()){
+                String secondaryUsername = resultSet.getString("username");
+                String secondaryPhoto = resultSet.getString("photo");
+                String secondaryDescription = resultSet.getString("description");
+                int secondaryUserID = resultSet.getInt("user_id");
+                int secondarySex = resultSet.getInt("sex");
+ //FIX
+                int secondaryAge = -1;
+                String keyword1 = resultSet.getString("keyword_1");
+                String keyword2 = resultSet.getString("keyword_2");
+                String keyword3 = resultSet.getString("keyword_3");
 
-//add            secondaryUser = new SecondaryUser();
+                secondaryUser = new SecondaryUser(secondaryUsername,secondaryPhoto,secondaryDescription,secondaryUserID,secondarySex,secondaryAge,keyword1,keyword2,keyword3);
             }
         }
         catch (SQLException e){

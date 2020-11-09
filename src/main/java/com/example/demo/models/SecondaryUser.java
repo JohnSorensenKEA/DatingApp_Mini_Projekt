@@ -5,7 +5,7 @@ public class SecondaryUser {
     private String secondaryPhoto;
     private String secondaryDescription;
     private int secondaryUserID;
-    private String secondarySex;
+    private int secondarySex;
     private int secondaryAge;
     private String keyword1;
     private String keyword2;
@@ -35,7 +35,7 @@ public class SecondaryUser {
         this.keyword3 = keyword3;
     }
 
-    public SecondaryUser(String secondaryUsername, String secondaryPhoto, String secondaryDescription, int secondaryUserID, String secondarySex, int secondaryAge, String keyword1, String keyword2, String keyword3) {
+    public SecondaryUser(String secondaryUsername, String secondaryPhoto, String secondaryDescription, int secondaryUserID, int secondarySex, int secondaryAge, String keyword1, String keyword2, String keyword3) {
         this.secondaryUsername = secondaryUsername;
         this.secondaryPhoto = secondaryPhoto;
         this.secondaryDescription = secondaryDescription;
@@ -79,11 +79,11 @@ public class SecondaryUser {
         this.secondaryUserID = secondaryUserID;
     }
 
-    public String getSecondarySex() {
+    public int getSecondarySex() {
         return secondarySex;
     }
 
-    public void setSecondarySex(String secondarySex) {
+    public void setSecondarySex(int secondarySex) {
         this.secondarySex = secondarySex;
     }
 

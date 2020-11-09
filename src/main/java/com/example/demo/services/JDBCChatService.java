@@ -69,6 +69,7 @@ public class JDBCChatService {
         }
     }
 
+    //Redundant? Yes
     public void deleteMessages(int conversationID){
         String deleteStatement = "DELETE FROM messages WHERE conversation_id = ?";
         try{
@@ -81,11 +82,9 @@ public class JDBCChatService {
         }
     }
 
-    //???
     public void deleteConversation(int conversationID){
         String deleteStatement =
-                "DELETE conversations, user_conversation_relations FROM user_conversation_relations " +
-                "JOIN conversations using(conversation_id) " +
+                "DELETE conversations FROM conversations " +
                 "WHERE conversation_id = ?";
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(deleteStatement);
@@ -118,7 +117,7 @@ public class JDBCChatService {
 
     public ArrayList<Message> getMessages(int conversationID){
         String selectStatement =
-                "SELECT * FROM messages " +
+                "SELECT message_text, message_author_id, message_created_at FROM messages " +
                 "WHERE conversation_id = ? " +
                 "ORDER BY message_created_at ASC";
         ArrayList<Message> list = new ArrayList<>();
@@ -131,8 +130,8 @@ public class JDBCChatService {
                 String messageText = resultSet.getString("message_text");
                 int authorID = resultSet.getInt("message_author_id");
                 String dateTime = resultSet.getString("message_created_at");
-//add
-                Message message = null;
+
+                Message message = new Message(messageText,dateTime,authorID);
                 list.add(message);
             }
         }
@@ -153,12 +152,33 @@ public class JDBCChatService {
             preparedStatement.setInt(1,conversationID);
             preparedStatement.setInt(2, userID);
             ResultSet resultSet = preparedStatement.executeQuery();
-//add
+
+            int secondaryID = resultSet.getInt("user_id");
+            String username = resultSet.getString("username");
+            String photo = resultSet.getString("photo");
+
+            conversation = new Conversation(conversationID,secondaryID,username,photo);
         }
         catch (SQLException e){
             System.out.println("Failed getting conversation="+e.getMessage());
         }
         return conversation;
+    }
+
+    public void deleteAllUsersConversations(int userID){
+        String deleteStatement =
+                "DELETE co FROM users uu " +
+                "JOIN user_conversation_relations uc ON uu.user_id = uc.user_id " +
+                "JOIN conversations co ON uc.conversation_id = co.conversation_id " +
+                "WHERE uu.user_id = ?;";
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(deleteStatement);
+            preparedStatement.setInt(1, userID);
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException e){
+            System.out.println("Failed to delete all users conversations="+e.getMessage());
+        }
     }
 
     //Other

@@ -117,31 +117,41 @@ public class JDBCCandidateService {
                         "ORDER BY RAND() " +
                         "LIMIT 1;";
         SecondaryUser secondaryUser = null;
-        ResultSet resultSet = null;
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(selectStatement);
             preparedStatement.setInt(1, userID);
             preparedStatement.setInt(2, userID);
 
-            resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
 
+            if (resultSet.next()){
 
 //add            secondaryUser = new SecondaryUser();
+            }
         }
         catch (SQLException e){
             System.out.println("Failure trying to get random unliked user="+e.getMessage());
-        }
-
-        if (resultSet != null){
-//Add
         }
         return secondaryUser;
     }
 
     public void deleteLike(int userID, int secondaryID){
-
+        String deleteStatement =
+                "DELETE likes FROM user_like_relations ul " +
+                "JOIN likes li using(like_id) " +
+                "WHERE ul.user_id = ? AND li.user_id = ?";
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(deleteStatement);
+            preparedStatement.setInt(1, userID);
+            preparedStatement.setInt(2, secondaryID);
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException e){
+            System.out.println("Failed to delete like="+e.getMessage());
+        }
     }
 
+    //Redundant
     public void deleteAllLikesWithUser(int userID){
 
     }

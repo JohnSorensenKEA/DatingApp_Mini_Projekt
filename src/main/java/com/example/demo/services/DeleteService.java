@@ -1,5 +1,7 @@
 package com.example.demo.services;
 
+
+//Redundant
 public class DeleteService {
 
     CandidateService candidateService;

@@ -1,18 +1,13 @@
 package com.example.demo.models;
 
-import java.sql.Time;
-import java.util.Date;
-
 public class Message {
     private String text;
-    private Date date;
-    private Time time;
+    private String dateTime;
     private int authorID;
 
-    public Message(String text, Date date, Time time, int authorID) {
+    public Message(String text, String dateTime, int authorID) {
         this.text = text;
-        this.date = date;
-        this.time = time;
+        this.dateTime = dateTime;
         this.authorID = authorID;
     }
 
@@ -24,20 +19,12 @@ public class Message {
         this.text = text;
     }
 
-    public Date getDate() {
-        return date;
+    public String getDateTime() {
+        return dateTime;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public Time getTime() {
-        return time;
-    }
-
-    public void setTime(Time time) {
-        this.time = time;
+    public void setDateTime(String dateTime) {
+        this.dateTime = dateTime;
     }
 
     public int getAuthorID() {

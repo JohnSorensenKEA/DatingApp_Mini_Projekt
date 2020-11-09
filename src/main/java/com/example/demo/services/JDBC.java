@@ -8,7 +8,7 @@ import java.sql.*;
 import java.util.ArrayList;
 
 /*
-Out dated, do not use
+Outdated, do not use
  */
 
 public class JDBC {

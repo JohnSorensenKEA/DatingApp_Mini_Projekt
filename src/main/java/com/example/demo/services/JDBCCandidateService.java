@@ -130,7 +130,7 @@ public class JDBCCandidateService {
                 String secondaryDescription = resultSet.getString("description");
                 int secondaryUserID = resultSet.getInt("user_id");
                 int secondarySex = resultSet.getInt("sex");
- //FIX
+ //FIX, date -> age
                 int secondaryAge = -1;
                 String keyword1 = resultSet.getString("keyword_1");
                 String keyword2 = resultSet.getString("keyword_2");

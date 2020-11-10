@@ -2,13 +2,17 @@ package com.example.demo.controllers;
 
 import com.example.demo.models.UserIdentification;
 import com.example.demo.services.*;
+import org.apache.tomcat.jni.File;
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +32,7 @@ public class MainController {
     LoginService loginService;
     PhotoHandler photoHandler;
     ProfileHandler profileHandler;
+
 
     public MainController(){
         checkUserInput = new CheckUserInput();
@@ -250,33 +255,55 @@ public class MainController {
         return "";
     }
 
-    public static String uploadDirectory = System.getProperty("user.dir")+ "/uploads";
+    public static String uploadDirectory = System.getProperty("user.dir")+ "/src/main/resources/static/user_photos";
 
     @RequestMapping("PhotoTest")
     public String UploadPage() {
         return "Uploadview";
     }
 
+
     @RequestMapping("/upload")
-    public String upload(Model model,@RequestParam("files") MultipartFile[] files) {
-        StringBuilder fileNames = new StringBuilder();
+    public String upload(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, Model model,@RequestParam("file") MultipartFile file) {
+        UserIdentification userIden = checkUserService.checkUser(cookieID);
+        if(userIden == null){
+            return "login";
+        }
+        //StringBuilder fileNames = new StringBuilder();
         // String fileNames = "";
-        for (MultipartFile file : files) {
-            Path fileNameAndPath = Paths.get(uploadDirectory, file.getOriginalFilename());
-            fileNames.append(file.getOriginalFilename()+" ");
+        String contentType = file.getContentType();
+        if (contentType.startsWith("image/")) {
+            String fileName = "photoTilhoendeUserId" + userIden.getUserID();
+            // --||-- = userIden.getUserID() "";
+            Path filePath = Paths.get(uploadDirectory, fileName);
+            //fileNames.append(file.getOriginalFilename() + " ");
             // fileName = fileName + file.getOriginalFilename;
+
             try {
-                Files.write(fileNameAndPath, file.getBytes());
+                Files.write(filePath, file.getBytes());
                 // tager imod filens name og vej og files bytes(indhold)
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            model.addAttribute("msg", "Successfully uploaded files "+fileName);
+            model.addAttribute("filepath", uploadDirectory + fileName);
+            return "UploadStatusView";
         }
-        model.addAttribute("msg", "Successfully uploaded files "+fileNames.toString());
-        model.addAttribute("filepath", uploadDirectory + fileNames.toString());
-        return "UploadStatusView";
+        return "ErrorPage";
     }
 
+
+
+
+    @Configuration
+    public class ResourceConfig implements WebMvcConfigurer {
+
+        @Override
+        public void addResourceHandlers(final ResourceHandlerRegistry registry) {
+            registry.addResourceHandler("/src/main/resources/static/user_photos**").addResourceLocations("file:/src/main/resources/static/user_photos");
+        }
+    }
 
     @PostMapping("/deletePicture")
     public String deletePicture(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){

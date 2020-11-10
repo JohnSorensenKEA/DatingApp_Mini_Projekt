@@ -1,5 +1,7 @@
 package com.example.demo.services;
 
+import com.example.demo.repositories.JDBCLoginService;
+
 public class LoginService {
 
     private JDBCLoginService jdbc;

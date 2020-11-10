@@ -1,4 +1,4 @@
-package com.example.demo.services;
+package com.example.demo.repositories;
 
 import com.example.demo.models.Candidate;
 import com.example.demo.models.SecondaryUser;
@@ -72,6 +72,7 @@ public class JDBCCandidateService {
         }
         catch (SQLException e){
             System.out.println("Failed getting users candidates="+e.getMessage());
+            return null;
         }
         return list;
     }

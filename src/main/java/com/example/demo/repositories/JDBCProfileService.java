@@ -1,4 +1,4 @@
-package com.example.demo.services;
+package com.example.demo.repositories;
 
 import com.example.demo.models.Profile;
 

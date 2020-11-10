@@ -1,6 +1,9 @@
 package com.example.demo.services;
 
+import com.example.demo.models.Conversation;
 import com.example.demo.models.ConversationPreview;
+import com.example.demo.models.Message;
+import com.example.demo.repositories.JDBCChatService;
 import org.springframework.ui.ModelMap;
 
 import java.time.LocalDateTime;
@@ -41,16 +44,19 @@ public class ChatService {
     }
 
     public void deleteConversation(int conversationID){
+        jdbc.deleteConversation(conversationID);
         //Deletes all message to conversation
         //Deletes conversation
         //Deletes user-convo-relation
     }
 
     public void getMessages(int conversationID, ModelMap modelMap){
-
+        ArrayList<Message> list = jdbc.getMessages(conversationID);
+        modelMap.addAttribute("messages",list);
     }
 
-    public void getSecondaryUser(){
-        
+    public void getConversation(int conversationID, int userID, ModelMap  modelMap){
+        Conversation conversation = jdbc.getConversation(conversationID,userID);
+        modelMap.addAttribute("conversation",conversation);
     }
 }

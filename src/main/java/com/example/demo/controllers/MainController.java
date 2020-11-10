@@ -179,42 +179,48 @@ public class MainController {
         return "inbox";
     }
 
-    //Not done
+    //Not tested, check userID or admin?
     @PostMapping("/conversation")
     public String conversation(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
         if(userIden == null){
             return login(cookieID,response,modelMap);
         }
-        else if(userIden.isAdmin()){
-            int conversationID = Integer.parseInt(request.getParameter("conversationID"));
-            chatService.getMessages(conversationID,modelMap);
-            //chatService.
-            return "conversation";
-        }
-        else if(userIden.getUserID() > 0){
-            return match(cookieID,response,modelMap);
-        }
-
+        int conversationID = Integer.parseInt(request.getParameter("conversationID"));
+        chatService.getMessages(conversationID,modelMap);
+        chatService.getConversation(conversationID,userIden.getUserID(),modelMap);
         return "conversation";
     }
 
+    //Not tested, add inputCheck and userID/admin check?
     @PostMapping("/sendMessage")
-    public String sendMessage(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
+    public String sendMessage(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
         if(userIden == null){
             return login(cookieID,response,modelMap);
         }
-        return "";
+        else if (userIden.isAdmin()){
+            return conversation(cookieID,response,modelMap,request);
+        }
+        String message = request.getParameter("message");
+        int conversationID = Integer.parseInt(request.getParameter("conversationID"));
+        chatService.addMessageToConversation(userIden.getUserID(),conversationID,message);
+        return conversation(cookieID,response,modelMap,request);
     }
 
+    //Not tested
     @GetMapping("/candidates")
     public String candidateList(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
         if(userIden == null){
             return login(cookieID,response,modelMap);
         }
-        return "";
+        else if (userIden.isAdmin())
+        {
+            return userList(cookieID,response,modelMap);
+        }
+        candidateService.getCandidates(modelMap,userIden.getUserID());
+        return "candidate-list";
     }
 
     @GetMapping("/profile")

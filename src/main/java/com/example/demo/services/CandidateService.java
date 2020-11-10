@@ -12,10 +12,8 @@ public class CandidateService {
         jdbc.setConnection();
     }
 
-    public void getCandidates(ModelMap modelMap, UserIdentification userIdentification){
-        //Puts list of Candidate obj in modelmap
-        //If user: liked users
-        //If admin: all users
+    public void getCandidates(ModelMap modelMap, int userID){
+        modelMap.addAttribute("candidateList",jdbc.getUsersCandidates(userID));
     }
 
     public void getMatchCandidate(ModelMap modelMap, UserIdentification userIdentification){
@@ -36,5 +34,9 @@ public class CandidateService {
 
     public void deleteAllUserReferencedCandidates(int userID){
         //Deletes all "like" and relations referencing to userID
+    }
+
+    public void addCandidate(int userID, int secondaryID){
+        jdbc.createLike(userID,secondaryID);
     }
 }

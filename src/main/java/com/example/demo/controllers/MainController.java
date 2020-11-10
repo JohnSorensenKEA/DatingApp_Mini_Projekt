@@ -135,28 +135,30 @@ public class MainController {
             return userList(cookieID, response, modelMap);
         }
         else if(userIden.getUserID() < 0){
-            return "login";
+            return login(cookieID,response,modelMap);
         }
         candidateService.getMatchCandidate(modelMap,userIden);
         return "match";
     }
 
+    //Not tested
     @PostMapping("/likeUser")
-    public String likeUser(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
+    public String likeUser(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
         if(userIden == null){
             return login(cookieID,response,modelMap);
         }
-        return "";
+        if(userIden.isAdmin()){
+            return userList(cookieID,response,modelMap);
+        }
+        int secondaryID = Integer.parseInt(request.getParameter("secondaryID"));
+        candidateService.addCandidate(userIden.getUserID(),secondaryID);
+        return match(cookieID,response,modelMap);
     }
 
     //Not tested
     @PostMapping("/nextUser")
     public String nextUser(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
-        UserIdentification userIden = checkUserService.checkUser(cookieID);
-        if(userIden == null){
-            return login(cookieID,response,modelMap);
-        }
         return match(cookieID,response,modelMap);
     }
 
@@ -173,7 +175,7 @@ public class MainController {
         else if(userIden.getUserID() < 0){
             return login(cookieID,response,modelMap);
         }
-        candidateService.getCandidates(modelMap,userIden);
+        chatService.getAllUsersConversations(userIden.getUserID(), modelMap);
         return "inbox";
     }
 
@@ -185,12 +187,15 @@ public class MainController {
             return login(cookieID,response,modelMap);
         }
         else if(userIden.isAdmin()){
-            //int conversationID = request.getParameter("conversationID");
-            //chatService.getMessages();
+            int conversationID = Integer.parseInt(request.getParameter("conversationID"));
+            chatService.getMessages(conversationID,modelMap);
+            //chatService.
+            return "conversation";
         }
         else if(userIden.getUserID() > 0){
             return match(cookieID,response,modelMap);
         }
+
         return "conversation";
     }
 

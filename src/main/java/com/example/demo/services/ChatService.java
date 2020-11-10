@@ -26,9 +26,14 @@ public class ChatService {
         jdbc.createConversation(userID,secondaryID,formatter.format(dateTime));
     }
 
-    public ArrayList<ConversationPreview> getAllUsersConversations(int userID){
-        // Gets ConversationPreviews of userID
-        return jdbc.getUserConversations(userID);
+    public void getAllUsersConversations(int userID, ModelMap modelMap){
+        ArrayList<ConversationPreview> list = jdbc.getUserConversations(userID);
+        if (list.size() == 0){
+            modelMap.addAttribute("errorMessage", "Kunne ikke finde nogle samtaler.");
+        }
+        else{
+            modelMap.addAttribute("conversationList", list);
+        }
     }
 
     public void addMessageToConversation(int userID, int conversationID, String message){
@@ -43,5 +48,9 @@ public class ChatService {
 
     public void getMessages(int conversationID, ModelMap modelMap){
 
+    }
+
+    public void getSecondaryUser(){
+        
     }
 }

@@ -24,6 +24,7 @@ public class JDBCProfileService {
     public int createProfile(String email, String firstname, String surname, String username, String password, int sex, String birthdate){
         String insertStatement = "INSERT INTO users (email, firstname, surname, username, password, sex, birthdate, photo, description) VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? )";
         int userID = -1;
+        System.out.println("User creation");
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(insertStatement);
             preparedStatement.setString(1, email);
@@ -49,11 +50,13 @@ public class JDBCProfileService {
     }
 
     public void createKeywords(int userID){
-        String insertStatement = "INSERT INTO keywords (user_id, keyword_1) VALUES ( ? , ? )";
+        String insertStatement = "INSERT INTO keywords (user_id, keyword_1, keyword_2, keyword_3) VALUES ( ? , ? , ?, ?)";
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(insertStatement);
             preparedStatement.setInt(1, userID);
             preparedStatement.setString(2, "");
+            preparedStatement.setString(3, "");
+            preparedStatement.setString(4, "");
             preparedStatement.executeUpdate();
         }
         catch (SQLException e){

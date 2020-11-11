@@ -1,6 +1,7 @@
 package com.example.demo.services;
 
 import com.example.demo.repositories.JDBCProfileService;
+import org.springframework.ui.ModelMap;
 
 public class ProfileHandler {
 
@@ -15,6 +16,9 @@ public class ProfileHandler {
         return jdbc.createProfile(email, firstname, surname, username, password, sex, birthdate);
     }
 
+    public void getProfile(int userID, ModelMap modelMap){
+
+    }
 
 
 }

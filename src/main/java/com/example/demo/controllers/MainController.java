@@ -114,15 +114,19 @@ public class MainController {
     //Not tested...
     @PostMapping("/registrationRequest")
     public String registrationRequest(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest webRequest){
+        System.out.println("start controller");
         String email = webRequest.getParameter("email");
         String firstname = webRequest.getParameter("firstname");
         String surname = webRequest.getParameter("surname");
+        System.out.println(webRequest.getParameter("sex"));
         int sex = Integer.parseInt(webRequest.getParameter("sex"));
+        System.out.println("after int");
         String birthdate = webRequest.getParameter("birthdate");
         String username = webRequest.getParameter("username");
         String password = webRequest.getParameter("password");
         UserIdentification userIden = checkUserService.checkUser(cookieID);
         if(userIden == null){
+            System.out.println("user creation");
             int userID = profileHandler.createProfile(email, firstname, surname, username, password, sex, birthdate);
             if(userID > 0){
                 userIden = checkUserService.createUserIdentification(userID, false);
@@ -245,13 +249,20 @@ public class MainController {
         return "candidate-list";
     }
 
+    //Not tested, missing service method, add profileID request
     @GetMapping("/profile")
-    public String profile(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
+    public String profile(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
+        int profileID = Integer.parseInt(request.getParameter("profileID"));
         if(userIden == null){
-            return login(cookieID,response,modelMap);
+            return "redirect:login";
         }
-        return "";
+        else if(userIden.isAdmin()){
+            profileHandler.getProfile(profileID, modelMap);
+            return "profile";
+        }
+        profileHandler.getProfile(userIden.getUserID(), modelMap);
+        return "profile";
     }
 
     @PostMapping("/saveTextChanges")

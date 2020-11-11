@@ -8,6 +8,30 @@
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" rel="stylesheet">
 </head>
 <body>
+    <div class="row">
+        <div class="col">
+            <a href="/match" th:unless="${userIden.isAdmin()}"><p>Match</p></a>
+            <a href="/inbox" th:unless="${userIden.isAdmin()}"><p>Indbakke</p></a>
+            <a href="/candidates" th:unless="${userIden.isAdmin()}"><p>Kandidater</p></a>
+            <a href="/profile"  th:unless="${userIden.isAdmin()}"><p>Profil</p></a>
+        </div>
+        <div class="col">
+            <!--/*@thymesVar id="conversationList" type="ArrayList<ConversationPreview>"*/-->
+            <!--/*@thymesVar id="preview" type="ConversationPreview"*/-->
+            <div th:each="preview : ${conversationList}">
+                <a th:href="'conversation?conversationID=' + ${preview.getConversationID()}">
+                    <div>
+                        <img style="width: 50px; height: 50px" th:alt="'Billede: ' + ${preview.getSecondaryUsername()}" th:src="${preview.getSecondaryPhoto()}">
+                        <span th:text="${preview.getSecondaryUsername()}"></span><br>
+                        <span th:text="${preview.getLatestMessage()} + ' - ' + ${preview.getLatestMessageDateTime()}"></span>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col">
+            <a href="/logout"><p>logout</p></a>
+        </div>
+    </div>
 
 </body>
 </html>

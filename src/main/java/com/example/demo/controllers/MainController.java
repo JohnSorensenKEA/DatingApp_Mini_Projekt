@@ -191,15 +191,16 @@ public class MainController {
     public String inbox(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
         if (userIden == null){
-            return login(cookieID,response,modelMap);
+            return "redirect:login";
         }
         else if(userIden.isAdmin()){
-            return userList(cookieID, response, modelMap);
+            return "redirect:userList";
         }
         else if(userIden.getUserID() < 0){
-            return login(cookieID,response,modelMap);
+            return "redirect:login";
         }
         chatService.getAllUsersConversations(userIden.getUserID(), modelMap);
+        modelMap.addAttribute("userIden", userIden);
         return "inbox";
     }
 

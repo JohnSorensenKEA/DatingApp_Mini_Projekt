@@ -43,8 +43,11 @@
     <div class="col-lg-2">
         <a href="/logout"><p>logout</p></a>
         <br><br><br><br><br><br><br><br><br>
-        <a th:href="'/likeUser?secondaryID=' + ${secondaryUser.getSecondaryUserID()}"><p>Like bruger</p></a><br>
-        <a href="/match"><p>Næste bruger</p></a>
+        <div th:unless="${secondaryUser} == null">
+            <a th:href="'/likeUser?secondaryID=' + ${secondaryUser.getSecondaryUserID()}"><p>Like bruger</p></a><br>
+            <a href="/match"><p>Næste bruger</p></a>
+        </div>
+
     </div>
 </div>
 

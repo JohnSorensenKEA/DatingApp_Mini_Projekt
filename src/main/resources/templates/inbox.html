@@ -14,13 +14,14 @@
             <a href="/inbox" th:unless="${userIden.isAdmin()}"><p>Indbakke</p></a>
             <a href="/candidates" th:unless="${userIden.isAdmin()}"><p>Kandidater</p></a>
             <a href="/profile"  th:unless="${userIden.isAdmin()}"><p>Profil</p></a>
+            <a href="/userList" th:if="${userIden.isAdmin()}"><p>Bruger liste</p></a>
         </div>
         <div class="col">
             <!--/*@thymesVar id="conversationList" type="ArrayList<ConversationPreview>"*/-->
             <!--/*@thymesVar id="preview" type="ConversationPreview"*/-->
             <div th:each="preview : ${conversationList}">
                 <a th:href="'conversation?conversationID=' + ${preview.getConversationID()}">
-                    <div>
+                    <div style="border-width: 5px; border: solid; border-color: black">
                         <img style="width: 50px; height: 50px" th:alt="'Billede: ' + ${preview.getSecondaryUsername()}" th:src="${preview.getSecondaryPhoto()}">
                         <span th:text="${preview.getSecondaryUsername()}"></span><br>
                         <span th:text="${preview.getLatestMessage()} + ' - ' + ${preview.getLatestMessageDateTime()}"></span>
@@ -32,6 +33,5 @@
             <a href="/logout"><p>logout</p></a>
         </div>
     </div>
-
 </body>
 </html>

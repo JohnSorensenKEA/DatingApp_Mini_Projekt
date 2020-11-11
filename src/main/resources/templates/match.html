@@ -14,6 +14,7 @@
         <a href="/inbox" th:unless="${userIden.isAdmin()}"><p>Indbakke</p></a>
         <a href="/candidates" th:unless="${userIden.isAdmin()}"><p>Kandidater</p></a>
         <a href="/profile"  th:unless="${userIden.isAdmin()}"><p>Profil</p></a>
+        <a href="/userList" th:if="${userIden.isAdmin()}"><p>Bruger liste</p></a>
     </div>
     <div class="col-lg-6">
         <p th:text="${errorMessage} ?: ''"></p>
@@ -50,6 +51,5 @@
 
     </div>
 </div>
-
 </body>
 </html>

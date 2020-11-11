@@ -59,4 +59,8 @@ public class ChatService {
         Conversation conversation = jdbc.getConversation(conversationID,userID);
         modelMap.addAttribute("conversation",conversation);
     }
+
+    public void getConversationAdmin(int conversationID, ModelMap modelMap){
+
+    }
 }

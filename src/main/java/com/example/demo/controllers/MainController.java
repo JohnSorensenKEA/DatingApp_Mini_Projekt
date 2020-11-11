@@ -208,10 +208,15 @@ public class MainController {
     @PostMapping("/conversation")
     public String conversation(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
-        if(userIden == null){
-            return login(cookieID,response,modelMap);
-        }
         int conversationID = Integer.parseInt(request.getParameter("conversationID"));
+        if(userIden == null){
+            return "redirect:login";
+        }
+        else if(userIden.isAdmin()){
+            chatService.getConversationAdmin(conversationID, modelMap);
+            chatService.getMessages(conversationID,modelMap);
+            return "conversation";
+        }
         chatService.getMessages(conversationID,modelMap);
         chatService.getConversation(conversationID,userIden.getUserID(),modelMap);
         return "conversation";

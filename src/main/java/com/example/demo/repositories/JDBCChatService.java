@@ -180,6 +180,33 @@ public class JDBCChatService {
         return conversation;
     }
 
+    public ArrayList<Conversation> getConversationAdmin(int conversationID){
+        String selectStatement =
+                "SELECT * FROM user_conversation_relations uc " +
+                        "JOIN users uu using(user_id) " +
+                        "WHERE uc.conversation_id = ?";
+        ArrayList<Conversation> list = new ArrayList<>();
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(selectStatement);
+            preparedStatement.setInt(1,conversationID);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while(resultSet.next()){
+                int secondaryID = resultSet.getInt("user_id");
+                String username = resultSet.getString("username");
+                String photo = resultSet.getString("photo");
+
+                Conversation conversation = new Conversation(conversationID,secondaryID,username,photo);
+                list.add(conversation);
+            }
+        }
+        catch (SQLException e){
+            System.out.println("Failed getting conversation="+e.getMessage());
+        }
+        return list;
+    }
+
     public void deleteAllUsersConversations(int userID){
         String deleteStatement =
                 "DELETE co FROM users uu " +

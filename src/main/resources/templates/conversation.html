@@ -8,6 +8,35 @@
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" rel="stylesheet">
 </head>
 <body>
+<div class="row">
+    <div class="col">
+        <a href="/match" th:unless="${userIden.isAdmin()}"><p>Match</p></a>
+        <a href="/inbox" th:unless="${userIden.isAdmin()}"><p>Indbakke</p></a>
+        <a href="/candidates" th:unless="${userIden.isAdmin()}"><p>Kandidater</p></a>
+        <a href="/profile"  th:unless="${userIden.isAdmin()}"><p>Profil</p></a>
+        <a href="/userList" th:if="${userIden.isAdmin()}"><p>Bruger liste</p></a>
+    </div>
+    <div class="col">
+        <div>
+            <!--/*@thymesVar id="messages" type="ArrayList<Message>"*/-->
+            <div th:each="message : ${messages}">
+                <p th:if="${message.getAuthorID() == ${userIden.getUserID()}}" th:text="${message.getText()}" style="background-color: lightblue"></p>
+                <p th:unless="${message.getAuthorID() == ${userIden.getUserID()}}" th:text="${message.getText()}" style="background-color: lightcoral"></p>
+            </div>
+
+        </div>
+        <div>
+
+        </div>
+        <form>
+            <input type="text" id="message">
+            <input type="submit">
+        </form>
+    </div>
+    <div class="col">
+        <a href="/logout"><p>logout</p></a>
+    </div>
+</div>
 
 </body>
 </html>

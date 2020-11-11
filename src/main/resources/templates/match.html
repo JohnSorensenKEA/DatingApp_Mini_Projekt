@@ -10,10 +10,10 @@
 <body>
 <div class="row">
     <div class="col-lg-2">
-        <a href="/match"><p>Match</p></a>
-        <a href="/inbox"><p>Indbakke</p></a>
-        <a href="/candidates"><p>Kandidater</p></a>
-        <a href="/profile"><p>Profil</p></a>
+        <a href="/match" th:unless="${userIden.isAdmin()}"><p>Match</p></a>
+        <a href="/inbox" th:unless="${userIden.isAdmin()}"><p>Indbakke</p></a>
+        <a href="/candidates" th:unless="${userIden.isAdmin()}"><p>Kandidater</p></a>
+        <a href="/profile"  th:unless="${userIden.isAdmin()}"><p>Profil</p></a>
     </div>
     <div class="col-lg-6">
         <p th:text="${errorMessage} ?: ''"></p>
@@ -25,7 +25,7 @@
             <br><br>
             <div class="row">
                 <div class="col">
-                    <p style="font-weight: bold">Yndlings fisk</p>
+                    <p style="font-weight: bold">Yndlings fisk?!</p>
                     <p th:text="${secondaryUser.getKeyword1()}"></p>
                     <p style="font-weight: bold">Yndlings film</p>
                     <p th:text="${secondaryUser.getKeyword2()}"></p>

@@ -160,6 +160,7 @@ public class MainController {
             return "redirect:login";
         }
         candidateService.getMatchCandidate(modelMap,userIden);
+        modelMap.addAttribute("userIden", userIden);
         return "match";
     }
 

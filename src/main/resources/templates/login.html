@@ -8,12 +8,6 @@
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" rel="stylesheet">
 </head>
 <body>
-<p>Hello World</p>
-<form method="post" action="/gem" enctype="multipart/form-data">
-    <label for="filSelect">Vælgfil:</label><br>
-    <input type="file" id="filSelect" name="fil"><br>
-    <input type="submit" value="Submit">
-</form>
 <div class="row">
     <div class="col-lg-3"></div>
     <div class="col-lg-4">
@@ -24,7 +18,9 @@
                 <label for="password">Kodeord</label><br>
                 <input type="text" id="password" name="password"><br>
                 <input type="submit" value="Login">
-            </form>
+            </form><br>
+            <a href="/register"><p>Registrer ny bruger</p></a>
+
             <img src="user_photos/stock_photo.png" alt="stock_photo">
             <!--/*@thymesVar id="photoname" type="String"*/-->
             <img th:src="${photoname}" th:alt="${photoname}">

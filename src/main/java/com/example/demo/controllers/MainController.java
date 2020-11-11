@@ -80,7 +80,7 @@ public class MainController {
             userIden = checkUserService.createUserIdentification(-1, true);
             Cookie cookie = new Cookie("cookieID",userIden.getCookieID());
             response.addCookie(cookie);
-            return userList(userIden.getCookieID(), response, modelMap);
+            return "redirect:userList";
         }
         else{
             int userID = loginService.getUserID(username,password);
@@ -88,11 +88,11 @@ public class MainController {
                 userIden = checkUserService.createUserIdentification(userID,false);
                 Cookie cookie = new Cookie("cookieID",userIden.getCookieID());
                 response.addCookie(cookie);
-                return match(userIden.getCookieID(),response,modelMap);
+                return "redirect:match";
             }
         }
         modelMap.addAttribute("errorMessage","Forkert Brugernavn eller Kodeord");
-        return "login";
+        return "redirect:login";
     }
 
     //Not tested
@@ -103,10 +103,10 @@ public class MainController {
             return  "register";
         }
         else if(userIden.isAdmin()){
-            return userList(cookieID, response, modelMap);
+            return "redirect:userList";
         }
         else if(userIden.getUserID() > 0){
-            return match(cookieID,response,modelMap);
+            return "redirect:match";
         }
         return "register";
     }
@@ -144,11 +144,14 @@ public class MainController {
     @GetMapping("/match")
     public String match(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
-        if(userIden.isAdmin()){
-            return userList(cookieID, response, modelMap);
+        if(userIden == null){
+            return "redirect:login";
+        }
+        else if(userIden.isAdmin()){
+            return "redirect:userList";
         }
         else if(userIden.getUserID() < 0){
-            return login(cookieID,response,modelMap);
+            return "redirect:login";
         }
         candidateService.getMatchCandidate(modelMap,userIden);
         return "match";

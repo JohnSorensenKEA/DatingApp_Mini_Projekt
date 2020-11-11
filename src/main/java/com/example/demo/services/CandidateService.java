@@ -20,7 +20,6 @@ public class CandidateService {
 
     public void getMatchCandidate(ModelMap modelMap, UserIdentification userIdentification){
         SecondaryUser su = jdbc.getRandomUnlikedUser(userIdentification.getUserID());
-        System.out.println(su);
 
         if(su == null){
             modelMap.addAttribute("errorMessage", "Kunne ikke finde et nyt match, prøv igen senere");

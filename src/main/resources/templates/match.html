@@ -18,15 +18,33 @@
     <div class="col-lg-6">
         <p th:text="${errorMessage} ?: ''"></p>
         <!--/*@thymesVar id="secondaryUser" type="secondaryUser"*/-->
-        <!--/*@thymesVar id="username" type="String"*/-->
         <div th:unless="${secondaryUser} == null">
-            <img th:alt="${secondaryUser.getSecondaryUsername()}" th:src="${secondaryUser.getSecondaryPhoto()}"><br>
-            <!--/*@thymesVar id="getUsername" type=""*/-->
-            <p th:text="${secondaryUser.getSecondaryUsername()}"></p>
+
+            <img style="height: 400px;width: 400px" th:alt="${secondaryUser.getSecondaryUsername()}" th:src="${secondaryUser.getSecondaryPhoto()}"><br>
+            <span th:text="${secondaryUser.getSecondaryUsername()} + ', ' + ${secondaryUser.getSecondaryAge()} + ', '"></span><span th:if="${secondaryUser.getSecondarySex()} == 1">Kvinde</span><span th:if="${secondaryUser.getSecondarySex()} == 2">Mand</span><span th:if="${secondaryUser.getSecondarySex()} == 3">Andet</span>
+            <br><br>
+            <div class="row">
+                <div class="col">
+                    <p style="font-weight: bold">Yndlings fisk</p>
+                    <p th:text="${secondaryUser.getKeyword1()}"></p>
+                    <p style="font-weight: bold">Yndlings film</p>
+                    <p th:text="${secondaryUser.getKeyword2()}"></p>
+                    <p style="font-weight: bold">Yndlings ret</p>
+                    <p th:text="${secondaryUser.getKeyword3()}"></p>
+                    <br>
+                </div>
+                <div class="col">
+                    <p style="font-weight: bold">Beskrivelse</p>
+                    <p th:text="${secondaryUser.getSecondaryDescription()}"></p></div>
+            </div>
+
         </div>
     </div>
     <div class="col-lg-2">
         <a href="/logout"><p>logout</p></a>
+        <br><br><br><br><br><br><br><br><br>
+        <a th:href="'/likeUser?secondaryID=' + ${secondaryUser.getSecondaryUserID()}"><p>Like bruger</p></a><br>
+        <a href="/match"><p>Næste bruger</p></a>
     </div>
 </div>
 

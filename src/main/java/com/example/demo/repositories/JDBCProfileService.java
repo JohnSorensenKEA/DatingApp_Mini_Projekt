@@ -24,7 +24,6 @@ public class JDBCProfileService {
     public int createProfile(String email, String firstname, String surname, String username, String password, int sex, String birthdate){
         String insertStatement = "INSERT INTO users (email, firstname, surname, username, password, sex, birthdate, photo, description) VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? )";
         int userID = -1;
-        System.out.println("User creation");
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(insertStatement);
             preparedStatement.setString(1, email);

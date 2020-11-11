@@ -106,7 +106,6 @@ public class JDBCCandidateService {
     }
 
     public SecondaryUser getRandomUnlikedUser(int userID){
-        System.out.println(userID);
         String selectStatement =
                 "SELECT uu2.user_id, uu2.username, uu2.photo, uu2.description, uu2.sex, ke.keyword_1, ke.keyword_2, ke.keyword_3, uu2.birthdate " +
                         "FROM users uu " +

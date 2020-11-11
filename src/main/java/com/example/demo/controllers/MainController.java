@@ -323,10 +323,10 @@ public class MainController {
     }
 
     //Not tested
-    @PostMapping("/logout")
+    @GetMapping("/logout")
     public String logOut(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
         checkUserService.removeUserIdentification(cookieID);
-        return login(cookieID,response,modelMap);
+        return "redirect:login";
     }
 
     //Not done

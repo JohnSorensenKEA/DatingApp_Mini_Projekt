@@ -19,11 +19,14 @@ public class CheckUserService {
     }
 
     public void removeUserIdentification(String cookieID){
+        UserIdentification userIden = null;
         for(UserIdentification u : list){
             if(u.getCookieID().equals(cookieID)){
-                list.remove(u);
-                break;
+                userIden = u;
             }
+        }
+        if (userIden != null){
+            list.remove(userIden);
         }
     }
 

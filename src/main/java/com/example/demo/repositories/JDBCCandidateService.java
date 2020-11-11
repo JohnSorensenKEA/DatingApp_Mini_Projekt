@@ -107,16 +107,17 @@ public class JDBCCandidateService {
 
     public SecondaryUser getRandomUnlikedUser(int userID){
         String selectStatement =
-                "SELECT uu2.user_id, uu2.username, uu2.photo, uu2.description, uu2.sex, ke.keyword_1, ke.keyword_2, ke.keyword_3, uu2.birthdate " +
-                        "FROM users uu " +
-                        "JOIN user_like_relations ul ON uu.user_id = ul.user_id " +
-                        "JOIN likes li ON ul.like_id = li.like_id " +
-                        "RIGHT JOIN users uu2 ON li.user_id = uu2.user_id " +
-                        "JOIN keywords ke ON uu2.user_id = ke.user_id " +
-                        "WHERE uu.user_id != ? AND uu2.user_id != ? " +
-                        "GROUP BY uu2.user_id " +
-                        "ORDER BY RAND() " +
-                        "LIMIT 1;";
+                "SELECT uu.user_id, uu.username, uu.photo, uu.description, uu.sex, ke.keyword_1, ke.keyword_2, ke.keyword_3, uu.birthdate FROM users uu " +
+                "JOIN keywords ke ON uu.user_id = ke.user_id " +
+                "WHERE NOT EXISTS " +
+                "(SELECT * FROM users uu2 " +
+                "JOIN likes li ON uu.user_id = li.user_id " +
+                "JOIN user_like_relations ul ON li.like_id = ul.like_id " +
+                "WHERE ul.user_id = ?) " +
+                "AND uu.user_id != ? " +
+                "ORDER BY RAND() " +
+                "LIMIT 1";
+
         SecondaryUser secondaryUser = null;
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(selectStatement);

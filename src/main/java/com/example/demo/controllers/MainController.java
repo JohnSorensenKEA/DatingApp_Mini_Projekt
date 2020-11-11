@@ -291,6 +291,9 @@ public class MainController {
         if(userIden == null){
             return "redirect:login";
         }
+        else if(userIden.isAdmin()){
+            return "redirect:userList";
+        }
         return "redirect:profile";
     }
 

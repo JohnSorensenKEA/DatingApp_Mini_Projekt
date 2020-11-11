@@ -45,15 +45,6 @@ public class MainController {
         profileHandler = new ProfileHandler();
     }
 
-    @GetMapping("/get")
-    public String cookieSender(HttpServletResponse response){
-        Cookie cookie = new Cookie("cookieID","42");
-        cookie.setMaxAge(2592000);
-        response.addCookie(cookie);
-
-        return "login";
-    }
-
     //Not tested
     @GetMapping("/login")
     public String login(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
@@ -62,10 +53,10 @@ public class MainController {
             return "login";
         }
         else if(userIden.isAdmin()){
-            return userList(cookieID, response, modelMap);
+            return "redirect:userList";
         }
         else if(userIden.getUserID() > 0){
-            return match(cookieID,response,modelMap);
+            return "redirect:match";
         }
         return "login";
     }
@@ -79,6 +70,7 @@ public class MainController {
         if(loginService.checkAdmin(username,password)){
             userIden = checkUserService.createUserIdentification(-1, true);
             Cookie cookie = new Cookie("cookieID",userIden.getCookieID());
+            cookie.setMaxAge(2592000);
             response.addCookie(cookie);
             return "redirect:userList";
         }
@@ -87,6 +79,7 @@ public class MainController {
             if(userID > 0){
                 userIden = checkUserService.createUserIdentification(userID,false);
                 Cookie cookie = new Cookie("cookieID",userIden.getCookieID());
+                cookie.setMaxAge(2592000);
                 response.addCookie(cookie);
                 return "redirect:match";
             }
@@ -127,6 +120,7 @@ public class MainController {
             if(userID > 0){
                 userIden = checkUserService.createUserIdentification(userID, false);
                 Cookie cookie = new Cookie("cookieID", userIden.getCookieID());
+                cookie.setMaxAge(2592000);
                 response.addCookie(cookie);
                 return "redirect:profile";
             }
@@ -143,7 +137,7 @@ public class MainController {
     //Not tested
     @GetMapping("/")
     public String index(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
-        return login(cookieID,response,modelMap);
+        return "redirect:login";
     }
 
     //Not tested

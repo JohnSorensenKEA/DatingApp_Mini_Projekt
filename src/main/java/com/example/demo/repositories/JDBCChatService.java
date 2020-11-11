@@ -68,19 +68,6 @@ public class JDBCChatService {
         }
     }
 
-    //Redundant? Yes
-    public void deleteMessages(int conversationID){
-        String deleteStatement = "DELETE FROM messages WHERE conversation_id = ?";
-        try{
-            PreparedStatement preparedStatement = connection.prepareStatement(deleteStatement);
-            preparedStatement.setInt(1, conversationID);
-            preparedStatement.executeUpdate();
-        }
-        catch(SQLException e){
-            System.out.println("Failed to delete messages="+e.getMessage());
-        }
-    }
-
     public void deleteConversation(int conversationID){
         String deleteStatement =
                 "DELETE conversations FROM conversations " +

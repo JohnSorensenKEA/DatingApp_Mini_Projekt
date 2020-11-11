@@ -163,11 +163,6 @@ public class JDBCCandidateService {
         }
     }
 
-    //Redundant
-    public void deleteAllLikesWithUser(int userID){
-
-    }
-
     //Other
     public int getLastCreatedID(){ //Returns AI ID of last added row
         String selectStatement = "SELECT last_insert_id()";

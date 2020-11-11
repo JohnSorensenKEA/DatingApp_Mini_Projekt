@@ -21,7 +21,7 @@ public class JDBCProfileService {
     }
 
     //ProfileHandler
-    public void createProfile(String email, String firstname, String surname, String username, String password, int sex, String birthdate){
+    public int createProfile(String email, String firstname, String surname, String username, String password, int sex, String birthdate){
         String insertStatement = "INSERT INTO users (email, firstname, surname, username, password, sex, birthdate, photo, description) VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? )";
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(insertStatement);
@@ -42,6 +42,8 @@ public class JDBCProfileService {
         catch (SQLException e){
             System.out.println("Profile creation failed="+e.getMessage());
         }
+        //t(''t)
+        return sex;
     }
 
     public void createKeywords(int userID){

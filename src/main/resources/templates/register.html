@@ -8,6 +8,33 @@
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" rel="stylesheet">
 </head>
 <body>
-
+<div class="row">
+    <div class="col-lg-3"></div>
+    <div class="col-lg-4">
+        <div style="alignment: center">
+            <form method="post" action="/registrationRequest">
+                <label for="firstname">Fornavn</label><br>
+                <input type="text" id="firstname" name="firstname"><br>
+                <label for="surname">Efternavn</label><br>
+                <input type="text" id="surname" name="surname"><br>
+                <select for="sex" name="Køn">
+                    <option value="0"selected>Køn</option>
+                    <option value="1">Kvinde</option>
+                    <option value="2">Mand</option>
+                    <option value="3">Andet</option>
+                </select><br>
+                <input type="text" id="sex" name="sex"><br>
+                <label for="email">E-mail</label><br>
+                <input type="text" id="email" name="email"><br>
+                <label for="username">Brugernavn</label><br>
+                <input type="text" id="username" name="username"><br>
+                <label for="password">Kodeord</label><br>
+                <input type="text" id="password" name="password"><br>
+                <input type="submit" value="Opret profil">
+            </form>
+        </div>
+    </div>
+    <div class="col-lg-3"></div>
+</div>
 </body>
 </html>

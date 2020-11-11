@@ -11,5 +11,10 @@ public class ProfileHandler {
         jdbc.setConnection();
     }
 
+    public int createProfile(String email, String firstname, String surname, String username, String password, int sex, String birthdate){
+        return jdbc.createProfile(email, firstname, surname, username, password, sex, birthdate);
+    }
+
+
 
 }

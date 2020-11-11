@@ -1,6 +1,7 @@
 package com.example.demo.controllers;
 
 import com.example.demo.models.UserIdentification;
+import com.example.demo.repositories.JDBCProfileService;
 import com.example.demo.services.*;
 import org.apache.tomcat.jni.File;
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
@@ -110,18 +111,25 @@ public class MainController {
         return "register";
     }
 
-    //Not done...
+    //Not tested...
     @PostMapping("/registrationRequest")
-    public String registrationRequest(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
+    public String registrationRequest(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest webRequest){
+        String email = webRequest.getParameter("email");
+        String firstname = webRequest.getParameter("firstname");
+        String surname = webRequest.getParameter("surname");
+        int sex = Integer.parseInt(webRequest.getParameter("sex"));
+        String birthdate = webRequest.getParameter("birthdate");
+        String username = webRequest.getParameter("username");
+        String password = webRequest.getParameter("password");
         UserIdentification userIden = checkUserService.checkUser(cookieID);
         if(userIden == null){
-            return  "register";
         }
         else if(userIden.isAdmin()){
             return userList(cookieID, response, modelMap);
         }
-        else if(userIden.getUserID() > 0){
-            return match(cookieID,response,modelMap);
+        else if(profileHandler.createProfile(email, firstname, surname, username, password, sex, birthdate) > 0){
+            checkUserService.createUserIdentification(userIden.getUserID(), userIden.isAdmin());
+            return profile(cookieID,response,modelMap);
         }
         return "register";
     }
@@ -229,7 +237,7 @@ public class MainController {
     }
 
     @GetMapping("/profile")
-    public String profil(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
+    public String profile(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
         if(userIden == null){
             return login(cookieID,response,modelMap);

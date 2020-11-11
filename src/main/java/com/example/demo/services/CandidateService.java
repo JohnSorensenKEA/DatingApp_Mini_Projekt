@@ -1,9 +1,12 @@
 package com.example.demo.services;
 
+import com.example.demo.models.Candidate;
 import com.example.demo.models.SecondaryUser;
 import com.example.demo.models.UserIdentification;
 import com.example.demo.repositories.JDBCCandidateService;
 import org.springframework.ui.ModelMap;
+
+import java.util.ArrayList;
 
 public class CandidateService {
 
@@ -15,7 +18,8 @@ public class CandidateService {
     }
 
     public void getCandidates(ModelMap modelMap, int userID){
-        modelMap.addAttribute("candidateList",jdbc.getUsersCandidates(userID));
+        ArrayList<Candidate> list = jdbc.getUsersCandidates(userID);
+        modelMap.addAttribute("candidateList", list);
     }
 
     public void getMatchCandidate(ModelMap modelMap, UserIdentification userIdentification){

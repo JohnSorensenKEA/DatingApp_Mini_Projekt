@@ -131,7 +131,7 @@ public class MainController {
             checkUserService.createUserIdentification(userIden.getUserID(), userIden.isAdmin());
             return profile(cookieID,response,modelMap);
         }
-        return "register";
+        return "redirect:register";
     }
 
     //Not tested

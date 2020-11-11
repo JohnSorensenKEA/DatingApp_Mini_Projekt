@@ -23,6 +23,7 @@ public class JDBCProfileService {
     //ProfileHandler
     public int createProfile(String email, String firstname, String surname, String username, String password, int sex, String birthdate){
         String insertStatement = "INSERT INTO users (email, firstname, surname, username, password, sex, birthdate, photo, description) VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? )";
+        int userID = -1;
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(insertStatement);
             preparedStatement.setString(1, email);
@@ -37,13 +38,14 @@ public class JDBCProfileService {
 
             preparedStatement.executeUpdate();
 
-            createKeywords(getLastCreatedID());
+            userID = getLastCreatedID();
+            createKeywords(userID);
         }
         catch (SQLException e){
             System.out.println("Profile creation failed="+e.getMessage());
         }
         //t(''t)
-        return sex;
+        return userID;
     }
 
     public void createKeywords(int userID){

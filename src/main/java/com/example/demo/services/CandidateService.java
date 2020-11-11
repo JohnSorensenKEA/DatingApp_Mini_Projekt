@@ -19,6 +19,7 @@ public class CandidateService {
 
     public void getCandidates(ModelMap modelMap, int userID){
         ArrayList<Candidate> list = jdbc.getUsersCandidates(userID);
+        System.out.println("Number of candidates in lits="+list.size());
         modelMap.addAttribute("candidateList", list);
     }
 

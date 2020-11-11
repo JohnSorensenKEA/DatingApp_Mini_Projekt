@@ -216,20 +216,20 @@ public class MainController {
         return "conversation";
     }
 
-    //Not tested, add inputCheck and userID/admin check?
+    //Not done, add inputCheck and userID/admin check?
     @PostMapping("/sendMessage")
     public String sendMessage(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
         if(userIden == null){
-            return login(cookieID,response,modelMap);
+            return "redirect:login";
         }
         else if (userIden.isAdmin()){
-            return conversation(cookieID,response,modelMap,request);
+            return "redirect:userList";
         }
         String message = request.getParameter("message");
         int conversationID = Integer.parseInt(request.getParameter("conversationID"));
         chatService.addMessageToConversation(userIden.getUserID(),conversationID,message);
-        return conversation(cookieID,response,modelMap,request);
+        return "redirect:conversation";
     }
 
     //Not tested
@@ -237,11 +237,11 @@ public class MainController {
     public String candidateList(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
         if(userIden == null){
-            return login(cookieID,response,modelMap);
+            return "redirect:login";
         }
         else if (userIden.isAdmin())
         {
-            return userList(cookieID,response,modelMap);
+            return "redirect:userList";
         }
         candidateService.getCandidates(modelMap,userIden.getUserID());
         return "candidate-list";
@@ -267,18 +267,18 @@ public class MainController {
     public String saveTextChanges(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
         if(userIden == null){
-            return login(cookieID,response,modelMap);
+            return "redirect:login";
         }
-        return "";
+        return "redirect:profile";
     }
 
     @PostMapping("/uploadPicture")
     public String uploadPicture(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
         if(userIden == null){
-            return login(cookieID,response,modelMap);
+            return "redirect:login";
         }
-        return "";
+        return "redirect:profile";
     }
 
     public static String uploadDirectory = System.getProperty("user.dir")+ "/src/main/resources/static/user_photos";
@@ -320,8 +320,6 @@ public class MainController {
     }
 
 
-
-
     @Configuration
     public class ResourceConfig implements WebMvcConfigurer {
 
@@ -335,9 +333,9 @@ public class MainController {
     public String deletePicture(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
         if(userIden == null){
-            return login(cookieID,response,modelMap);
+            return "redirect:login";
         }
-        return "";
+        return "redirect:profile";
     }
 
     //Not tested
@@ -352,7 +350,7 @@ public class MainController {
     public String deleteProfile(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
         if(userIden == null){
-            return login(cookieID,response,modelMap);
+            return "redirect:login";
         }
         else if(userIden.isAdmin()){
 
@@ -365,61 +363,82 @@ public class MainController {
             return userList(cookieID, response, modelMap);
         }
         else{
-            return "login";
+            return "redirect:login";
         }
     }
 
+    //Not done, Check if userID in conversation?
     @PostMapping("/deleteConversation")
-    public String deleteConversation(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
+    public String deleteConversation(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
         if(userIden == null){
-            return login(cookieID,response,modelMap);
+            return "redirect:login";
         }
-        return "";
+        if (userIden.isAdmin()){
+            return "redirect:userList";
+        }
+        int conversationID = Integer.parseInt(request.getParameter("conversationID"));
+
+        return "redirect:inbox";
     }
 
     @PostMapping("/deleteCandidate")
     public String deleteCandidate(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
         if(userIden == null){
-            return login(cookieID,response,modelMap);
+            return "redirect:login";
         }
-        return "";
+        else if(userIden.isAdmin()){
+            return "redirect:userList";
+        }
+        return "redirect:candidates";
     }
 
     @GetMapping("/userList")
     public String userList(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
         if(userIden == null){
-            return login(cookieID,response,modelMap);
+            return "redirect:login";
         }
-        return "";
+        else if(!userIden.isAdmin()){
+            return "redirect:match";
+        }
+        return "candidate-list";
     }
 
     @PostMapping("/searchUser")
     public String searchUser(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
         if(userIden == null){
-            return login(cookieID,response,modelMap);
+            return "redirect:login";
         }
-        return "";
+        else if(!userIden.isAdmin()){
+            return "redirect:match";
+        }
+        return "candidate-list";
     }
 
     @GetMapping("/userProfile")
     public String userProfile(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
         if(userIden == null){
-            return login(cookieID,response,modelMap);
+            return "redirect:login";
         }
-        return "";
+        else if(!userIden.isAdmin()){
+            return "redirect:match";
+        }
+        return "profile";
     }
 
     @GetMapping("/userInbox")
     public String userInbox(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
         if(userIden == null){
-            return login(cookieID,response,modelMap);
+            return "redirect:login";
         }
-        return "";
+        else if(!userIden.isAdmin()){
+            return "redirect:match";
+        }
+        return "inbox";
     }
 }

@@ -54,4 +54,9 @@ public class CandidateService {
     public void addCandidate(int userID, int secondaryID){
         jdbc.createLike(userID,secondaryID);
     }
+
+    public void getAllUsersLikeUsername(String username, ModelMap modelMap){
+        ArrayList<Candidate> list = jdbc.getAllUsersLikeUsername(username);
+        modelMap.addAttribute("candidateList",list);
+    }
 }

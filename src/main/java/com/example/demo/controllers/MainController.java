@@ -360,24 +360,17 @@ public class MainController {
 
     //Not done
     @PostMapping("/deleteProfile")
-    public String deleteProfile(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
+    public String deleteProfile(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
         if(userIden == null){
             return "redirect:login";
         }
         else if(userIden.isAdmin()){
 
-        }
-        else if(userIden.getUserID() > 0){
-
+            return "redirect:userList";
         }
 
-        if (userIden.isAdmin()){
-            return userList(cookieID, response, modelMap);
-        }
-        else{
-            return "redirect:login";
-        }
+        return "redirect:candidates";
     }
 
     //Not done, Check if userID in conversation?
@@ -387,16 +380,20 @@ public class MainController {
         if(userIden == null){
             return "redirect:login";
         }
-        if (userIden.isAdmin()){
+        else if (userIden.isAdmin()){
             return "redirect:userList";
         }
         int conversationID = Integer.parseInt(request.getParameter("conversationID"));
+        if (chatService.checkIfUserIsPartOfConversation(conversationID,userIden.getUserID())){
+            chatService.deleteConversation(conversationID);
+//candidateService.deleteCandidate(); How to get secondaryUserID?
+        }
 
         return "redirect:inbox";
     }
 
     @PostMapping("/deleteCandidate")
-    public String deleteCandidate(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
+    public String deleteCandidate(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
         if(userIden == null){
             return "redirect:login";
@@ -404,11 +401,14 @@ public class MainController {
         else if(userIden.isAdmin()){
             return "redirect:userList";
         }
+        int secondaryID = Integer.parseInt(request.getParameter("secondaryID"));
+        candidateService.deleteCandidate(secondaryID);
+//Check if there is a conversation, delete if there is
         return "redirect:candidates";
     }
 
     @GetMapping("/userList")
-    public String userList(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
+    public String userList(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
         if(userIden == null){
             return "redirect:login";
@@ -416,23 +416,27 @@ public class MainController {
         else if(!userIden.isAdmin()){
             return "redirect:match";
         }
+        candidateService.getAllUsersLikeUsername("",modelMap);
         return "candidate-list";
     }
 
-    @PostMapping("/searchUser")
-    public String searchUser(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
+    @GetMapping("/searchUser")
+    public String searchUser(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
         if(userIden == null){
             return "redirect:login";
         }
         else if(!userIden.isAdmin()){
-            return "redirect:match";
+            return "redirect:candidates";
         }
+        String username = request.getParameter("username");
+        candidateService.getAllUsersLikeUsername(username,modelMap);
         return "candidate-list";
     }
 
+    //Not done
     @GetMapping("/userProfile")
-    public String userProfile(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
+    public String userProfile(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
         if(userIden == null){
             return "redirect:login";
@@ -440,18 +444,22 @@ public class MainController {
         else if(!userIden.isAdmin()){
             return "redirect:match";
         }
+        int userID = Integer.parseInt(request.getParameter("userID"));
+        profileHandler.getProfile(userID,modelMap);
         return "profile";
     }
 
     @GetMapping("/userInbox")
-    public String userInbox(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
+    public String userInbox(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
         if(userIden == null){
             return "redirect:login";
         }
         else if(!userIden.isAdmin()){
-            return "redirect:match";
+            return "redirect:inbox";
         }
+        int userID = Integer.parseInt(request.getParameter("userID"));
+        chatService.getAllUsersConversations(userID,modelMap);
         return "inbox";
     }
 }

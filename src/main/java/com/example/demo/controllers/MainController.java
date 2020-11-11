@@ -123,15 +123,21 @@ public class MainController {
         String password = webRequest.getParameter("password");
         UserIdentification userIden = checkUserService.checkUser(cookieID);
         if(userIden == null){
+            int userID = profileHandler.createProfile(email, firstname, surname, username, password, sex, birthdate);
+            if(userID > 0){
+                userIden = checkUserService.createUserIdentification(userID, false);
+                Cookie cookie = new Cookie("cookieID", userIden.getCookieID());
+                response.addCookie(cookie);
+                return "redirect:profile";
+            }
+            else{
+                return "redirect:login";
+            }
         }
         else if(userIden.isAdmin()){
-            return userList(cookieID, response, modelMap);
+            return "redirect:userList";
         }
-        else if(profileHandler.createProfile(email, firstname, surname, username, password, sex, birthdate) > 0){
-            checkUserService.createUserIdentification(userIden.getUserID(), userIden.isAdmin());
-            return profile(cookieID,response,modelMap);
-        }
-        return "redirect:register";
+        return "redirect:match";
     }
 
     //Not tested

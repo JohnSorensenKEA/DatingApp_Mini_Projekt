@@ -210,6 +210,26 @@ public class JDBCChatService {
         }
     }
 
+    public boolean checkIfUserIsInConversation(int conversationID, int userID){
+        String selectStatement = "SELECT user_id FROM user_conversation_relations JOIN users using(user_id) WHERE conversation_id = ?";
+        boolean b = false;
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(selectStatement);
+            preparedStatement.setInt(1, conversationID);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()){
+                if (resultSet.getInt("user_id") == userID){
+                    b = true;
+                }
+            }
+        }
+        catch (SQLException e){
+            System.out.println("Failed to check if user is part of conversation="+e.getMessage());
+        }
+        return b;
+    }
+
     //Other
     public int getLastCreatedID(){ //Returns AI ID of last added row
         String selectStatement = "SELECT last_insert_id()";

@@ -63,4 +63,8 @@ public class ChatService {
     public void getConversationAdmin(int conversationID, ModelMap modelMap){
 
     }
+
+    public boolean checkIfUserIsPartOfConversation(int conversationID, int userID){
+        return jdbc.checkIfUserIsInConversation(conversationID,userID);
+    }
 }

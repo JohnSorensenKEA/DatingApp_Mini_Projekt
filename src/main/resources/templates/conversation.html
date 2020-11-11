@@ -16,27 +16,30 @@
         <a href="/profile"  th:unless="${userIden.isAdmin()}"><p>Profil</p></a>
         <a href="/userList" th:if="${userIden.isAdmin()}"><p>Bruger liste</p></a>
     </div>
+    <br><br>
     <div class="col">
-        <div>
+        <p th:text="${errorMessage} ?: ''"></p>
+        <div style="overflow-y:auto; height:100%;">
             <!--/*@thymesVar id="messages" type="ArrayList<Message>"*/-->
             <div th:each="message : ${messages}">
-                <p th:if="${message.getAuthorID() == ${userIden.getUserID()}}" th:text="${message.getText()}" style="background-color: lightblue"></p>
-                <p th:unless="${message.getAuthorID() == ${userIden.getUserID()}}" th:text="${message.getText()}" style="background-color: lightcoral"></p>
+                <p th:if="${message.getAuthorID()} == ${userIden.getUserID()}" th:text="${message.getText()}" style="background-color: lightblue"></p>
+                <p th:unless="${message.getAuthorID()} == ${userIden.getUserID()}" th:text="${message.getText()}" style="background-color: lightcoral"></p>
             </div>
 
         </div>
         <div>
 
         </div>
-        <form>
-            <input type="text" id="message">
-            <input type="submit">
+        <!--/*@thymesVar id="conversation" type="com.example.demo.models.Conversation"*/-->
+        <form method="GET" action="/sendMessage" th:unless="${userIden.isAdmin()}">
+            <input type="hidden" th:value="${conversation.getConversationID()}" id="conversationID" name="conversationID">
+            <input type="text" id="message" name="message">
+            <input type="submit" value="Send">
         </form>
     </div>
     <div class="col">
         <a href="/logout"><p>logout</p></a>
     </div>
 </div>
-
 </body>
 </html>

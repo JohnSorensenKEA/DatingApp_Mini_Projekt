@@ -17,6 +17,7 @@
             <a href="/userList" th:if="${userIden.isAdmin()}"><p>Bruger liste</p></a>
         </div>
         <div class="col">
+            <p th:text="${errorMessage} ?: ''"></p>
             <!--/*@thymesVar id="conversationList" type="ArrayList<ConversationPreview>"*/-->
             <!--/*@thymesVar id="preview" type="ConversationPreview"*/-->
             <br>

@@ -199,25 +199,33 @@ public class MainController {
     }
 
     //Not tested, check userID or admin?
-    @PostMapping("/conversation")
+    @GetMapping("/conversation")
     public String conversation(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
-        int conversationID = Integer.parseInt(request.getParameter("conversationID"));
         if(userIden == null){
             return "redirect:login";
         }
         else if(userIden.isAdmin()){
+            int conversationID = Integer.parseInt(request.getParameter("conversationID"));
             chatService.getConversationAdmin(conversationID, modelMap);
             chatService.getMessages(conversationID,modelMap);
+            modelMap.addAttribute("userIden",userIden);
             return "conversation";
         }
-        chatService.getMessages(conversationID,modelMap);
-        chatService.getConversation(conversationID,userIden.getUserID(),modelMap);
-        return "conversation";
+        int conversationID = Integer.parseInt(request.getParameter("conversationID"));
+        if(chatService.checkIfUserIsPartOfConversation(conversationID,userIden.getUserID())){
+            chatService.getMessages(conversationID,modelMap);
+            chatService.getConversation(conversationID,userIden.getUserID(),modelMap);
+            modelMap.addAttribute("userIden",userIden);
+            return "conversation";
+        }
+        else {
+            return "redirect:inbox";
+        }
     }
 
     //Not done, add inputCheck and userID/admin check?
-    @PostMapping("/sendMessage")
+    @GetMapping("/sendMessage")
     public String sendMessage(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
         if(userIden == null){
@@ -228,8 +236,13 @@ public class MainController {
         }
         String message = request.getParameter("message");
         int conversationID = Integer.parseInt(request.getParameter("conversationID"));
-        chatService.addMessageToConversation(userIden.getUserID(),conversationID,message);
-        return "redirect:conversation";
+        if (chatService.checkIfUserIsPartOfConversation(conversationID, userIden.getUserID())){
+            chatService.addMessageToConversation(userIden.getUserID(),conversationID,message);
+            return "forward:conversation";
+        }
+        else {
+            return "redirect:inbox";
+        }
     }
 
     //Not tested

@@ -154,6 +154,7 @@ public class JDBCProfileService {
             PreparedStatement preparedStatement = connection.prepareStatement(selectSQL);
             preparedStatement.setInt(1, userID);
             res =preparedStatement.executeQuery();
+            res.next();
 
             username = res.getString("username");
             password = res.getString("password");
@@ -184,6 +185,7 @@ public class JDBCProfileService {
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
+            resultSet.next();
             res = resultSet.getInt("last_insert_id()");
         }
         catch (SQLException e){

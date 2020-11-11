@@ -8,6 +8,26 @@
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" rel="stylesheet">
 </head>
 <body>
+<div class="row">
+    <div class="col-lg-2">
+        <a href="/match"><p>Match</p></a>
+        <a href="/inbox"><p>Indbakke</p></a>
+        <a href="/candidates"><p>Kandidater</p></a>
+    </div>
+    <div class="col-lg-6">
+        <p th:text="${errorMessage} ?: ''"></p>
+        <!--/*@thymesVar id="secondaryUser" type="secondaryUser"*/-->
+        <!--/*@thymesVar id="username" type="String"*/-->
+        <div th:unless="${secondaryUser} == null">
+            <img th:alt="${secondaryUser.getSecondaryUsername()}" th:src="${secondaryUser.getSecondaryPhoto()}"><br>
+            <!--/*@thymesVar id="getUsername" type=""*/-->
+            <p th:text="${secondaryUser.getSecondaryUsername()}"></p>
+        </div>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
 
 </body>
 </html>

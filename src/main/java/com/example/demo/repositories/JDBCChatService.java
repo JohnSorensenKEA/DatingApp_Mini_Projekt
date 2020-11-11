@@ -167,6 +167,7 @@ public class JDBCChatService {
             preparedStatement.setInt(2, userID);
             ResultSet resultSet = preparedStatement.executeQuery();
 
+            resultSet.next();
             int secondaryID = resultSet.getInt("user_id");
             String username = resultSet.getString("username");
             String photo = resultSet.getString("photo");
@@ -204,6 +205,7 @@ public class JDBCChatService {
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
+            resultSet.next();
             res = resultSet.getInt("last_insert_id()");
         }
         catch (SQLException e){

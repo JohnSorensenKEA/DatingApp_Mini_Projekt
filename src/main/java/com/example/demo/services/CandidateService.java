@@ -1,5 +1,6 @@
 package com.example.demo.services;
 
+import com.example.demo.models.SecondaryUser;
 import com.example.demo.models.UserIdentification;
 import com.example.demo.repositories.JDBCCandidateService;
 import org.springframework.ui.ModelMap;
@@ -18,6 +19,15 @@ public class CandidateService {
     }
 
     public void getMatchCandidate(ModelMap modelMap, UserIdentification userIdentification){
+        SecondaryUser su = jdbc.getRandomUnlikedUser(userIdentification.getUserID());
+        System.out.println(su);
+
+        if(su == null){
+            modelMap.addAttribute("errorMessage", "Kunne ikke finde et nyt match, prøv igen senere");
+        }
+        else {
+            modelMap.addAttribute("secondaryUser",su);
+        }
         //Puts a SecondaryUser in modelmap
         //Secondary is not liked by user
         //Random secondary

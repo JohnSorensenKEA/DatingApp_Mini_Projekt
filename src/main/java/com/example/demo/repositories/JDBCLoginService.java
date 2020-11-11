@@ -29,6 +29,7 @@ public class JDBCLoginService {
             preparedStatement.setString(1, username);
             preparedStatement.setString(2, password);
             ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
             userID = resultSet.getInt("user_id");
         }
         catch (SQLException e){
@@ -52,7 +53,7 @@ public class JDBCLoginService {
             }
         }
         catch (SQLException e){
-            System.out.println("Retriving admin from login failed="+e.getMessage());
+            System.out.println("Retrieving admin from login failed="+e.getMessage());
         }
         return admin;
     }
@@ -66,6 +67,7 @@ public class JDBCLoginService {
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
+            resultSet.next();
             res = resultSet.getInt("last_insert_id()");
         }
         catch (SQLException e){

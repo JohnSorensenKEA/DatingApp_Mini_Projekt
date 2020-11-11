@@ -94,4 +94,19 @@ public class SecondaryUser {
     public void setSecondaryAge(int secondaryAge) {
         this.secondaryAge = secondaryAge;
     }
+
+    @Override
+    public String toString() {
+        return "SecondaryUser{" +
+                "secondaryUsername='" + secondaryUsername + '\'' +
+                ", secondaryPhoto='" + secondaryPhoto + '\'' +
+                ", secondaryDescription='" + secondaryDescription + '\'' +
+                ", secondaryUserID=" + secondaryUserID +
+                ", secondarySex=" + secondarySex +
+                ", secondaryAge=" + secondaryAge +
+                ", keyword1='" + keyword1 + '\'' +
+                ", keyword2='" + keyword2 + '\'' +
+                ", keyword3='" + keyword3 + '\'' +
+                '}';
+    }
 }

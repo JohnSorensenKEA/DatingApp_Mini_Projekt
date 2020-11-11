@@ -75,7 +75,7 @@ public class MainController {
     public String loginRequest(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest webRequest){
         String username = webRequest.getParameter("username");
         String password = webRequest.getParameter("password");
-        UserIdentification userIden;
+        UserIdentification userIden = null;
         if(loginService.checkAdmin(username,password)){
             userIden = checkUserService.createUserIdentification(-1, true);
             Cookie cookie = new Cookie("cookieID",userIden.getCookieID());

@@ -106,6 +106,7 @@ public class JDBCCandidateService {
     }
 
     public SecondaryUser getRandomUnlikedUser(int userID){
+        System.out.println(userID);
         String selectStatement =
                 "SELECT uu2.user_id, uu2.username, uu2.photo, uu2.description, uu2.sex, ke.keyword_1, ke.keyword_2, ke.keyword_3, uu2.birthdate " +
                         "FROM users uu " +
@@ -125,20 +126,20 @@ public class JDBCCandidateService {
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            if (resultSet.next()){
-                String secondaryUsername = resultSet.getString("username");
-                String secondaryPhoto = resultSet.getString("photo");
-                String secondaryDescription = resultSet.getString("description");
-                int secondaryUserID = resultSet.getInt("user_id");
-                int secondarySex = resultSet.getInt("sex");
+            resultSet.next();
+            String secondaryUsername = resultSet.getString("username");
+            String secondaryPhoto = resultSet.getString("photo");
+            String secondaryDescription = resultSet.getString("description");
+            int secondaryUserID = resultSet.getInt("user_id");
+            int secondarySex = resultSet.getInt("sex");
  //FIX, date -> age
-                int secondaryAge = -1;
-                String keyword1 = resultSet.getString("keyword_1");
-                String keyword2 = resultSet.getString("keyword_2");
-                String keyword3 = resultSet.getString("keyword_3");
+            int secondaryAge = -1;
+            String keyword1 = resultSet.getString("keyword_1");
+            String keyword2 = resultSet.getString("keyword_2");
+            String keyword3 = resultSet.getString("keyword_3");
 
-                secondaryUser = new SecondaryUser(secondaryUsername,secondaryPhoto,secondaryDescription,secondaryUserID,secondarySex,secondaryAge,keyword1,keyword2,keyword3);
-            }
+            secondaryUser = new SecondaryUser(secondaryUsername,secondaryPhoto,secondaryDescription,secondaryUserID,secondarySex,secondaryAge,keyword1,keyword2,keyword3);
+
         }
         catch (SQLException e){
             System.out.println("Failure trying to get random unliked user="+e.getMessage());
@@ -176,6 +177,7 @@ public class JDBCCandidateService {
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
+            resultSet.next();
             res = resultSet.getInt("last_insert_id()");
         }
         catch (SQLException e){

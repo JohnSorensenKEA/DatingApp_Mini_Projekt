@@ -21,15 +21,32 @@
             <!--/*@thymesVar id="conversationList" type="ArrayList<ConversationPreview>"*/-->
             <!--/*@thymesVar id="preview" type="ConversationPreview"*/-->
             <br>
-            <div th:each="preview : ${conversationList}">
-                <a th:href="'conversation?conversationID=' + ${preview.getConversationID()}">
-                    <div style="border-width: 5px; border: solid; border-color: black; margin: 10px">
-                        <img style="width: 50px; height: 50px" th:alt="'Billede: ' + ${preview.getSecondaryUsername()}" th:src="${preview.getSecondaryPhoto()}">
-                        <span th:text="${preview.getSecondaryUsername()}"></span><br>
-                        <span th:text="${preview.getLatestMessage()} + ' - ' + ${preview.getLatestMessageDateTime()}"></span>
-                    </div>
-                </a>
+            <p>Nye samtaler:</p>
+            <div style="overflow-y:auto; height:200px;">
+                <div th:each="preview : ${newConversationList}">
+                    <a th:href="'conversation?conversationID=' + ${preview.getConversationID()}">
+                        <div style="border-width: 5px; border: solid; border-color: black; margin: 10px">
+                            <img style="width: 50px; height: 50px" th:alt="'Billede: ' + ${preview.getSecondaryUsername()}" th:src="${preview.getSecondaryPhoto()}">
+                            <span th:text="${preview.getSecondaryUsername()}"></span><br>
+                            <span th:text="${preview.getLatestMessage()} + ' - ' + ${preview.getLatestMessageDateTime()}"></span>
+                        </div>
+                    </a>
+                </div>
             </div>
+            <br><br>
+            <p>Igangværende samtaler:</p>
+            <div style="overflow-y:auto; height:600px;">
+                <div th:each="preview : ${conversationList}">
+                    <a th:href="'conversation?conversationID=' + ${preview.getConversationID()}">
+                        <div style="border-width: 5px; border: solid; border-color: black; margin: 10px">
+                            <img style="width: 50px; height: 50px" th:alt="'Billede: ' + ${preview.getSecondaryUsername()}" th:src="${preview.getSecondaryPhoto()}">
+                            <span th:text="${preview.getSecondaryUsername()}"></span><br>
+                            <span th:text="${preview.getLatestMessage()} + ' - ' + ${preview.getLatestMessageDateTime()}"></span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
         </div>
         <div class="col">
             <a href="/logout"><p>logout</p></a>

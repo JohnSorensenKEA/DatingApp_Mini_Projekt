@@ -439,7 +439,7 @@ public class MainController {
     }
 
     //Not tested
-    @PostMapping("/deleteConversation")
+    @GetMapping("/deleteConversation")
     public String deleteConversation(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
         if(userIden == null){

@@ -30,12 +30,14 @@ public class ChatService {
     }
 
     public void getAllUsersConversations(int userID, ModelMap modelMap){
-        ArrayList<ConversationPreview> list = jdbc.getUserConversations(userID);
-        if (list.size() == 0){
+        ArrayList<ConversationPreview> oldCon = jdbc.getUserConversations(userID);
+        ArrayList<ConversationPreview> newCon = jdbc.getNewConversations(userID);
+        if (oldCon.size() == 0 && newCon.size() == 0){
             modelMap.addAttribute("errorMessage", "Kunne ikke finde nogle samtaler.");
         }
         else{
-            modelMap.addAttribute("conversationList", list);
+            modelMap.addAttribute("conversationList", oldCon);
+            modelMap.addAttribute("newConversationList", newCon);
         }
     }
 

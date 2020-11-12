@@ -103,7 +103,13 @@ public class JDBCChatService {
             while (resultSet.next()){
                 int conversationID = resultSet.getInt("conversation_id");
                 String dateTime = resultSet.getString("message_created_at");
+                if (dateTime == null){
+                    dateTime = "";
+                }
                 String text = resultSet.getString("message_text");
+                if (text == null){
+                    text = "-Ny samtale-";
+                }
                 String photo = resultSet.getString("photo");
                 String username = resultSet.getString("username");
                 ConversationPreview conversationPreview = new ConversationPreview(conversationID,username,photo,text,dateTime);

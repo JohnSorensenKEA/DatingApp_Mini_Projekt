@@ -33,7 +33,7 @@ public class JDBCProfileService {
             preparedStatement.setString(5, password);
             preparedStatement.setInt(6, sex);
             preparedStatement.setString(7, birthdate);
-            preparedStatement.setString(8, "stock_photo.png");
+            preparedStatement.setString(8, "user_photos/stock_photo.png");
             preparedStatement.setString(9, "");
 
             preparedStatement.executeUpdate();

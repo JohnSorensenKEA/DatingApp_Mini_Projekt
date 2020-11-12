@@ -43,7 +43,7 @@
                     <label for="year">Fødselsdag: år</label>
                     <input th:value="${profile.getYear()}" type="text" id="year" name="year">
                     <label for="month">Fødselsdag: måned</label>
-                    <input th:value="${profile.getMonth()}" type="text" id="month" name="month">
+                    <input th:value="${profile.getMonth()}" type="text" id="month" name="month"><br>
                     <label for="day">Fødselsdag: dag</label>
                     <input th:value="${profile.getDay()}" type="text" id="day" name="day">
                     <label for="email">E-mail</label><br>
@@ -78,15 +78,18 @@
                 <input type="submit" value="Rediger"/>
             </form>
             <br>
-
-
         </div>
     <div class="col-lg-2">
-        <img style="height: 200px;width: 200px" th:alt="${userIden.getUserID()}" th:src="${profile.getPictureName()}">
-        <form action="/upload" method="post" enctype="multipart/form-data">
+        <img style="height: 200px;width: 200px" th:alt="${profile.getUsername()}" th:src="${profile.getPictureName()}">
+        <form th:unless="${userIden.isAdmin()}" action="/upload" method="post" enctype="multipart/form-data">
             <input type="file" name="file" />
             <input type="submit"value="Upload" />
-            <input type="button"value="Delete file"/>
+            <input type="hidden" id="userID" name="userID" th:value="${profile.getUserID()}">
+        </form>
+        <br>
+        <form method="get" action="/deletePicture">
+            <input type="submit"value="Delete file"/>
+            <input type="hidden" id="userID" name="userID" th:value="${profile.getUserID()}">
         </form>
     </div>
         <div class="col-lg-1">

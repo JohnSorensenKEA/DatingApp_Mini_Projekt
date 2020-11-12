@@ -19,23 +19,33 @@
         </div>
         <div class="col-lg-2">
             <div style="alignment: center">
-                <form method="get" action="/profile">
+                <form method="get" action="/saveTextChanges">
                     <label for="firstname">Fornavn</label><br>
                     <input th:value="${profile.getFirstName()}" type="text" id="firstname" name="firstname"><br>
                     <label for="surname">Efternavn</label><br>
                     <input th:value="${profile.getSurName()}" type="text" id="surname" name="surname"><br>
                     <label for="sex">Køn</label><br>
-                    <select th:value="${profile.getSex()}" type="text" name="sex" id="sex">
-                        <option value="1">Kvinde</option>
+                    <select th:if="${profile.getSex()} == 1" th:value="${profile.getSex()}" type="text" name="sex" id="sex">
+                        <option value="1"selected>Kvinde</option>
                         <option value="2">Mand</option>
                         <option value="3">Andet</option>
+                    </select>
+                    <select th:if="${profile.getSex()} == 2" th:value="${profile.getSex()}" type="text" name="sex" id="sex">
+                        <option value="1">Kvinde</option>
+                        <option value="2"selected>Mand</option>
+                        <option value="3">Andet</option>
+                    </select>
+                    <select th:if="${profile.getSex()} == 3" th:value="${profile.getSex()}" type="text" name="sex" id="sex">
+                        <option value="1">Kvinde</option>
+                        <option value="2">Mand</option>
+                        <option value="3"selected>Andet</option>
                     </select><br><br>
-                    <label for="birthdate">Fødselsdag</label>
-                    <input th:value="${profile.getBirthdate()}" type="text" id="birthdate" name="birthdate">
-                    <label for="birthdate">Måned</label>
-                    <input th:value="${profile.getBirthdate()}" type="text" id="birthdate" name="birthdate">
-                    <label for="birthdate">Dag</label>
-                    <input th:value="${profile.getBirthdate()}" type="text" id="birthdate" name="birthdate">
+                    <label for="year">Fødselsdag</label>
+                    <input th:value="${profile.getYear()}" type="text" id="year" name="year">
+                    <label for="month">Måned</label>
+                    <input th:value="${profile.getMonth()}" type="text" id="month" name="month">
+                    <label for="day">Dag</label>
+                    <input th:value="${profile.getDay()}" type="text" id="day" name="day">
                     <label for="email">E-mail</label><br>
                     <input th:value="${profile.getEmail()}" type="text" id="email" name="email"><br>
                     <label for="username">Brugernavn</label><br>
@@ -44,11 +54,10 @@
                     <input th:value="${profile.getPassword()}" type="text" id="password" name="password"><br>
                     <label for="decription">Beskrivelse</label>
                     <input th:value="${profile.getDescription()}" type="text" id="decription" name="description"/>
+                    <input type="hidden" id="userID" name="userID" th:value="${profile.getUserID()}"><br>
+                    <input type="submit" value="Rediger Profil"/>
                 </form>
                 <br>
-                <form method="post" action="/saveTextChanges">
-                    <input type="button" name="userID" value="Rediger Profil"/>
-                </form>
                 <br>
                 <form method="post" action="/deleteProfile">
                     <input type="submit" value="Slet Profil"/>

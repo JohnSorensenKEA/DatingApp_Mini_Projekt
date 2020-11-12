@@ -51,4 +51,7 @@ public class ProfileHandler {
         return b;
     }
 
+    public void changeProfile(int userID, String firstname, String surname, int sex, String birthdate, String email, String username, String password, String description){
+        jdbc.changeProfile(userID,firstname,surname,sex,birthdate,email,username,password,description);
+    }
 }

@@ -283,11 +283,35 @@ public class MainController {
         return "profile";
     }
 
-    @PostMapping("/saveTextChanges")
-    public String saveTextChanges(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
+    @GetMapping("/saveTextChanges")
+    public String saveTextChanges(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
+        String firstname = request.getParameter("firstname");
+        String surname = request.getParameter("surname");
+        int sex = Integer.parseInt(request.getParameter("sex"));
+        String year = request.getParameter("year");
+        String month = request.getParameter("month");
+        String day = request.getParameter("day");
+        String email = request.getParameter("email");
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        String description = request.getParameter("description");
         if(userIden == null){
             return "redirect:login";
+        }
+        else if(userIden.isAdmin()){
+            int userID = Integer.parseInt(request.getParameter("userID"));
+            String birthdate = checkUserInput.checkDate(year,month,day);
+            boolean b = checkUserInput.checkChangesToProfile(firstname, surname, email, username, password, description);
+            if (b && birthdate != null){
+                profileHandler.changeProfile(userID, firstname,surname,sex,birthdate,email,username,password,description);
+            }
+            return "redirect:userList";
+        }
+        String birthdate = checkUserInput.checkDate(year,month,day);
+        boolean b = checkUserInput.checkChangesToProfile(firstname, surname, email, username, password, description);
+        if (b && birthdate != null){
+            profileHandler.changeProfile(userIden.getUserID(), firstname,surname,sex,birthdate,email,username,password,description);
         }
 
         return "redirect:profile";

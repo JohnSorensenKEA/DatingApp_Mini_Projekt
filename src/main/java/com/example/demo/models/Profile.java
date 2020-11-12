@@ -127,4 +127,19 @@ public class Profile {
     public void setUserID(int userID) {
         this.userID = userID;
     }
+
+    public String getYear(){
+        String[] arr = birthdate.split("-");
+        return arr[0];
+    }
+
+    public String getMonth(){
+        String[] arr = birthdate.split("-");
+        return arr[1];
+    }
+
+    public String getDay(){
+        String[] arr = birthdate.split("-");
+        return arr[2];
+    }
 }

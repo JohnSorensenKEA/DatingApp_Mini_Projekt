@@ -77,17 +77,21 @@ public class JDBCProfileService {
     }
 
     //CheckUsage
-    public void changeProfile(int userID, String firstName, String surName, String password, String description){
+    public void changeProfile(int userID, String firstname, String surname, int sex, String birthdate, String email, String username, String password, String description){
         String updateStatement =
-                "UPDATE users SET firstname = ?, surname = ? , password = ?, description = ? " +
+                "UPDATE users SET firstname = ?, surname = ?, sex = ?, birthdate = ?, email = ?, username = ?, password = ?, description = ? " +
                         "WHERE user_id = ? ";
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(updateStatement);
-            preparedStatement.setString(1, "'" + firstName + "'");
-            preparedStatement.setString(2, "'" + surName + "'");
-            preparedStatement.setString(3, "'" + password + "'");
-            preparedStatement.setString(4, "'" + description + "'");
-            preparedStatement.setInt(5, userID);
+            preparedStatement.setString(1, firstname);
+            preparedStatement.setString(2,surname);
+            preparedStatement.setInt(3, sex);
+            preparedStatement.setString(4, birthdate);
+            preparedStatement.setString(5, email);
+            preparedStatement.setString(6, username);
+            preparedStatement.setString(7, password);
+            preparedStatement.setString(8, description);
+            preparedStatement.setInt(9, userID);
             preparedStatement.executeUpdate();
         }
         catch (SQLException e){

@@ -77,7 +77,26 @@ public class CheckUserInput {
         return true;
     }
 
-    public boolean checkChangesToProfile(){
-        return false;
+    public boolean checkChangesToProfile(String firstname, String surname, String email, String username, String password, String description){
+        boolean b = true;
+        if(firstname == null || firstname.length() > 150){
+            b = false;
+        }
+        else if (surname == null || surname.length() > 150){
+            b = false;
+        }
+        else if (email == null || email.length() > 256){
+            b = false;
+        }
+        else if (username == null || username.length() > 150){
+            b = false;
+        }
+        else if(password == null || password.length() > 150){
+            b = false;
+        }
+        else if(description == null || description.length() > 600){
+            b = false;
+        }
+        return b;
     }
 }

@@ -9,14 +9,15 @@
 </head>
 <body>
     <div class="row">
-        <div class="col-lg-2">
+        <div class="col-lg-1"></div>
+        <div class="col-lg-3">
             <a href="/match" th:unless="${userIden.isAdmin()}"><p>Match</p></a>
             <a href="/inbox" th:unless="${userIden.isAdmin()}"><p>Indbakke</p></a>
             <a href="/candidates" th:unless="${userIden.isAdmin()}"><p>Kandidater</p></a>
             <a href="/profile"  th:unless="${userIden.isAdmin()}"><p>Profil</p></a>
             <a href="/userList" th:if="${userIden.isAdmin()}"><p>Bruger liste</p></a>
         </div>
-        <div class="col-lg-4">
+        <div class="col-lg-2">
             <div style="alignment: center">
                 <form method="get" action="/profile">
                     <label for="firstname">Fornavn</label><br>
@@ -36,20 +37,44 @@
                     <label for="password">Kodeord</label><br>
                     <input type="text" id="password" name="password"><br>
                 </form>
+                <br>
+                <form action="/changeProfile">
+                    <input type="button" name="userID" value="Rediger Profil"/>
+                </form>
+                <br>
+                <form action="/deleteProfile">
+                    <input type="button" name="userID" value="Slet Profil"/>
+                </form>
             </div>
+        </div>
+        <div class="col-lg-2">
+            <form method="get" action="/getKeywords">
+                <label for="keyword1">Yndlings fisk</label><br>
+                <input type="text" id="keyword1" name="keyword1"><br>
+                <label for="keyword2">Yndlings film</label><br>
+                <input type="text" id="keyword2" name="keyword2"><br>
+                <label for="keyword3">Yndlings ret</label><br>
+                <input type="text" id="keyword3" name="keyword3"><br>
+            </form>
+            <br>
+            <form method="get" action="/changeKeywords">
+                <input type="button" name="keywords" value="Rediger"/>
+            </form>
         </div>
     <div class="col-lg-2">
         <img style="height: 200px;width: 200px" th:alt="${userIden.getUserID()}" th:src="${userIden.getUserID()}">
         <form action="/upload" method="post" enctype="multipart/form-data">
             <input type="file" name="file" />
             <input type="submit"value="Upload" />
+            <input type="button"value="Delete file"/>
         </form>
     </div>
+        <div class="col-lg-1">
+            <a href="/logout"><p>logout</p></a>
+            <br><br><br><br><br><br><br><br><br>
+        </div>
     <div class="col-lg-3"></div>
-    <div class="col-lg-2">
-        <a href="/logout"><p>logout</p></a>
-        <br><br><br><br><br><br><br><br><br>
-    </div>
+
 </div>
 </body>
 </html>

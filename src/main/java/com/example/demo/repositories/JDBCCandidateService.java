@@ -163,6 +163,37 @@ public class JDBCCandidateService {
         }
     }
 
+    public boolean checkIfMatch(int userID, int secondayID){
+        String selectStatement = "SELECT * FROM user_like_relations ul " +
+                "JOIN likes li ON ul.like_id = li.like_id " +
+                "WHERE (ul.user_id = ? AND li.user_id = ?) " +
+                "OR (ul.user_id = ? AND li.user_id = ?)";
+        int count = 0;
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(selectStatement);
+            preparedStatement.setInt(1, userID);
+            preparedStatement.setInt(2, secondayID);
+            preparedStatement.setInt(3, secondayID);
+            preparedStatement.setInt(4, userID);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while(resultSet.next()){
+                count++;
+            }
+        }
+        catch (SQLException e){
+            System.out.println("Failed trying to check if match="+e.getMessage());
+        }
+
+        if(count == 2){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     //Other
     public int getLastCreatedID(){ //Returns AI ID of last added row
         String selectStatement = "SELECT last_insert_id()";

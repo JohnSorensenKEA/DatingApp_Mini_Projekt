@@ -19,7 +19,6 @@ public class CandidateService {
 
     public void getCandidates(ModelMap modelMap, int userID){
         ArrayList<Candidate> list = jdbc.getUsersCandidates(userID);
-        System.out.println("Number of candidates in lits="+list.size());
         modelMap.addAttribute("candidateList", list);
     }
 
@@ -37,10 +36,8 @@ public class CandidateService {
         //Random secondary
     }
 
-    private void makeMatchCheck(int likeID){
-        //Get primary & Secondary user from likeID
-        //Reverse and check if Secondary has liked Primary
-        //Send to ChatService
+    private boolean makeMatchCheck(int userID, int secondaryID){
+        return jdbc.checkIfMatch(userID, secondaryID);
     }
 
     public void deleteCandidate(int likeID){
@@ -51,8 +48,9 @@ public class CandidateService {
         //Deletes all "like" and relations referencing to userID
     }
 
-    public void addCandidate(int userID, int secondaryID){
+    public boolean addCandidate(int userID, int secondaryID){
         jdbc.createLike(userID,secondaryID);
+        return makeMatchCheck(userID,secondaryID);
     }
 
     public void getAllUsersLikeUsername(String username, ModelMap modelMap){

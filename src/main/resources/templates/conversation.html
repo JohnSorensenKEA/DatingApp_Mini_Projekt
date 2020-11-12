@@ -19,7 +19,7 @@
     <br><br>
     <div class="col">
         <p th:text="${errorMessage} ?: ''"></p>
-        <div style="overflow-y:auto; height:100%;">
+        <div style="overflow-y:auto; height:800px;">
             <!--/*@thymesVar id="messages" type="ArrayList<Message>"*/-->
             <!--/*@thymesVar id="message" type="com.example.demo.models.Message"*/-->
             <div th:unless="${userIden.isAdmin()}">

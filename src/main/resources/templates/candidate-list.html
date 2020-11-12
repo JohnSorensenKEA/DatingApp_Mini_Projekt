@@ -18,21 +18,40 @@
     <div class="col">
         <div style="border-style: solid">
             <div>
-                <table>
-                    <tr th:each="candidate: ${candidateList}">
-                        <td><p th:text="${candidate.getSecondaryUsername()}"></p></td>
-                        <td><p th:text="${candidate.getBirthdate()}"></p></td>
-                        <td> <p th:if="${candidate.getSex()}==1">Kvinde</p></td>
-                        <td> <p th:if="${candidate.getSex()}==2">Mand</p></td>
-                        <td><p th:if="${candidate.getSex()}==3">Andet</p></td>
-                    </tr>
-                </table>
+                <div th:each="candidate: ${candidateList}">
+                    <div style="border-style: solid">
+                        <img th:src="${candidate.getSecondaryPhoto()}" style="height: 40px; width: 40px">
+                        <span th:text="' ' + ${candidate.getSecondaryUsername()} + ', '"></span>
+                        <span th:text="${candidate.getBirthdate()} + ', '"></span>
+                        <span th:if="${candidate.getSex()}==1">Kvinde</span>
+                        <span th:if="${candidate.getSex()}==2">Mand</span>
+                        <span th:if="${candidate.getSex()}==3">Andet</span>
+                        <form th:if="${userIden.isAdmin()}" action="/userInbox">
+                            <input method="GET" type="hidden" name="userID" id="userID" th:value="${candidate.getSecondaryID()}">
+                            <input type="submit" value="Inbakke">
+                        </form>
+                        <form th:if="${userIden.isAdmin()}" action="/userProfile">
+                            <input method="GET" type="hidden" name="userID" id="userID" th:value="${candidate.getSecondaryID()}">
+                            <input type="submit" value="Profil">
+                        </form>
+                        <form th:unless="${userIden.isAdmin()}" action="/deleteCandidate">
+                            <input method="GET" type="hidden" name="userID" id="userID" th:value="${candidate.getSecondaryID()}">
+                            <input type="submit" value="Fjern like">
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
     <div class="col-lg-2"></div>
     <div class="col">
         <a href="/logout"><p>logout</p></a>
+        <br><br><br>
+        <form action="/searchUser" method="get" th:if="${userIden.isAdmin()}">
+            <label for="username">Brugernavn</label><br>
+            <input type="text" name="username" id="username"><br>
+            <input type="submit" value="Søg bruger">
+        </form>
     </div>
 </div>
 </body>

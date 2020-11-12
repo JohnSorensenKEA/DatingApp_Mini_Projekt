@@ -168,8 +168,10 @@ public class MainController {
             return "redirect:userList";
         }
         int secondaryID = Integer.parseInt(request.getParameter("secondaryID"));
-        System.out.println(secondaryID);
-        candidateService.addCandidate(userIden.getUserID(),secondaryID);
+        boolean createConversation = candidateService.addCandidate(userIden.getUserID(),secondaryID);
+        if (createConversation){
+            chatService.createConversation(userIden.getUserID(), secondaryID);
+        }
         return "redirect:match";
     }
 
@@ -423,6 +425,7 @@ public class MainController {
         else if(!userIden.isAdmin()){
             return "redirect:match";
         }
+        modelMap.addAttribute("userIden", userIden);
         candidateService.getAllUsersLikeUsername("",modelMap);
         return "candidate-list";
     }
@@ -436,6 +439,7 @@ public class MainController {
         else if(!userIden.isAdmin()){
             return "redirect:candidates";
         }
+        modelMap.addAttribute("userIden", userIden);
         String username = request.getParameter("username");
         candidateService.getAllUsersLikeUsername(username,modelMap);
         return "candidate-list";
@@ -451,6 +455,7 @@ public class MainController {
         else if(!userIden.isAdmin()){
             return "redirect:match";
         }
+        modelMap.addAttribute("userIden", userIden);
         int userID = Integer.parseInt(request.getParameter("userID"));
         profileHandler.getProfile(userID,modelMap);
         return "profile";
@@ -465,6 +470,7 @@ public class MainController {
         else if(!userIden.isAdmin()){
             return "redirect:inbox";
         }
+        modelMap.addAttribute("userIden", userIden);
         int userID = Integer.parseInt(request.getParameter("userID"));
         chatService.getAllUsersConversations(userID,modelMap);
         return "inbox";

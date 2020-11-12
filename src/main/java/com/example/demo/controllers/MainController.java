@@ -300,6 +300,7 @@ public class MainController {
         else if(userIden.isAdmin()){
             return "redirect:userList";
         }
+
         return "redirect:profile";
     }
 
@@ -375,12 +376,14 @@ public class MainController {
             return "redirect:login";
         }
         else if(userIden.isAdmin()){
-
+        int userID = Integer.parseInt(request.getParameter("userID"));
+            profileHandler.deleteProfile(userID, modelMap);
             return "redirect:userList";
         }
         profileHandler.deleteProfile(userIden.getUserID(), modelMap);
         modelMap.addAttribute("userIden", userIden);
-        return "redirect:candidates";
+        checkUserService.removeUserIdentification(userIden.getCookieID());
+        return "redirect:login";
     }
 
     //Not done, Check if userID in conversation?

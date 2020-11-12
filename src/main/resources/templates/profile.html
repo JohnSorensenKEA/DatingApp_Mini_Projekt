@@ -42,8 +42,9 @@
                     <input type="button" name="userID" value="Rediger Profil"/>
                 </form>
                 <br>
-                <form action="/deleteProfile">
-                    <input type="button" name="userID" value="Slet Profil"/>
+                <form method="post" action="/deleteProfile">
+                    <input type="submit" value="Slet Profil"/>
+                    <input type="hidden" name="userID" th:value="${profile.getUserID()}">
                 </form>
             </div>
         </div>
@@ -62,7 +63,7 @@
             </form>
         </div>
     <div class="col-lg-2">
-        <img style="height: 200px;width: 200px" th:alt="${userIden.getUserID()}" th:src="${userIden.getUserID()}">
+        <img style="height: 200px;width: 200px" th:alt="${userIden.getUserID()}" th:src="${profile.getPictureName()}">
         <form action="/upload" method="post" enctype="multipart/form-data">
             <input type="file" name="file" />
             <input type="submit"value="Upload" />

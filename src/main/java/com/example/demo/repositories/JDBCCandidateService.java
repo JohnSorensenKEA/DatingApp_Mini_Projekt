@@ -4,8 +4,12 @@ import com.example.demo.models.Candidate;
 import com.example.demo.models.SecondaryUser;
 
 import java.sql.*;
+import java.text.ParseException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class JDBCCandidateService {
     private Connection connection;
@@ -67,7 +71,16 @@ public class JDBCCandidateService {
                 int secondaryID = resultSet.getInt("user_id");
                 int sex = resultSet.getInt("sex");
                 String birthdate = resultSet.getString("birthdate");
-                Candidate candidate = new Candidate(secondaryUsername,secondaryPhoto,secondaryID,sex,birthdate);
+
+
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                LocalDate dateTime = LocalDate.parse(birthdate, formatter);
+                LocalDate now = LocalDate.now();
+                //ChronoUnit age = new ChronoUnit();
+
+                int age = (int) ChronoUnit.YEARS.between(dateTime,now);
+
+                Candidate candidate = new Candidate(secondaryUsername,secondaryPhoto,secondaryID,sex,age);
                 list.add(candidate);
             }
         }
@@ -96,7 +109,8 @@ public class JDBCCandidateService {
                 int secondaryID = resultSet.getInt("user_id");
                 int sex = resultSet.getInt("sex");
                 String birthdate = resultSet.getString("birthdate");
-                Candidate candidate = new Candidate(secondaryUsername,secondaryPhoto,secondaryID,sex,birthdate);
+                int x = Integer.parseInt("birthdate");
+                Candidate candidate = new Candidate(secondaryUsername,secondaryPhoto,secondaryID,sex,x);
                 list.add(candidate);
             }
         }
@@ -133,17 +147,21 @@ public class JDBCCandidateService {
             String secondaryDescription = resultSet.getString("description");
             int secondaryUserID = resultSet.getInt("user_id");
             int secondarySex = resultSet.getInt("sex");
+            String secondaryAge = resultSet.getString("birthdate");
 
-            //LocalDate birthdate = new LocalDate (1970, 1, 20);
-            //LocalDate now = new LocalDate();
-            //Years age = Years.yearsBetween(birthdate, now);
- //FIX, date -> age
-            int secondaryAge = -1;
-            String keyword1 = resultSet.getString("keyword_1");
-            String keyword2 = resultSet.getString("keyword_2");
-            String keyword3 = resultSet.getString("keyword_3");
+            //String str = "1994-03-04";
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate dateTime = LocalDate.parse(secondaryAge, formatter);
+            LocalDate now = LocalDate.now();
+            //ChronoUnit age = new ChronoUnit();
 
-            secondaryUser = new SecondaryUser(secondaryUsername,secondaryPhoto,secondaryDescription,secondaryUserID,secondarySex,secondaryAge,keyword1,keyword2,keyword3);
+                int age = (int) ChronoUnit.YEARS.between(dateTime,now);
+                String keyword1 = resultSet.getString("keyword_1");
+                String keyword2 = resultSet.getString("keyword_2");
+                String keyword3 = resultSet.getString("keyword_3");
+                secondaryUser = new SecondaryUser(secondaryUsername,secondaryPhoto,secondaryDescription,secondaryUserID,secondarySex,age,keyword1,keyword2,keyword3);
+
+
 
         }
         catch (SQLException e){

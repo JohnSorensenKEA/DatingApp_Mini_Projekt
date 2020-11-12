@@ -1,6 +1,7 @@
 package com.example.demo.controllers;
 
 import com.example.demo.models.UserIdentification;
+import com.example.demo.repositories.JDBCProfileService;
 import com.example.demo.services.*;
 import org.apache.tomcat.jni.File;
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
@@ -110,11 +111,14 @@ public class MainController {
         String firstname = webRequest.getParameter("firstname");
         String surname = webRequest.getParameter("surname");
         int sex = Integer.parseInt(webRequest.getParameter("sex"));
-        String birthdate = webRequest.getParameter("birthdate");
+        String year = webRequest.getParameter("year");
+        String month = webRequest.getParameter("month");
+        String day = webRequest.getParameter("day");
+        String birthdate = checkUserInput.checkDate(year,month,day);
         String username = webRequest.getParameter("username");
         String password = webRequest.getParameter("password");
         UserIdentification userIden = checkUserService.checkUser(cookieID);
-        if(userIden == null){
+        if(userIden == null && birthdate != null){
             int userID = profileHandler.createProfile(email, firstname, surname, username, password, sex, birthdate);
             if(userID > 0){
                 userIden = checkUserService.createUserIdentification(userID, false);
@@ -199,7 +203,7 @@ public class MainController {
         return "inbox";
     }
 
-    //Not tested, check userID or admin?
+    //Not tested
     @GetMapping("/conversation")
     public String conversation(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
@@ -225,7 +229,7 @@ public class MainController {
         }
     }
 
-    //Not done, add inputCheck and userID/admin check?
+    //Not tested
     @GetMapping("/sendMessage")
     public String sendMessage(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
@@ -237,7 +241,7 @@ public class MainController {
         }
         String message = request.getParameter("message");
         int conversationID = Integer.parseInt(request.getParameter("conversationID"));
-        if (chatService.checkIfUserIsPartOfConversation(conversationID, userIden.getUserID())){
+        if (chatService.checkIfUserIsPartOfConversation(conversationID, userIden.getUserID()) && checkUserInput.checkMessageSize(message)){
             chatService.addMessageToConversation(userIden.getUserID(),conversationID,message);
             return "forward:conversation";
         }
@@ -262,7 +266,7 @@ public class MainController {
         return "candidate-list";
     }
 
-    //Not tested, missing service method, add profileID request
+    //Not tested
     @GetMapping("/profile")
     public String profile(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
@@ -282,11 +286,58 @@ public class MainController {
         return "profile";
     }
 
-    @PostMapping("/saveTextChanges")
-    public String saveTextChanges(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
+    @GetMapping("/saveTextChanges")
+    public String saveTextChanges(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
+        String firstname = request.getParameter("firstname");
+        String surname = request.getParameter("surname");
+        int sex = Integer.parseInt(request.getParameter("sex"));
+        String year = request.getParameter("year");
+        String month = request.getParameter("month");
+        String day = request.getParameter("day");
+        String email = request.getParameter("email");
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        String description = request.getParameter("description");
         if(userIden == null){
             return "redirect:login";
+        }
+        else if(userIden.isAdmin()){
+            int userID = Integer.parseInt(request.getParameter("userID"));
+            String birthdate = checkUserInput.checkDate(year,month,day);
+            boolean b = checkUserInput.checkChangesToProfile(firstname, surname, email, username, password, description);
+            if (b && birthdate != null){
+                profileHandler.changeProfile(userID, firstname,surname,sex,birthdate,email,username,password,description);
+            }
+            return "redirect:userList";
+        }
+        String birthdate = checkUserInput.checkDate(year,month,day);
+        boolean b = checkUserInput.checkChangesToProfile(firstname, surname, email, username, password, description);
+        if (b && birthdate != null){
+            profileHandler.changeProfile(userIden.getUserID(), firstname,surname,sex,birthdate,email,username,password,description);
+        }
+
+        return "redirect:profile";
+    }
+
+    @GetMapping("/saveKeywords")
+    public String saveKeywords(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
+        UserIdentification userIden = checkUserService.checkUser(cookieID);
+        String keyword1 = request.getParameter("keyword1");
+        String keyword2 = request.getParameter("keyword2");
+        String keyword3 = request.getParameter("keyword3");
+        if(userIden == null){
+            return "redirect:login";
+        }
+        else if(userIden.isAdmin()){
+            int userID = Integer.parseInt(request.getParameter("userID"));
+            if(checkUserInput.checkKeywords(keyword1,keyword2,keyword3)){
+                profileHandler.changeKeywords(userID, keyword1,keyword2,keyword3);
+            }
+            return "redirect:userList";
+        }
+        if(checkUserInput.checkKeywords(keyword1,keyword2,keyword3)){
+            profileHandler.changeKeywords(userIden.getUserID(), keyword1,keyword2,keyword3);
         }
         return "redirect:profile";
     }
@@ -300,6 +351,7 @@ public class MainController {
         else if(userIden.isAdmin()){
             return "redirect:userList";
         }
+
         return "redirect:profile";
     }
 
@@ -367,7 +419,7 @@ public class MainController {
         return "redirect:login";
     }
 
-    //Not done
+    //Not tested
     @PostMapping("/deleteProfile")
     public String deleteProfile(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
@@ -375,15 +427,18 @@ public class MainController {
             return "redirect:login";
         }
         else if(userIden.isAdmin()){
-
+            int userID = Integer.parseInt(request.getParameter("userID"));
+            chatService.deleteAllUsersConversations(userID);
+            profileHandler.deleteProfile(userID, modelMap);
             return "redirect:userList";
         }
+        chatService.deleteAllUsersConversations(userIden.getUserID());
         profileHandler.deleteProfile(userIden.getUserID(), modelMap);
-        modelMap.addAttribute("userIden", userIden);
-        return "redirect:candidates";
+        checkUserService.removeUserIdentification(userIden.getCookieID());
+        return "redirect:login";
     }
 
-    //Not done, Check if userID in conversation?
+    //Not tested
     @PostMapping("/deleteConversation")
     public String deleteConversation(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
@@ -403,6 +458,7 @@ public class MainController {
         return "redirect:inbox";
     }
 
+    //Not done
     @PostMapping("/deleteCandidate")
     public String deleteCandidate(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
@@ -418,6 +474,7 @@ public class MainController {
         return "redirect:candidates";
     }
 
+    //Not tested
     @GetMapping("/userList")
     public String userList(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
@@ -432,6 +489,7 @@ public class MainController {
         return "candidate-list";
     }
 
+    //Not tested
     @GetMapping("/searchUser")
     public String searchUser(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
@@ -447,7 +505,7 @@ public class MainController {
         return "candidate-list";
     }
 
-    //Not done
+    //Not tested
     @GetMapping("/userProfile")
     public String userProfile(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
@@ -463,6 +521,7 @@ public class MainController {
         return "profile";
     }
 
+    //Not tested
     @GetMapping("/userInbox")
     public String userInbox(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);

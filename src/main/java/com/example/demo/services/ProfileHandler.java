@@ -2,7 +2,6 @@ package com.example.demo.services;
 
 import com.example.demo.models.Profile;
 import com.example.demo.repositories.JDBCProfileService;
-import com.mysql.cj.x.protobuf.MysqlxCrud;
 import org.springframework.ui.ModelMap;
 
 public class ProfileHandler {
@@ -40,5 +39,23 @@ public class ProfileHandler {
         }
     }
 
+    //True if taken
+    public boolean checkIfUsernameIsTaken(String username){
+        boolean b = false;
+        if(jdbc.checkIfUserHasUsername(username)){
+            b = true;
+        }
+        else if (jdbc.checkIfAdminHasUsername(username)) {
+            b = true;
+        }
+        return b;
+    }
 
+    public void changeProfile(int userID, String firstname, String surname, int sex, String birthdate, String email, String username, String password, String description){
+        jdbc.changeProfile(userID,firstname,surname,sex,birthdate,email,username,password,description);
+    }
+
+    public void changeKeywords(int userID, String keyword1, String keyword2, String keyword3){
+        jdbc.changeKeywords(userID,keyword1,keyword2,keyword3);
+    }
 }

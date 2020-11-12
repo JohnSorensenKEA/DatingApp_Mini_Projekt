@@ -19,7 +19,13 @@ public class CandidateService {
 
     public void getCandidates(ModelMap modelMap, int userID){
         ArrayList<Candidate> list = jdbc.getUsersCandidates(userID);
-        modelMap.addAttribute("candidateList", list);
+        if (list.size() == 0){
+            modelMap.addAttribute("errorMessage","Du har ikke like nogen endnu.");
+        }
+        else {
+            modelMap.addAttribute("candidateList", list);
+        }
+
     }
 
     public void getMatchCandidate(ModelMap modelMap, UserIdentification userIdentification){

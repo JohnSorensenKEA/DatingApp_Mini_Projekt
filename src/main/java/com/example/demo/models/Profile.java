@@ -4,9 +4,11 @@ public class Profile {
     private String username;
     private String password;
     private int sex;
+    private String birthdate;
     private String email;
     private String firstName;
     private String surName;
+    private String description;
     private String pictureName;
     private int userID;
     private String keyword1;
@@ -37,13 +39,15 @@ public class Profile {
         this.keyword3 = keyword3;
     }
 
-    public Profile(String username, String password, int sex, String email, String firstName, String surName, String pictureName, int userID, String keyword1, String keyword2, String keyword3){
+    public Profile(String username, String password, int sex, String birthdate, String email, String firstName, String surName, String description, String pictureName, int userID, String keyword1, String keyword2, String keyword3){
         this.username = username;
         this.password = password;
         this.sex = sex;
+        this.birthdate = birthdate;
         this.email = email;
         this.firstName = firstName;
         this.surName = surName;
+        this.description = description;
         this.pictureName = pictureName;
         this.userID = userID;
         this.keyword1 = keyword1;
@@ -75,6 +79,11 @@ public class Profile {
         this.sex = sex;
     }
 
+    public String getBirthdate(){return birthdate;}
+
+    public void setBirthdate(String birthdate){this.birthdate = birthdate;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -99,6 +108,10 @@ public class Profile {
         this.surName = surName;
     }
 
+    public String getDescription(){return description;}
+
+    public void setDescription(String description){this.description = description;}
+
     public String getPictureName() {
         return pictureName;
     }
@@ -113,5 +126,29 @@ public class Profile {
 
     public void setUserID(int userID) {
         this.userID = userID;
+    }
+
+    public String getYear(){
+        String[] arr = birthdate.split("-");
+        if (arr.length == 3){
+            return arr[0];
+        }
+        return "";
+    }
+
+    public String getMonth(){
+        String[] arr = birthdate.split("-");
+        if (arr.length == 3){
+            return arr[1];
+        }
+        return "";
+    }
+
+    public String getDay(){
+        String[] arr = birthdate.split("-");
+        if (arr.length == 3){
+            return arr[2];
+        }
+        return "";
     }
 }

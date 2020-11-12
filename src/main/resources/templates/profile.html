@@ -19,54 +19,77 @@
         </div>
         <div class="col-lg-2">
             <div style="alignment: center">
-                <form method="get" action="/profile">
+                <form method="get" action="/saveTextChanges">
                     <label for="firstname">Fornavn</label><br>
-                    <input type="text" id="firstname" name="firstname"><br>
+                    <input th:value="${profile.getFirstName()}" type="text" id="firstname" name="firstname"><br>
                     <label for="surname">Efternavn</label><br>
-                    <input type="text" id="surname" name="surname"><br>
+                    <input th:value="${profile.getSurName()}" type="text" id="surname" name="surname"><br>
                     <label for="sex">Køn</label><br>
-                    <select type="text" name="sex" id="sex">
+                    <select th:if="${profile.getSex()} == 1" th:value="${profile.getSex()}" type="text" name="sex" id="sex">
                         <option value="1"selected>Kvinde</option>
                         <option value="2">Mand</option>
                         <option value="3">Andet</option>
+                    </select>
+                    <select th:if="${profile.getSex()} == 2" th:value="${profile.getSex()}" type="text" name="sex" id="sex">
+                        <option value="1">Kvinde</option>
+                        <option value="2"selected>Mand</option>
+                        <option value="3">Andet</option>
+                    </select>
+                    <select th:if="${profile.getSex()} == 3" th:value="${profile.getSex()}" type="text" name="sex" id="sex">
+                        <option value="1">Kvinde</option>
+                        <option value="2">Mand</option>
+                        <option value="3"selected>Andet</option>
                     </select><br><br>
+                    <label for="year">Fødselsdag: år</label>
+                    <input th:value="${profile.getYear()}" type="text" id="year" name="year">
+                    <label for="month">Fødselsdag: måned</label>
+                    <input th:value="${profile.getMonth()}" type="text" id="month" name="month"><br>
+                    <label for="day">Fødselsdag: dag</label>
+                    <input th:value="${profile.getDay()}" type="text" id="day" name="day">
                     <label for="email">E-mail</label><br>
-                    <input type="text" id="email" name="email"><br>
+                    <input th:value="${profile.getEmail()}" type="text" id="email" name="email"><br>
                     <label for="username">Brugernavn</label><br>
-                    <input type="text" id="username" name="username"><br>
+                    <input th:value="${profile.getUsername()}" type="text" id="username" name="username"><br>
                     <label for="password">Kodeord</label><br>
-                    <input type="text" id="password" name="password"><br>
+                    <input th:value="${profile.getPassword()}" type="text" id="password" name="password"><br>
+                    <label for="decription">Beskrivelse</label>
+                    <input th:value="${profile.getDescription()}" type="text" id="decription" name="description"/>
+                    <input type="hidden" id="userID" name="userID" th:value="${profile.getUserID()}"><br>
+                    <br>
+                    <input type="submit" value="Rediger Profil"/>
                 </form>
                 <br>
-                <form action="/changeProfile">
-                    <input type="button" name="userID" value="Rediger Profil"/>
-                </form>
                 <br>
-                <form action="/deleteProfile">
-                    <input type="button" name="userID" value="Slet Profil"/>
+                <form method="post" action="/deleteProfile">
+                    <input type="submit" value="Slet Profil"/>
+                    <input type="hidden" name="userID" th:value="${profile.getUserID()}">
                 </form>
             </div>
         </div>
         <div class="col-lg-2">
-            <form method="get" action="/getKeywords">
+            <form method="get" action="/saveKeywords">
                 <label for="keyword1">Yndlings fisk</label><br>
-                <input type="text" id="keyword1" name="keyword1"><br>
+                <input th:value="${profile.getKeyword1()}" type="text" id="keyword1" name="keyword1"><br>
                 <label for="keyword2">Yndlings film</label><br>
-                <input type="text" id="keyword2" name="keyword2"><br>
+                <input th:value="${profile.getKeyword2()}" type="text" id="keyword2" name="keyword2"><br>
                 <label for="keyword3">Yndlings ret</label><br>
-                <input type="text" id="keyword3" name="keyword3"><br>
+                <input th:value="${profile.getKeyword3()}" type="text" id="keyword3" name="keyword3"><br>
+                <input type="hidden" id="userID" name="userID" th:value="${profile.getUserID()}">
+                <input type="submit" value="Rediger"/>
             </form>
             <br>
-            <form method="get" action="/changeKeywords">
-                <input type="button" name="keywords" value="Rediger"/>
-            </form>
         </div>
     <div class="col-lg-2">
-        <img style="height: 200px;width: 200px" th:alt="${userIden.getUserID()}" th:src="${userIden.getUserID()}">
-        <form action="/upload" method="post" enctype="multipart/form-data">
+        <img style="height: 200px;width: 200px" th:alt="${profile.getUsername()}" th:src="${profile.getPictureName()}">
+        <form th:unless="${userIden.isAdmin()}" action="/upload" method="post" enctype="multipart/form-data">
             <input type="file" name="file" />
             <input type="submit"value="Upload" />
-            <input type="button"value="Delete file"/>
+            <input type="hidden" id="userID" name="userID" th:value="${profile.getUserID()}">
+        </form>
+        <br>
+        <form method="get" action="/deletePicture">
+            <input type="submit"value="Delete file"/>
+            <input type="hidden" id="userID" name="userID" th:value="${profile.getUserID()}">
         </form>
     </div>
         <div class="col-lg-1">

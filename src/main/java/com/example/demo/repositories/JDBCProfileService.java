@@ -33,7 +33,7 @@ public class JDBCProfileService {
             preparedStatement.setString(5, password);
             preparedStatement.setInt(6, sex);
             preparedStatement.setString(7, birthdate);
-            preparedStatement.setString(8, "stock_photo.png");
+            preparedStatement.setString(8, "user_photos/stock_photo.png");
             preparedStatement.setString(9, "");
 
             preparedStatement.executeUpdate();
@@ -77,17 +77,21 @@ public class JDBCProfileService {
     }
 
     //CheckUsage
-    public void changeProfile(int userID, String firstName, String surName, String password, String description){
+    public void changeProfile(int userID, String firstname, String surname, int sex, String birthdate, String email, String username, String password, String description){
         String updateStatement =
-                "UPDATE users SET firstname = ?, surname = ? , password = ?, description = ? " +
+                "UPDATE users SET firstname = ?, surname = ?, sex = ?, birthdate = ?, email = ?, username = ?, password = ?, description = ? " +
                         "WHERE user_id = ? ";
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(updateStatement);
-            preparedStatement.setString(1, "'" + firstName + "'");
-            preparedStatement.setString(2, "'" + surName + "'");
-            preparedStatement.setString(3, "'" + password + "'");
-            preparedStatement.setString(4, "'" + description + "'");
-            preparedStatement.setInt(5, userID);
+            preparedStatement.setString(1, firstname);
+            preparedStatement.setString(2,surname);
+            preparedStatement.setInt(3, sex);
+            preparedStatement.setString(4, birthdate);
+            preparedStatement.setString(5, email);
+            preparedStatement.setString(6, username);
+            preparedStatement.setString(7, password);
+            preparedStatement.setString(8, description);
+            preparedStatement.setInt(9, userID);
             preparedStatement.executeUpdate();
         }
         catch (SQLException e){
@@ -116,9 +120,9 @@ public class JDBCProfileService {
                         "WHERE user_id = ?";
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(updateStatement);
-            preparedStatement.setString(1,"'" + keyword1 + "'");
-            preparedStatement.setString(2, "'" + keyword2 + "'");
-            preparedStatement.setString(3, "'" + keyword3 + "'");
+            preparedStatement.setString(1, keyword1);
+            preparedStatement.setString(2, keyword2);
+            preparedStatement.setString(3, keyword3);
             preparedStatement.setInt(4,userID);
             preparedStatement.executeUpdate();
         }
@@ -150,9 +154,11 @@ public class JDBCProfileService {
         String username = null;
         String password = null;
         int sex = -1;
+        String birthdate = null;
         String email = null;
         String firstName = null;
         String surName = null;
+        String description = null;
         String pictureName = null;
         int profileID = -1;
         String keyword1 = null;
@@ -168,9 +174,11 @@ public class JDBCProfileService {
             username = res.getString("username");
             password = res.getString("password");
             sex = res.getInt("sex");
+            birthdate = res.getString("birthdate");
             email = res.getString("email");
             firstName = res.getString("firstname");
             surName = res.getString("surname");
+            description = res.getString("description");
             pictureName = res.getString("photo");
             profileID = res.getInt("user_id");
             keyword1 = res.getString("keyword_1");
@@ -181,8 +189,44 @@ public class JDBCProfileService {
             System.out.println("GetUserInfoError="+e.getMessage());
         }
 
-        Profile profile = new Profile(username,password,sex,email,firstName,surName,pictureName,profileID,keyword1,keyword2,keyword3);
+        Profile profile = new Profile(username,password,sex,birthdate,email,firstName,surName,description,pictureName,profileID,keyword1,keyword2,keyword3);
         return profile;
+    }
+
+    public boolean checkIfUserHasUsername(String username){
+        String selectStatement = "SELECT username FROM users WHERE username = ?";
+        boolean b = false;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(selectStatement);
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()){
+                b = true;
+            }
+        }
+        catch (SQLException e){
+            System.out.println("Failed trying to check if a user has username="+e.getMessage());
+        }
+        return b;
+    }
+
+    public boolean checkIfAdminHasUsername(String username){
+        String selectStatement = "SELECT admin_username FROM admins WHERE admin_username = ?";
+        boolean b = false;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(selectStatement);
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()){
+                b = true;
+            }
+        }
+        catch (SQLException e){
+            System.out.println("Failed trying to check if a user has username="+e.getMessage());
+        }
+        return b;
     }
 
     //Other

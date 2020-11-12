@@ -111,11 +111,14 @@ public class MainController {
         String firstname = webRequest.getParameter("firstname");
         String surname = webRequest.getParameter("surname");
         int sex = Integer.parseInt(webRequest.getParameter("sex"));
-        String birthdate = webRequest.getParameter("birthdate");
+        String year = webRequest.getParameter("year");
+        String month = webRequest.getParameter("month");
+        String day = webRequest.getParameter("day");
+        String birthdate = checkUserInput.checkDate(year,month,day);
         String username = webRequest.getParameter("username");
         String password = webRequest.getParameter("password");
         UserIdentification userIden = checkUserService.checkUser(cookieID);
-        if(userIden == null){
+        if(userIden == null && birthdate != null){
             int userID = profileHandler.createProfile(email, firstname, surname, username, password, sex, birthdate);
             if(userID > 0){
                 userIden = checkUserService.createUserIdentification(userID, false);

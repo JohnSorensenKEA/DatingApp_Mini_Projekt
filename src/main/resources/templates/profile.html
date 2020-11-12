@@ -21,21 +21,29 @@
             <div style="alignment: center">
                 <form method="get" action="/profile">
                     <label for="firstname">Fornavn</label><br>
-                    <input type="text" id="firstname" name="firstname"><br>
+                    <input th:value="${profile.getFirstName()}" type="text" id="firstname" name="firstname"><br>
                     <label for="surname">Efternavn</label><br>
-                    <input type="text" id="surname" name="surname"><br>
+                    <input th:value="${profile.getSurName()}" type="text" id="surname" name="surname"><br>
                     <label for="sex">Køn</label><br>
-                    <select type="text" name="sex" id="sex">
-                        <option value="1"selected>Kvinde</option>
+                    <select th:value="${profile.getSex()}" type="text" name="sex" id="sex">
+                        <option value="1">Kvinde</option>
                         <option value="2">Mand</option>
                         <option value="3">Andet</option>
                     </select><br><br>
+                    <label for="birthdate">Fødselsdag</label>
+                    <input th:value="${profile.getBirthdate()}" type="text" id="birthdate" name="birthdate">
+                    <label for="birthdate">Måned</label>
+                    <input th:value="${profile.getBirthdate()}" type="text" id="birthdate" name="birthdate">
+                    <label for="birthdate">Dag</label>
+                    <input th:value="${profile.getBirthdate()}" type="text" id="birthdate" name="birthdate">
                     <label for="email">E-mail</label><br>
-                    <input type="text" id="email" name="email"><br>
+                    <input th:value="${profile.getEmail()}" type="text" id="email" name="email"><br>
                     <label for="username">Brugernavn</label><br>
-                    <input type="text" id="username" name="username"><br>
+                    <input th:value="${profile.getUserName()}" type="text" id="username" name="username"><br>
                     <label for="password">Kodeord</label><br>
-                    <input type="text" id="password" name="password"><br>
+                    <input th:value="${profile.getPassword()}" type="text" id="password" name="password"><br>
+                    <label for="decription">Beskrivelse</label>
+                    <input th:value="${profile.getDescription()}" type="text" id="decription" name="description"/>
                 </form>
                 <br>
                 <form action="/changeProfile">

@@ -150,9 +150,11 @@ public class JDBCProfileService {
         String username = null;
         String password = null;
         int sex = -1;
+        String birthdate = null;
         String email = null;
         String firstName = null;
         String surName = null;
+        String description = null;
         String pictureName = null;
         int profileID = -1;
         String keyword1 = null;
@@ -168,9 +170,11 @@ public class JDBCProfileService {
             username = res.getString("username");
             password = res.getString("password");
             sex = res.getInt("sex");
+            birthdate = res.getString("birthdate");
             email = res.getString("email");
             firstName = res.getString("firstname");
             surName = res.getString("surname");
+            description = res.getString("description");
             pictureName = res.getString("photo");
             profileID = res.getInt("user_id");
             keyword1 = res.getString("keyword_1");
@@ -181,7 +185,7 @@ public class JDBCProfileService {
             System.out.println("GetUserInfoError="+e.getMessage());
         }
 
-        Profile profile = new Profile(username,password,sex,email,firstName,surName,pictureName,profileID,keyword1,keyword2,keyword3);
+        Profile profile = new Profile(username,password,sex,birthdate,email,firstName,surName,description,pictureName,profileID,keyword1,keyword2,keyword3);
         return profile;
     }
 

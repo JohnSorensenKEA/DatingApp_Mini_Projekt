@@ -22,9 +22,17 @@
         <div style="overflow-y:auto; height:100%;">
             <!--/*@thymesVar id="messages" type="ArrayList<Message>"*/-->
             <!--/*@thymesVar id="message" type="com.example.demo.models.Message"*/-->
-            <div th:each="message : ${messages}">
-                <p th:if="${message.getAuthorID()} == ${userIden.getUserID()}" th:text="${message.getText()}" style="background-color: lightblue"></p>
-                <p th:unless="${message.getAuthorID()} == ${userIden.getUserID()}" th:text="${message.getText()}" style="background-color: lightcoral"></p>
+            <div th:unless="${userIden.isAdmin()}">
+                <div th:each="message : ${messages}">
+                    <p th:if="${message.getAuthorID()} == ${userIden.getUserID()}" th:text="${message.getText()}" style="background-color: lightblue"></p>
+                    <p th:unless="${message.getAuthorID()} == ${userIden.getUserID()}" th:text="${message.getText()}" style="background-color: lightcoral"></p>
+                </div>
+            </div>
+            <div th:if="${userIden.isAdmin()}">
+                <div th:each="message : ${messages}">
+                    <p th:if="${message.getAuthorID()} == ${user1.getSecondaryUserID()}" th:text="${message.getText()}" style="background-color: lightblue"></p>
+                    <p th:if="${message.getAuthorID()} == ${user2.getSecondaryUserID()}" th:text="${message.getText()}" style="background-color: lightcoral"></p>
+                </div>
             </div>
 
         </div>
@@ -39,16 +47,25 @@
         </form>
     </div>
     <div class="col">
-        <br><br><br>
+        <br><br>
         <a href="/logout"><p>logout</p></a>
-        <br><br><br>
+        <br><br>
         <div th:unless="${userIden.isAdmin()}">
             <!--/*@thymesVar id="conversation" type="com.example.demo.models.Conversation"*/-->
             <img th:src="${conversation.getSecondaryPhoto()}" style="height: 300px; width: 300px; border: solid; border-width: 10px">
             <h2 th:text="${conversation.getSecondaryUsername()}"></h2>
         </div>
-
-
+        <div th:if="${userIden.isAdmin()}">
+            <div style="background-color: lightblue">
+                <img th:src="${user1.getSecondaryPhoto()}" style="width: 200px; height: 200px; border: solid;border-width: 5px">
+                <h2 th:text="${user1.getSecondaryUsername()}"></h2>
+            </div>
+            <br><br><br>
+            <div style="background-color: lightcoral">
+                <img th:src="${user2.getSecondaryPhoto()}" style="width: 200px; height: 200px; border: solid;border-width: 5px">
+                <h2 th:text="${user2.getSecondaryUsername()}"></h2>
+            </div>
+        </div>
     </div>
 </div>
 </body>

@@ -61,7 +61,14 @@ public class ChatService {
     }
 
     public void getConversationAdmin(int conversationID, ModelMap modelMap){
-
+        ArrayList<Conversation> list = jdbc.getConversationAdmin(conversationID);
+        if (list.size() == 0){
+            modelMap.addAttribute("errorMessage","Noget gik galt, mens vi prøvede at finde deltagerne i denne samtale");
+        }
+        else {
+            modelMap.addAttribute("user1", list.get(0));
+            modelMap.addAttribute("user2", list.get(1));
+        }
     }
 
     public boolean checkIfUserIsPartOfConversation(int conversationID, int userID){

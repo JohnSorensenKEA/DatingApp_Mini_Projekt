@@ -39,7 +39,7 @@
                     <label for="email">E-mail</label><br>
                     <input th:value="${profile.getEmail()}" type="text" id="email" name="email"><br>
                     <label for="username">Brugernavn</label><br>
-                    <input th:value="${profile.getUserName()}" type="text" id="username" name="username"><br>
+                    <input th:value="${profile.getUsername()}" type="text" id="username" name="username"><br>
                     <label for="password">Kodeord</label><br>
                     <input th:value="${profile.getPassword()}" type="text" id="password" name="password"><br>
                     <label for="decription">Beskrivelse</label>
@@ -59,11 +59,11 @@
         <div class="col-lg-2">
             <form method="get" action="/getKeywords">
                 <label for="keyword1">Yndlings fisk</label><br>
-                <input type="text" id="keyword1" name="keyword1"><br>
+                <input th:value="${profile.getKeyword1()}" type="text" id="keyword1" name="keyword1"><br>
                 <label for="keyword2">Yndlings film</label><br>
-                <input type="text" id="keyword2" name="keyword2"><br>
+                <input th:value="${profile.getKeyword2()}" type="text" id="keyword2" name="keyword2"><br>
                 <label for="keyword3">Yndlings ret</label><br>
-                <input type="text" id="keyword3" name="keyword3"><br>
+                <input th:value="${profile.getKeyword3()}" type="text" id="keyword3" name="keyword3"><br>
             </form>
             <br>
             <form method="get" action="/changeKeywords">

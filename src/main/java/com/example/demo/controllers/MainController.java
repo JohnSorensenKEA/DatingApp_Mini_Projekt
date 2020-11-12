@@ -238,7 +238,7 @@ public class MainController {
         }
         String message = request.getParameter("message");
         int conversationID = Integer.parseInt(request.getParameter("conversationID"));
-        if (chatService.checkIfUserIsPartOfConversation(conversationID, userIden.getUserID())){
+        if (chatService.checkIfUserIsPartOfConversation(conversationID, userIden.getUserID()) && checkUserInput.checkMessageSize(message)){
             chatService.addMessageToConversation(userIden.getUserID(),conversationID,message);
             return "forward:conversation";
         }
@@ -370,7 +370,7 @@ public class MainController {
         return "redirect:login";
     }
 
-    //Not done
+    //Not tested
     @PostMapping("/deleteProfile")
     public String deleteProfile(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
@@ -378,12 +378,11 @@ public class MainController {
             return "redirect:login";
         }
         else if(userIden.isAdmin()){
-        int userID = Integer.parseInt(request.getParameter("userID"));
+            int userID = Integer.parseInt(request.getParameter("userID"));
             profileHandler.deleteProfile(userID, modelMap);
             return "redirect:userList";
         }
         profileHandler.deleteProfile(userIden.getUserID(), modelMap);
-        modelMap.addAttribute("userIden", userIden);
         checkUserService.removeUserIdentification(userIden.getCookieID());
         return "redirect:login";
     }
@@ -424,6 +423,7 @@ public class MainController {
         return "redirect:candidates";
     }
 
+    //Not tested
     @GetMapping("/userList")
     public String userList(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
@@ -438,6 +438,7 @@ public class MainController {
         return "candidate-list";
     }
 
+    //Not tested
     @GetMapping("/searchUser")
     public String searchUser(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
@@ -453,7 +454,7 @@ public class MainController {
         return "candidate-list";
     }
 
-    //Not done
+    //Not tested
     @GetMapping("/userProfile")
     public String userProfile(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
@@ -469,6 +470,7 @@ public class MainController {
         return "profile";
     }
 
+    //Not tested
     @GetMapping("/userInbox")
     public String userInbox(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);

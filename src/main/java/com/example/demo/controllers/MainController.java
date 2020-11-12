@@ -428,9 +428,11 @@ public class MainController {
         }
         else if(userIden.isAdmin()){
             int userID = Integer.parseInt(request.getParameter("userID"));
+            chatService.deleteAllUsersConversations(userID);
             profileHandler.deleteProfile(userID, modelMap);
             return "redirect:userList";
         }
+        chatService.deleteAllUsersConversations(userIden.getUserID());
         profileHandler.deleteProfile(userIden.getUserID(), modelMap);
         checkUserService.removeUserIdentification(userIden.getCookieID());
         return "redirect:login";

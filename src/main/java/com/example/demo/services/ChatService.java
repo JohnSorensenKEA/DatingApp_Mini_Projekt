@@ -78,4 +78,8 @@ public class ChatService {
     public int getSecondaryIDFromConversation(int conversationID, int userID){
         return jdbc.getSecondaryIDFromConversation(conversationID,userID);
     }
+
+    public void deleteAllUsersConversations(int userID){
+        jdbc.deleteAllUsersConversations(userID);
+    }
 }

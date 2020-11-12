@@ -17,6 +17,7 @@
     </div>
     <div class="col">
         <div style="border-style: solid">
+            <p th:text="${errorMessage} ?: ''"></p>
             <div>
                 <div th:each="candidate: ${candidateList}">
                     <div style="border-style: solid">

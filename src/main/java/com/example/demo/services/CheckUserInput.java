@@ -58,9 +58,24 @@ public class CheckUserInput {
         return checkDate(arr[0], arr[1], arr[2]);
     }
 
-    public boolean checkRegistration(){
-        //Take all parameters
-        return false;
+    public boolean checkRegistration(String firstname, String surname, String email, String username, String password){
+        boolean b = true;
+        if (firstname == null || firstname.length() > 150){
+            b = false;
+        }
+        else if(surname == null || surname.length() > 150){
+            b = false;
+        }
+        else if(email == null || email.length() > 256){
+            b = false;
+        }
+        else if(username == null || username.length() > 150){
+            b = false;
+        }
+        else if(password == null || password.length() > 150){
+            b = false;
+        }
+        return b;
     }
 
     //False if bad keywords

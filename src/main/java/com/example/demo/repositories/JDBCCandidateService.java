@@ -173,8 +173,8 @@ public class JDBCCandidateService {
     public void deleteLike(int userID, int secondaryID){
         String deleteStatement =
                 "DELETE li FROM likes li " +
-                        "JOIN user_like_relations ul using(like_id) " +
-                        "WHERE ul.user_id = ? AND li.user_id = ?";
+                "JOIN user_like_relations ul using(like_id) " +
+                "WHERE ul.user_id = ? AND li.user_id = ?";
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(deleteStatement);
             preparedStatement.setInt(1, userID);

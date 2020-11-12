@@ -118,7 +118,7 @@ public class MainController {
         String username = webRequest.getParameter("username");
         String password = webRequest.getParameter("password");
         UserIdentification userIden = checkUserService.checkUser(cookieID);
-        if(userIden == null && birthdate != null){
+        if(userIden == null && birthdate != null || checkUserInput.checkRegistration(firstname,surname,email,username,password)){
             int userID = profileHandler.createProfile(email, firstname, surname, username, password, sex, birthdate);
             if(userID > 0){
                 userIden = checkUserService.createUserIdentification(userID, false);

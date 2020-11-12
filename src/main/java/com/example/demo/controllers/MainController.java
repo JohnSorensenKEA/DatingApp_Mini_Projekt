@@ -395,8 +395,9 @@ public class MainController {
         }
         int conversationID = Integer.parseInt(request.getParameter("conversationID"));
         if (chatService.checkIfUserIsPartOfConversation(conversationID,userIden.getUserID())){
+            int secondaryID = chatService.getSecondaryIDFromConversation(conversationID, userIden.getUserID());
             chatService.deleteConversation(conversationID);
-//candidateService.deleteCandidate(); How to get secondaryUserID?
+            candidateService.deleteCandidate(userIden.getUserID(),secondaryID);
         }
 
         return "redirect:inbox";
@@ -412,7 +413,7 @@ public class MainController {
             return "redirect:userList";
         }
         int secondaryID = Integer.parseInt(request.getParameter("secondaryID"));
-        candidateService.deleteCandidate(secondaryID);
+        candidateService.deleteCandidate(userIden.getUserID(),secondaryID);
 //Check if there is a conversation, delete if there is
         return "redirect:candidates";
     }

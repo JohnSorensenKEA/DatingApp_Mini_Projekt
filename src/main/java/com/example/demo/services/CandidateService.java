@@ -40,8 +40,8 @@ public class CandidateService {
         return jdbc.checkIfMatch(userID, secondaryID);
     }
 
-    public void deleteCandidate(int likeID){
-        //Deletes "like" and relation
+    public void deleteCandidate(int userID, int secondaryID){
+        jdbc.deleteLike(userID, secondaryID);
     }
 
     public void deleteAllUserReferencedCandidates(int userID){

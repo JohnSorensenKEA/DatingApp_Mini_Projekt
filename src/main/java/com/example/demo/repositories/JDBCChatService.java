@@ -236,6 +236,25 @@ public class JDBCChatService {
         return b;
     }
 
+    public int getSecondaryIDFromConversation(int conversationID, int userID){
+        String selectStatement = "SELECT uu.user_id FROM user_conversation_relations uc " +
+                "JOIN users uu ON uc.user_id = uu.user_id " +
+                "WHERE uc.conversation_id = ? AND uu.user_id != ?";
+        int secondaryID = -1;
+        try{
+            PreparedStatement preparedStatement = connection.prepareStatement(selectStatement);
+            preparedStatement.setInt(1, conversationID);
+            preparedStatement.setInt(2, userID);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            secondaryID = resultSet.getInt("user_id");
+        }
+        catch (SQLException e){
+            System.out.println("Failed to get secondaryID from conversation="+e.getMessage());
+        }
+        return secondaryID;
+    }
+
     //Other
     public int getLastCreatedID(){ //Returns AI ID of last added row
         String selectStatement = "SELECT last_insert_id()";

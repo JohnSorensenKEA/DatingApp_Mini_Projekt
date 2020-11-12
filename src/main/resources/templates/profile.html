@@ -46,7 +46,7 @@
                     <input th:value="${profile.getDescription()}" type="text" id="decription" name="description"/>
                 </form>
                 <br>
-                <form action="/changeProfile">
+                <form method="post" action="/saveTextChanges">
                     <input type="button" name="userID" value="Rediger Profil"/>
                 </form>
                 <br>

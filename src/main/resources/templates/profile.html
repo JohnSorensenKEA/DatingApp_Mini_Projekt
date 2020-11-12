@@ -39,8 +39,11 @@
             </div>
         </div>
     <div class="col-lg-2">
-        <img style="height: 200px;width: 200px" th:alt="${}" th:src="${secondaryUser.getSecondaryPhoto()}">
-        <input type="submit" value="Upload">
+        <img style="height: 200px;width: 200px" th:alt="${}" th:src="${}">
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" />
+            <input type="submit"value="Upload" />
+        </form>
     </div>
     <div class="col-lg-3"></div>
     <div class="col-lg-2">

@@ -4,6 +4,7 @@ import com.example.demo.models.Candidate;
 import com.example.demo.models.SecondaryUser;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class JDBCCandidateService {
@@ -132,6 +133,10 @@ public class JDBCCandidateService {
             String secondaryDescription = resultSet.getString("description");
             int secondaryUserID = resultSet.getInt("user_id");
             int secondarySex = resultSet.getInt("sex");
+
+            //LocalDate birthdate = new LocalDate (1970, 1, 20);
+            //LocalDate now = new LocalDate();
+            //Years age = Years.yearsBetween(birthdate, now);
  //FIX, date -> age
             int secondaryAge = -1;
             String keyword1 = resultSet.getString("keyword_1");

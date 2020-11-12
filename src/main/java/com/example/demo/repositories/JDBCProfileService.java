@@ -83,7 +83,11 @@ public class JDBCProfileService {
                         "WHERE user_id = ? ";
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(updateStatement);
-//add
+            preparedStatement.setString(1, "'" + firstName + "'");
+            preparedStatement.setString(2, "'" + surName + "'");
+            preparedStatement.setString(3, "'" + password + "'");
+            preparedStatement.setString(4, "'" + description + "'");
+            preparedStatement.setInt(5, userID);
             preparedStatement.executeUpdate();
         }
         catch (SQLException e){
@@ -123,7 +127,7 @@ public class JDBCProfileService {
         }
     }
 
-    public void deleteProfile(int userID){
+    public JDBCProfileService deleteProfile(int userID){
         String deleteStatement = "DELETE FROM users WHERE user_id = ?";
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(deleteStatement);
@@ -133,6 +137,7 @@ public class JDBCProfileService {
         catch (SQLException e){
             System.out.println("Failed to delete profile="+e.getMessage());
         }
+        return null;
     }
 
     public Profile getUserInfo(int userID){

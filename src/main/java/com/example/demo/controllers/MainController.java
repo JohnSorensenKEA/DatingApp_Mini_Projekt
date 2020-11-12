@@ -378,7 +378,8 @@ public class MainController {
 
             return "redirect:userList";
         }
-
+        profileHandler.deleteProfile(userIden.getUserID(), modelMap);
+        modelMap.addAttribute("userIden", userIden);
         return "redirect:candidates";
     }
 

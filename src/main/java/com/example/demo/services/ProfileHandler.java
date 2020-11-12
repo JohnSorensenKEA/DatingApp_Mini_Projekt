@@ -2,6 +2,7 @@ package com.example.demo.services;
 
 import com.example.demo.models.Profile;
 import com.example.demo.repositories.JDBCProfileService;
+import com.mysql.cj.x.protobuf.MysqlxCrud;
 import org.springframework.ui.ModelMap;
 
 public class ProfileHandler {
@@ -25,6 +26,17 @@ public class ProfileHandler {
         }
         else {
             modelMap.addAttribute("profile", profile);
+        }
+    }
+
+    public void deleteProfile(int userID, ModelMap modelMap){
+        JDBCProfileService deleteProfile = jdbc.deleteProfile(userID);
+
+        if (deleteProfile == null){
+           modelMap.addAttribute("errorMessage", "Kunne ikke slette din profil");
+        }
+        else{
+            modelMap.addAttribute("deleteProfile", deleteProfile);
         }
     }
 

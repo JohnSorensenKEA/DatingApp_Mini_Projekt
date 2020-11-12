@@ -272,7 +272,11 @@ public class MainController {
             profileHandler.getProfile(profileID, modelMap);
             return "profile";
         }
+        else if(userIden.getUserID() < 0){
+            return "redirect:login";
+        }
         profileHandler.getProfile(userIden.getUserID(), modelMap);
+        modelMap.addAttribute("userIden", userIden);
         return "profile";
     }
 

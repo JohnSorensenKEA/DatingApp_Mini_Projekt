@@ -39,7 +39,7 @@
             </div>
         </div>
     <div class="col-lg-2">
-        <img style="height: 200px;width: 200px" th:alt="${}" th:src="${}">
+        <img style="height: 200px;width: 200px" th:alt="${userIden.getUserID()}" th:src="${userIden.getUserID()}">
         <form action="/upload" method="post" enctype="multipart/form-data">
             <input type="file" name="file" />
             <input type="submit"value="Upload" />

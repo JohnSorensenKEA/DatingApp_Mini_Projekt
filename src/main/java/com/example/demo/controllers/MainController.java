@@ -199,7 +199,7 @@ public class MainController {
         return "inbox";
     }
 
-    //Not tested, check userID or admin?
+    //Not tested
     @GetMapping("/conversation")
     public String conversation(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
@@ -225,7 +225,7 @@ public class MainController {
         }
     }
 
-    //Not done, add inputCheck and userID/admin check?
+    //Not tested
     @GetMapping("/sendMessage")
     public String sendMessage(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
@@ -262,7 +262,7 @@ public class MainController {
         return "candidate-list";
     }
 
-    //Not tested, missing service method, add profileID request
+    //Not tested
     @GetMapping("/profile")
     public String profile(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
@@ -386,7 +386,7 @@ public class MainController {
         return "redirect:login";
     }
 
-    //Not done, Check if userID in conversation?
+    //Not tested
     @PostMapping("/deleteConversation")
     public String deleteConversation(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
@@ -406,6 +406,7 @@ public class MainController {
         return "redirect:inbox";
     }
 
+    //Not done
     @PostMapping("/deleteCandidate")
     public String deleteCandidate(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);

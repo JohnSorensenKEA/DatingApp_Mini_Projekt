@@ -120,9 +120,9 @@ public class JDBCProfileService {
                         "WHERE user_id = ?";
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(updateStatement);
-            preparedStatement.setString(1,"'" + keyword1 + "'");
-            preparedStatement.setString(2, "'" + keyword2 + "'");
-            preparedStatement.setString(3, "'" + keyword3 + "'");
+            preparedStatement.setString(1, keyword1);
+            preparedStatement.setString(2, keyword2);
+            preparedStatement.setString(3, keyword3);
             preparedStatement.setInt(4,userID);
             preparedStatement.executeUpdate();
         }

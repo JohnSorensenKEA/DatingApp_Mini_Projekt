@@ -317,6 +317,28 @@ public class MainController {
         return "redirect:profile";
     }
 
+    @GetMapping("/saveKeywords")
+    public String saveKeywords(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
+        UserIdentification userIden = checkUserService.checkUser(cookieID);
+        String keyword1 = request.getParameter("keyword1");
+        String keyword2 = request.getParameter("keyword2");
+        String keyword3 = request.getParameter("keyword3");
+        if(userIden == null){
+            return "redirect:login";
+        }
+        else if(userIden.isAdmin()){
+            int userID = Integer.parseInt(request.getParameter("userID"));
+            if(checkUserInput.checkKeywords(keyword1,keyword2,keyword3)){
+                profileHandler.changeKeywords(userID, keyword1,keyword2,keyword3);
+            }
+            return "redirect:userList";
+        }
+        if(checkUserInput.checkKeywords(keyword1,keyword2,keyword3)){
+            profileHandler.changeKeywords(userIden.getUserID(), keyword1,keyword2,keyword3);
+        }
+        return "redirect:profile";
+    }
+
     @PostMapping("/uploadPicture")
     public String uploadPicture(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
         UserIdentification userIden = checkUserService.checkUser(cookieID);

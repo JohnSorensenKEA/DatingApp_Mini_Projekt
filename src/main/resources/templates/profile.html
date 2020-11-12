@@ -55,6 +55,7 @@
                     <label for="decription">Beskrivelse</label>
                     <input th:value="${profile.getDescription()}" type="text" id="decription" name="description"/>
                     <input type="hidden" id="userID" name="userID" th:value="${profile.getUserID()}"><br>
+                    <br>
                     <input type="submit" value="Rediger Profil"/>
                 </form>
                 <br>
@@ -66,18 +67,19 @@
             </div>
         </div>
         <div class="col-lg-2">
-            <form method="get" action="/getKeywords">
+            <form method="get" action="/saveKeywords">
                 <label for="keyword1">Yndlings fisk</label><br>
                 <input th:value="${profile.getKeyword1()}" type="text" id="keyword1" name="keyword1"><br>
                 <label for="keyword2">Yndlings film</label><br>
                 <input th:value="${profile.getKeyword2()}" type="text" id="keyword2" name="keyword2"><br>
                 <label for="keyword3">Yndlings ret</label><br>
                 <input th:value="${profile.getKeyword3()}" type="text" id="keyword3" name="keyword3"><br>
+                <input type="hidden" id="userID" name="userID" th:value="${profile.getUserID()}">
+                <input type="submit" value="Rediger"/>
             </form>
             <br>
-            <form method="get" action="/changeKeywords">
-                <input type="button" name="keywords" value="Rediger"/>
-            </form>
+
+
         </div>
     <div class="col-lg-2">
         <img style="height: 200px;width: 200px" th:alt="${userIden.getUserID()}" th:src="${profile.getPictureName()}">

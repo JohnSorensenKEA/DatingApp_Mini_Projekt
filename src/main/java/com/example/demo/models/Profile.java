@@ -130,16 +130,25 @@ public class Profile {
 
     public String getYear(){
         String[] arr = birthdate.split("-");
-        return arr[0];
+        if (arr.length == 3){
+            return arr[0];
+        }
+        return "";
     }
 
     public String getMonth(){
         String[] arr = birthdate.split("-");
-        return arr[1];
+        if (arr.length == 3){
+            return arr[1];
+        }
+        return "";
     }
 
     public String getDay(){
         String[] arr = birthdate.split("-");
-        return arr[2];
+        if (arr.length == 3){
+            return arr[2];
+        }
+        return "";
     }
 }

@@ -2,7 +2,6 @@ package com.example.demo.services;
 
 import com.example.demo.models.Profile;
 import com.example.demo.repositories.JDBCProfileService;
-import com.mysql.cj.x.protobuf.MysqlxCrud;
 import org.springframework.ui.ModelMap;
 
 public class ProfileHandler {

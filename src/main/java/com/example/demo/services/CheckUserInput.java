@@ -2,6 +2,7 @@ package com.example.demo.services;
 
 public class CheckUserInput {
 
+    //False if bad message
     public boolean checkMessageSize(String message){
         if(message == null){
             return false;
@@ -15,6 +16,7 @@ public class CheckUserInput {
         return true;
     }
 
+    //Null if bad date
     public String checkDate(String year, String month, String day){
         //Checks if "valid" date
         //Returns formatted date or null
@@ -47,6 +49,7 @@ public class CheckUserInput {
         return year + "-" + month + "-" + day;
     }
 
+    //Null if bad date
     public String checkDate(String date){
         String[] arr = date.split("-");
         if(arr.length != 3){
@@ -60,6 +63,7 @@ public class CheckUserInput {
         return false;
     }
 
+    //False if bad keywords
     public boolean checkKeywords(String keyword1, String keyword2, String keyword3){
         if (keyword1 == null || keyword1.length() > 45){
             return false;

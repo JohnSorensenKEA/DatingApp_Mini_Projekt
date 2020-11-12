@@ -74,4 +74,8 @@ public class ChatService {
     public boolean checkIfUserIsPartOfConversation(int conversationID, int userID){
         return jdbc.checkIfUserIsInConversation(conversationID,userID);
     }
+
+    public int getSecondaryIDFromConversation(int conversationID, int userID){
+        return jdbc.getSecondaryIDFromConversation(conversationID,userID);
+    }
 }

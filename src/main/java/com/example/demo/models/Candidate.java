@@ -47,8 +47,7 @@ public class Candidate {
         this.birthdate = birthdate;
     }
 
-    public int getSex() {
-        return sex;
+    public int getSex(){ return sex;
     }
 
     public void setSex(int sex) {

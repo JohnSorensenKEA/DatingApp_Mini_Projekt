@@ -256,6 +256,7 @@ public class MainController {
             return "redirect:userList";
         }
         candidateService.getCandidates(modelMap,userIden.getUserID());
+        modelMap.addAttribute("userIden", userIden);
         return "candidate-list";
     }
 

@@ -8,6 +8,56 @@
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" rel="stylesheet">
 </head>
 <body>
-
+<div class="row">
+    <div class="col">
+        <a href="/match" th:unless="${userIden.isAdmin()}"><p>Match</p></a>
+        <a href="/inbox" th:unless="${userIden.isAdmin()}"><p>Indbakke</p></a>
+        <a href="/profile"  th:unless="${userIden.isAdmin()}"><p>Profil</p></a>
+        <a href="/userList" th:if="${userIden.isAdmin()}"><p>Bruger liste</p></a>
+    </div>
+    <div class="col">
+        <div style="border-style: solid">
+            <div>
+                <table>
+                    <tr th:each="candidate: ${candidateList}">
+                        <td><p th:text="${candidate.getSecondaryUsername()}"></p></td>
+                        <td><p th:text="${candidate.getBirthdate()}"></p></td>
+                        <td> <p th:if="${candidate.getSex()}==1">Kvinde</p></td>
+                        <td> <p th:if="${candidate.getSex()}==2">Mand</p></td>
+                        <td><p th:if="${candidate.getSex()}==3">Andet</p></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-2"></div>
+    <div class="col">
+        <a href="/logout"><p>logout</p></a>
+    </div>
+</div>
 </body>
 </html>
+
+<!--/ <div class="col-lg-1">
+        <a href="/match" th:unless="${userIden.isAdmin()}"><p>Match</p></a>
+        <a href="/inbox" th:unless="${userIden.isAdmin()}"><p>Indbakke</p></a>
+        <a href="/profile"  th:unless="${userIden.isAdmin()}"><p>Profil</p></a>
+        <a href="/userList" th:if="${userIden.isAdmin()}"><p>Bruger liste</p></a>
+    </div>
+    <div class="col-lg-3"></div>
+    <div class="col-lg-4">
+        <div style="border-style: solid">
+            <div th:each="candidate: ${candidateList}">
+                <p th:text="${candidate.getSecondaryUsername()}">
+                <p th:text="${candidate.getBirthdate()}">
+                </p>
+                <p th:if="${candidate.getSex()}==1">Kvinde</p>
+                <p th:if="${candidate.getSex()}==2">Mand</p>
+                <p th:if="${candidate.getSex()}==3">Andet</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3"></div>
+    <div class="col-lg-6">
+        <a href="/logout"><p>logout</p></a>
+    </div> -->

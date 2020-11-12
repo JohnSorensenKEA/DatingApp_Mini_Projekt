@@ -5,9 +5,10 @@ public class Candidate {
     private String secondaryPhoto;
     private int secondaryID;
     private int sex;
-    private String birthdate;
+    private int birthdate;
 
-    public Candidate(String secondaryUsername, String secondaryPhoto, int relationID, int sex, String birthdate) {
+
+    public Candidate(String secondaryUsername, String secondaryPhoto, int relationID, int sex, int birthdate) {
         this.secondaryUsername = secondaryUsername;
         this.secondaryPhoto = secondaryPhoto;
         this.secondaryID = relationID;
@@ -39,11 +40,11 @@ public class Candidate {
         this.secondaryID = secondaryID;
     }
 
-    public String getBirthdate() {
+    public int getBirthdate() {
         return birthdate;
     }
 
-    public void setBirthdate(String birthdate) {
+    public void setBirthdate(int birthdate) {
         this.birthdate = birthdate;
     }
 

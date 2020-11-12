@@ -47,6 +47,14 @@ public class CheckUserInput {
         return year + "-" + month + "-" + day;
     }
 
+    public String checkDate(String date){
+        String[] arr = date.split("-");
+        if(arr.length != 3){
+            return null;
+        }
+        return checkDate(arr[0], arr[1], arr[2]);
+    }
+
     public boolean checkRegistration(){
         //Take all parameters
         return false;

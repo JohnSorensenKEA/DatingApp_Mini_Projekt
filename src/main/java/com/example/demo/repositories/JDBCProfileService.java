@@ -189,6 +189,42 @@ public class JDBCProfileService {
         return profile;
     }
 
+    public boolean checkIfUserHasUsername(String username){
+        String selectStatement = "SELECT username FROM users WHERE username = ?";
+        boolean b = false;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(selectStatement);
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()){
+                b = true;
+            }
+        }
+        catch (SQLException e){
+            System.out.println("Failed trying to check if a user has username="+e.getMessage());
+        }
+        return b;
+    }
+
+    public boolean checkIfAdminHasUsername(String username){
+        String selectStatement = "SELECT admin_username FROM admins WHERE admin_username = ?";
+        boolean b = false;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(selectStatement);
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()){
+                b = true;
+            }
+        }
+        catch (SQLException e){
+            System.out.println("Failed trying to check if a user has username="+e.getMessage());
+        }
+        return b;
+    }
+
     //Other
     public int getLastCreatedID(){ //Returns AI ID of last added row
         String selectStatement = "SELECT last_insert_id()";

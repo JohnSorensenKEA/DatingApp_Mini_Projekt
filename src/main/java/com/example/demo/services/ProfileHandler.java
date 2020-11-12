@@ -40,5 +40,16 @@ public class ProfileHandler {
         }
     }
 
+    //True if taken
+    public boolean checkIfUsernameIsTaken(String username){
+        boolean b = false;
+        if(jdbc.checkIfUserHasUsername(username)){
+            b = true;
+        }
+        else if (jdbc.checkIfAdminHasUsername(username)) {
+            b = true;
+        }
+        return b;
+    }
 
 }

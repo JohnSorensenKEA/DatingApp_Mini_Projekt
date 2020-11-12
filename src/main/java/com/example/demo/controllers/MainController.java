@@ -168,7 +168,7 @@ public class MainController {
         if(userIden == null){
             return "redirect:login";
         }
-        if(userIden.isAdmin()){
+        else if(userIden.isAdmin()){
             return "redirect:userList";
         }
         int secondaryID = Integer.parseInt(request.getParameter("secondaryID"));

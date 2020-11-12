@@ -28,7 +28,6 @@ public class JDBCCandidateService {
         String insertStatement1 = "INSERT INTO likes (user_id) VALUES ( ? )";
         String insertStatement2 = "INSERT INTO user_like_relations (user_id, like_id) VALUES ( ?, ?)";
         int lastID;
-
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(insertStatement1);
             preparedStatement.setInt(1, secondaryID);
@@ -39,6 +38,7 @@ public class JDBCCandidateService {
             preparedStatement = connection.prepareStatement(insertStatement2);
             preparedStatement.setInt(1, userID);
             preparedStatement.setInt(2, lastID);
+            preparedStatement.executeUpdate();
         }
         catch(SQLException e){
             System.out.println("Like creation failed="+e.getMessage());
@@ -190,7 +190,7 @@ public class JDBCCandidateService {
         catch (SQLException e){
             System.out.println("Failed trying to check if match="+e.getMessage());
         }
-
+        System.out.println(count);
         if(count == 2){
             return true;
         }

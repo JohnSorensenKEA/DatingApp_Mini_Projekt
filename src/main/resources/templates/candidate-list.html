@@ -35,10 +35,6 @@
                             <input method="GET" type="hidden" name="userID" id="userID" th:value="${candidate.getSecondaryID()}">
                             <input type="submit" value="Profil">
                         </form>
-                        <form th:unless="${userIden.isAdmin()}" action="/deleteCandidate">
-                            <input method="GET" type="hidden" name="userID" id="userID" th:value="${candidate.getSecondaryID()}">
-                            <input type="submit" value="Fjern like">
-                        </form>
                     </div>
                 </div>
             </div>

@@ -105,7 +105,7 @@ public class JDBCProfileService {
                         "WHERE user_id = ?";
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(updateStatement);
-            preparedStatement.setString(1,"'" + photoName + "'");
+            preparedStatement.setString(1,photoName);
             preparedStatement.setInt(2,userID);
             preparedStatement.executeUpdate();
         }

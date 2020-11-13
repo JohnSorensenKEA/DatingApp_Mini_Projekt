@@ -4,12 +4,10 @@ import com.example.demo.models.Candidate;
 import com.example.demo.models.SecondaryUser;
 
 import java.sql.*;
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class JDBCCandidateService {
     private Connection connection;

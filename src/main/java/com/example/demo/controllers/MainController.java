@@ -363,34 +363,21 @@ public class MainController {
 
 
     @RequestMapping("/upload")
-    public String upload(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, Model model,@RequestParam("file") MultipartFile file) {
+    public String upload(@CookieValue(value = "cookieID", defaultValue = "") String cookieID,
+                         Model model,@RequestParam("file") MultipartFile file) {
         UserIdentification userIden = checkUserService.checkUser(cookieID);
-        if(userIden == null){
+
+        if (userIden == null) {
             return "login";
         }
-        //StringBuilder fileNames = new StringBuilder();
-        // String fileNames = "";
-        String contentType = file.getContentType();
-        if (contentType.startsWith("image/")) {
-            String fileName = "photoTilhoendeUserId" + userIden.getUserID();
-            // --||-- = userIden.getUserID() "";
-            Path filePath = Paths.get(uploadDirectory, fileName);
-            //fileNames.append(file.getOriginalFilename() + " ");
-            // fileName = fileName + file.getOriginalFilename;
-
-            try {
-                Files.write(filePath, file.getBytes());
-                // tager imod filens name og vej og files bytes(indhold)
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            model.addAttribute("msg", "Successfully uploaded files "+fileName);
-            model.addAttribute("filepath", uploadDirectory + fileName);
+            PhotoHandler photoHandler = new PhotoHandler();
+            photoHandler.takePhoto(file,file.getOriginalFilename());
+            model.addAttribute("msg", "Successfully uploaded files " + file.getOriginalFilename());
+            model.addAttribute("filepath", uploadDirectory);
             return "UploadStatusView";
-        }
-        return "ErrorPage";
     }
+
+
 
 
     @Configuration

@@ -4,6 +4,8 @@ import com.example.demo.models.Profile;
 import com.example.demo.repositories.ProfileRepository;
 import org.springframework.ui.ModelMap;
 
+
+
 public class ProfileHandler {
 
     private ProfileRepository jdbc;
@@ -13,8 +15,8 @@ public class ProfileHandler {
         jdbc.setConnection();
     }
 
-    public int createProfile(String email, String firstname, String surname, String username, String password, int sex, String birthdate){
-        return jdbc.createProfile(email, firstname, surname, username, password, sex, birthdate);
+    public int createProfile (String email, String firstname, String surname, String username, String password, int sex, String birthdate) {
+        return jdbc.createProfile(email,firstname,surname,username,password,sex,birthdate);
     }
 
     public void getProfile(int userID, ModelMap modelMap){

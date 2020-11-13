@@ -5,10 +5,23 @@
     <title>Title</title>
 </head>
 <body>
-<form action="/upload" method="post" enctype="multipart/form-data">
-    <input type="file" name="file" />
-    <input type="submit"value="Upload File" />
-</form>
+<div>
+    <div class="row">
+            <div class="col-lg-2">
+                <a href="/match" th:unless="${userIden.isAdmin()}"><p>Match</p></a>
+                <a href="/inbox" th:unless="${userIden.isAdmin()}"><p>Indbakke</p></a>
+                <a href="/profile"  th:unless="${userIden.isAdmin()}"><p>Profil</p></a>
+                <a href="/userList" th:if="${userIden.isAdmin()}"><p>Bruger liste</p></a>
+            </div>
+            <div class="col-lg-2">
+                <form action="/upload" method="post" enctype="multipart/form-data">
+                    <input type="file" name="file" />
+                    <input type="submit"value="Upload File" />
+                </form>
+            </div>
+    </div>
+</div>
+
 
 </body>
 </html>

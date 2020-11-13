@@ -123,6 +123,7 @@ public class CandidateRepository {
         return list;
     }
 
+    //Exception may occur if user has like all other users
     public SecondaryUser getRandomUnlikedUser(int userID){
         String selectStatement =
                 "SELECT uu.user_id, uu.username, uu.photo, uu.description, uu.sex, ke.keyword_1, ke.keyword_2, ke.keyword_3, uu.birthdate FROM users uu " +
@@ -164,11 +165,10 @@ public class CandidateRepository {
                 String keyword3 = resultSet.getString("keyword_3");
                 secondaryUser = new SecondaryUser(secondaryUsername,secondaryPhoto,secondaryDescription,secondaryUserID,secondarySex,age,keyword1,keyword2,keyword3);
 
-
-
         }
         catch (SQLException e){
-            System.out.println("Failure trying to get random unliked user="+e.getMessage());
+            //Maybe acceptable
+            System.out.println("{May occur if user has liked all other users}Failure trying to get random unliked user="+e.getMessage());
         }
         return secondaryUser;
     }

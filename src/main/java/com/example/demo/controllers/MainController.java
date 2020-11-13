@@ -364,17 +364,27 @@ public class MainController {
 
     @RequestMapping("/upload")
     public String upload(@CookieValue(value = "cookieID", defaultValue = "") String cookieID,
-                         Model model,@RequestParam("file") MultipartFile file) {
+                         Model model,@RequestParam("file") MultipartFile file, @RequestParam("userID") String userIDString) {
         UserIdentification userIden = checkUserService.checkUser(cookieID);
 
         if (userIden == null) {
             return "login";
         }
-            PhotoHandler photoHandler = new PhotoHandler();
-            photoHandler.takePhoto(file,file.getOriginalFilename());
-            model.addAttribute("msg", "Successfully uploaded files " + file.getOriginalFilename());
-            model.addAttribute("filepath", uploadDirectory);
-            return "UploadStatusView";
+        else if(userIden.isAdmin()){
+            int userID = Integer.parseInt(userIDString);
+            String filename = photoHandler.takePhoto(file,file.getOriginalFilename(), userID);
+            if (filename != null){
+                profileHandler.changePhoto(userIden.getUserID(),filename);
+            }
+            return "redirect:userList";
+        }
+        String filename = photoHandler.takePhoto(file,file.getOriginalFilename(), userIden.getUserID());
+        //model.addAttribute("msg", "Successfully uploaded files " + file.getOriginalFilename());
+        //model.addAttribute("filepath", uploadDirectory);
+        if (filename != null){
+            profileHandler.changePhoto(userIden.getUserID(),filename);
+        }
+        return "redirect:profile";
     }
 
 

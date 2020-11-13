@@ -12,11 +12,15 @@ import java.nio.file.Paths;
 public class PhotoHandler {
 
    public static String uploadDirectory = System.getProperty("user.dir")+ "/src/main/resources/static/user_photos";
-   public String takePhoto(MultipartFile file, String fileName) {
+
+
+   public String takePhoto(MultipartFile file, String fileName, int userID) {
 
        String contentType = file.getContentType();
+       String[] arr = fileName.split("\\.");
+       String extension = "." + arr[arr.length - 1];
         if (contentType.startsWith("image/")) {
-            fileName = "photoTilhoendeUserId";
+            fileName = userID + extension;
             // --||-- = userIden.getUserID() "";
             Path filePath = Paths.get(uploadDirectory, fileName);
             //fileNames.append(file.getOriginalFilename() + " ");
@@ -27,9 +31,13 @@ public class PhotoHandler {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return fileName;
+            return "user_photos/" + fileName;
         }
-        return "ErrorPage";
+        return null;
+    }
+
+    public void deletePhoto(){
+
     }
 }
 

@@ -3,7 +3,7 @@ package com.example.demo.services;
 import com.example.demo.models.Conversation;
 import com.example.demo.models.ConversationPreview;
 import com.example.demo.models.Message;
-import com.example.demo.repositories.JDBCChatService;
+import com.example.demo.repositories.ChatRepository;
 import org.springframework.ui.ModelMap;
 
 import java.time.LocalDateTime;
@@ -12,12 +12,12 @@ import java.util.ArrayList;
 
 public class ChatService {
 
-    private JDBCChatService jdbc;
+    private ChatRepository jdbc;
     private LocalDateTime dateTime;
     private DateTimeFormatter formatter;
 
     public ChatService() {
-        jdbc = new JDBCChatService();
+        jdbc = new ChatRepository();
         jdbc.setConnection();
 
         formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");

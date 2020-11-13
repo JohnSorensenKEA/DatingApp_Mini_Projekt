@@ -1,13 +1,13 @@
 package com.example.demo.services;
 
-import com.example.demo.repositories.JDBCLoginService;
+import com.example.demo.repositories.LoginRepository;
 
 public class LoginService {
 
-    private JDBCLoginService jdbc;
+    private LoginRepository jdbc;
 
     public LoginService() {
-        jdbc = new JDBCLoginService();
+        jdbc = new LoginRepository();
         jdbc.setConnection();
     }
 

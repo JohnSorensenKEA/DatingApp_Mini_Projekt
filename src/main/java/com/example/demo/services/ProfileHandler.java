@@ -1,15 +1,15 @@
 package com.example.demo.services;
 
 import com.example.demo.models.Profile;
-import com.example.demo.repositories.JDBCProfileService;
+import com.example.demo.repositories.ProfileRepository;
 import org.springframework.ui.ModelMap;
 
 public class ProfileHandler {
 
-    private JDBCProfileService jdbc;
+    private ProfileRepository jdbc;
 
     public ProfileHandler() {
-        jdbc = new JDBCProfileService();
+        jdbc = new ProfileRepository();
         jdbc.setConnection();
     }
 
@@ -29,7 +29,7 @@ public class ProfileHandler {
     }
 
     public void deleteProfile(int userID, ModelMap modelMap){
-        JDBCProfileService deleteProfile = jdbc.deleteProfile(userID);
+        ProfileRepository deleteProfile = jdbc.deleteProfile(userID);
 
         if (deleteProfile == null){
            modelMap.addAttribute("errorMessage", "Kunne ikke slette din profil");

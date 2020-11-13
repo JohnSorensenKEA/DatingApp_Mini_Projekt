@@ -2,7 +2,7 @@ package com.example.demo.repositories;
 
 import java.sql.*;
 
-public class JDBCLoginService {
+public class LoginRepository {
     private Connection connection;
 
     public boolean setConnection(){

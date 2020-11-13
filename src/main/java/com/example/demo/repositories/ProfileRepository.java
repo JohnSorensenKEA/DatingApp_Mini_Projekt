@@ -4,7 +4,7 @@ import com.example.demo.models.Profile;
 
 import java.sql.*;
 
-public class JDBCProfileService {
+public class ProfileRepository {
     private Connection connection;
 
     public boolean setConnection(){
@@ -131,7 +131,7 @@ public class JDBCProfileService {
         }
     }
 
-    public JDBCProfileService deleteProfile(int userID){
+    public ProfileRepository deleteProfile(int userID){
         String deleteStatement = "DELETE FROM users WHERE user_id = ?";
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(deleteStatement);

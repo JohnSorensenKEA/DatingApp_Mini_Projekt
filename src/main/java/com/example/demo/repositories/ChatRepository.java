@@ -7,7 +7,7 @@ import com.example.demo.models.Message;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class JDBCChatService {
+public class ChatRepository {
     private Connection connection;
 
     public boolean setConnection(){

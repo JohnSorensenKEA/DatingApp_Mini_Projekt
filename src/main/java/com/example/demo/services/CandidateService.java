@@ -3,17 +3,17 @@ package com.example.demo.services;
 import com.example.demo.models.Candidate;
 import com.example.demo.models.SecondaryUser;
 import com.example.demo.models.UserIdentification;
-import com.example.demo.repositories.JDBCCandidateService;
+import com.example.demo.repositories.CandidateRepository;
 import org.springframework.ui.ModelMap;
 
 import java.util.ArrayList;
 
 public class CandidateService {
 
-    private JDBCCandidateService jdbc;
+    private CandidateRepository jdbc;
 
     public CandidateService() {
-        jdbc = new JDBCCandidateService();
+        jdbc = new CandidateRepository();
         jdbc.setConnection();
     }
 

@@ -1,10 +1,7 @@
 package com.example.demo.controllers;
 
 import com.example.demo.models.UserIdentification;
-import com.example.demo.repositories.JDBCProfileService;
 import com.example.demo.services.*;
-import org.apache.tomcat.jni.File;
-import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +13,6 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.file.Files;

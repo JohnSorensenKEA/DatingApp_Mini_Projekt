@@ -109,8 +109,13 @@ public class JDBCCandidateService {
                 int secondaryID = resultSet.getInt("user_id");
                 int sex = resultSet.getInt("sex");
                 String birthdate = resultSet.getString("birthdate");
-                int x = Integer.parseInt("birthdate");
-                Candidate candidate = new Candidate(secondaryUsername,secondaryPhoto,secondaryID,sex,x);
+
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                LocalDate dateTime = LocalDate.parse(birthdate, formatter);
+                LocalDate now = LocalDate.now();
+                int age = (int) ChronoUnit.YEARS.between(dateTime,now);
+
+                Candidate candidate = new Candidate(secondaryUsername,secondaryPhoto,secondaryID,sex,age);
                 list.add(candidate);
             }
         }

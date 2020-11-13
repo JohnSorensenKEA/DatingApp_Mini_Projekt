@@ -63,20 +63,6 @@ public class ProfileRepository {
         }
     }
 
-    //Redundant...
-    public void deleteKeywords(int userID){
-        String deleteStatement = "DELETE FROM keywords WHERE user_id = ?";
-        try{
-            PreparedStatement preparedStatement = connection.prepareStatement(deleteStatement);
-            preparedStatement.setInt(1,userID);
-            preparedStatement.executeUpdate();
-        }
-        catch (SQLException e){
-            System.out.println("Failed to delete keywords="+e.getMessage());
-        }
-    }
-
-    //CheckUsage
     public void changeProfile(int userID, String firstname, String surname, int sex, String birthdate, String email, String username, String password, String description){
         String updateStatement =
                 "UPDATE users SET firstname = ?, surname = ?, sex = ?, birthdate = ?, email = ?, username = ?, password = ?, description = ? " +
@@ -191,42 +177,6 @@ public class ProfileRepository {
 
         Profile profile = new Profile(username,password,sex,birthdate,email,firstName,surName,description,pictureName,profileID,keyword1,keyword2,keyword3);
         return profile;
-    }
-
-    public boolean checkIfUserHasUsername(String username){
-        String selectStatement = "SELECT username FROM users WHERE username = ?";
-        boolean b = false;
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(selectStatement);
-            preparedStatement.setString(1, username);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            if (resultSet.next()){
-                b = true;
-            }
-        }
-        catch (SQLException e){
-            System.out.println("Failed trying to check if a user has username="+e.getMessage());
-        }
-        return b;
-    }
-
-    public boolean checkIfAdminHasUsername(String username){
-        String selectStatement = "SELECT admin_username FROM admins WHERE admin_username = ?";
-        boolean b = false;
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(selectStatement);
-            preparedStatement.setString(1, username);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            if (resultSet.next()){
-                b = true;
-            }
-        }
-        catch (SQLException e){
-            System.out.println("Failed trying to check if a user has username="+e.getMessage());
-        }
-        return b;
     }
 
     //Other

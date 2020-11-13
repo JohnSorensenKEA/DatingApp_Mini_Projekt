@@ -41,18 +41,6 @@ public class ProfileHandler {
         }
     }
 
-    //True if taken
-    public boolean checkIfUsernameIsTaken(String username){
-        boolean b = false;
-        if(jdbc.checkIfUserHasUsername(username)){
-            b = true;
-        }
-        else if (jdbc.checkIfAdminHasUsername(username)) {
-            b = true;
-        }
-        return b;
-    }
-
     public void changeProfile(int userID, String firstname, String surname, int sex, String birthdate, String email, String username, String password, String description){
         jdbc.changeProfile(userID,firstname,surname,sex,birthdate,email,username,password,description);
     }

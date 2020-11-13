@@ -57,22 +57,4 @@ public class LoginRepository {
         }
         return admin;
     }
-
-    //Other
-    public int getLastCreatedID(){ //Returns AI ID of last added row
-        String selectStatement = "SELECT last_insert_id()";
-        int res = -1;
-        try{
-            PreparedStatement preparedStatement = connection.prepareStatement(selectStatement);
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            resultSet.next();
-            res = resultSet.getInt("last_insert_id()");
-        }
-        catch (SQLException e){
-            System.out.println("last_insert_id() error="+e.getMessage());
-        }
-        return res;
-    }
 }

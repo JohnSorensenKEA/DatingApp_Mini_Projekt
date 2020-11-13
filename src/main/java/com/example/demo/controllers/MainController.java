@@ -411,6 +411,7 @@ public class MainController {
             int userID = Integer.parseInt(request.getParameter("userID"));
             chatService.deleteAllUsersConversations(userID);
             profileHandler.deleteProfile(userID, modelMap);
+            checkUserService.removeUserIdentification(userID);
             return "redirect:userList";
         }
         chatService.deleteAllUsersConversations(userIden.getUserID());

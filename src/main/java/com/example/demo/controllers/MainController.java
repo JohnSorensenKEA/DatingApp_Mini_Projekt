@@ -14,10 +14,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 @Controller
 public class MainController {
@@ -41,7 +37,7 @@ public class MainController {
         profileHandler = new ProfileHandler();
     }
 
-    //Not tested, UserIdentifying
+    //UserIdentifying
     @GetMapping("/login")
     public String login(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
@@ -57,7 +53,7 @@ public class MainController {
         return "login";
     }
 
-    //Not tested, UserIdentifying
+    //UserIdentifying
     @PostMapping("/loginRequest")
     public String loginRequest(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest webRequest){
         String username = webRequest.getParameter("username");
@@ -84,7 +80,7 @@ public class MainController {
         return "redirect:login";
     }
 
-    //Not tested, UserIdentifying
+    //UserIdentifying
     @GetMapping("/register")
     public String register(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
@@ -100,7 +96,7 @@ public class MainController {
         return "register";
     }
 
-    //Not tested, UserIdentifying
+    //UserIdentifying
     @PostMapping("/registrationRequest")
     public String registrationRequest(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest webRequest){
         String email = webRequest.getParameter("email");
@@ -133,13 +129,13 @@ public class MainController {
         return "redirect:match";
     }
 
-    //Not tested
+    //UserIdentifying
     @GetMapping("/")
     public String index(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
         return "redirect:login";
     }
 
-    //Not tested, Match
+    //Match
     @GetMapping("/match")
     public String match(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
@@ -157,7 +153,7 @@ public class MainController {
         return "match";
     }
 
-    //Not tested, Match
+    //Match
     @GetMapping("/likeUser")
     public String likeUser(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
@@ -175,13 +171,13 @@ public class MainController {
         return "redirect:match";
     }
 
-    //Not tested, Match
+    //Match
     @PostMapping("/nextUser")
     public String nextUser(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
         return match(cookieID,response,modelMap);
     }
 
-    //Not tested, Chat
+    //Chat
     @GetMapping("/inbox")
     public String inbox(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
@@ -199,7 +195,7 @@ public class MainController {
         return "inbox";
     }
 
-    //Not tested, Chat
+    //Chat
     @GetMapping("/conversation")
     public String conversation(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
@@ -225,7 +221,7 @@ public class MainController {
         }
     }
 
-    //Not tested, Chat
+    //Chat
     @GetMapping("/sendMessage")
     public String sendMessage(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
@@ -246,7 +242,7 @@ public class MainController {
         }
     }
 
-    //Not tested, Candidate*
+    //Candidate*
     @GetMapping("/candidates")
     public String candidateList(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
@@ -262,7 +258,7 @@ public class MainController {
         return "candidate-list";
     }
 
-    //Not tested, Profile
+    //Profile
     @GetMapping("/profile")
     public String profile(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
@@ -282,7 +278,7 @@ public class MainController {
         return "profile";
     }
 
-    //Not tested, Profile
+    //Profile
     @GetMapping("/saveTextChanges")
     public String saveTextChanges(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
@@ -317,7 +313,7 @@ public class MainController {
         return "redirect:profile";
     }
 
-    //Not tested, Profile
+    //Profile
     @GetMapping("/saveKeywords")
     public String saveKeywords(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
@@ -342,6 +338,7 @@ public class MainController {
 
     public static String uploadDirectory = System.getProperty("user.dir")+ "/src/main/resources/static/user_photos";
 
+    //Profile
     @RequestMapping("/upload")
     public String upload(@CookieValue(value = "cookieID", defaultValue = "") String cookieID,
                          Model model,@RequestParam("file") MultipartFile file, @RequestParam("userID") String userIDString, @RequestParam("photoName") String photoName) {
@@ -368,9 +365,6 @@ public class MainController {
         return "redirect:profile";
     }
 
-
-
-
     @Configuration
     public class ResourceConfig implements WebMvcConfigurer {
 
@@ -380,7 +374,7 @@ public class MainController {
         }
     }
 
-    //Not done, Profile
+    //Profile
     @GetMapping("/deletePicture")
     public String deletePicture(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
@@ -399,14 +393,14 @@ public class MainController {
         return "redirect:profile";
     }
 
-    //Not tested, UserIdentifying
+    //UserIdentifying
     @GetMapping("/logout")
     public String logOut(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
         checkUserService.removeUserIdentification(cookieID);
         return "redirect:login";
     }
 
-    //Not tested, Profile
+    //Profile
     @PostMapping("/deleteProfile")
     public String deleteProfile(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
@@ -425,7 +419,7 @@ public class MainController {
         return "redirect:login";
     }
 
-    //Not tested, Chat
+    //Chat
     @GetMapping("/deleteConversation")
     public String deleteConversation(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
@@ -445,23 +439,7 @@ public class MainController {
         return "redirect:inbox";
     }
 
-    //Not done, Remove?
-    @PostMapping("/deleteCandidate")
-    public String deleteCandidate(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
-        UserIdentification userIden = checkUserService.checkUser(cookieID);
-        if(userIden == null){
-            return "redirect:login";
-        }
-        else if(userIden.isAdmin()){
-            return "redirect:userList";
-        }
-        int secondaryID = Integer.parseInt(request.getParameter("secondaryID"));
-        candidateService.deleteCandidate(userIden.getUserID(),secondaryID);
-//Check if there is a conversation, delete if there is
-        return "redirect:candidates";
-    }
-
-    //Not tested, Admin
+    //Admin
     @GetMapping("/userList")
     public String userList(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
@@ -476,7 +454,7 @@ public class MainController {
         return "candidate-list";
     }
 
-    //Not tested, Admin
+    //Admin
     @GetMapping("/searchUser")
     public String searchUser(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
@@ -492,7 +470,7 @@ public class MainController {
         return "candidate-list";
     }
 
-    //Not tested, Admin
+    //Admin
     @GetMapping("/userProfile")
     public String userProfile(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
@@ -508,7 +486,7 @@ public class MainController {
         return "profile";
     }
 
-    //Not tested, Admin
+    //Admin
     @GetMapping("/userInbox")
     public String userInbox(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);

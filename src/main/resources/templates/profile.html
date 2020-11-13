@@ -85,10 +85,12 @@
             <input type="file" name="file" />
             <input type="submit"value="Upload" />
             <input type="hidden" id="userID" name="userID" th:value="${profile.getUserID()}">
+            <input type="hidden" th:value="${profile.getPictureName()}" name="photoName">
         </form>
         <br>
         <form method="get" action="/deletePicture">
             <input type="submit"value="Delete file"/>
+            <input type="hidden" th:value="${profile.getPictureName()}" name="photoName">
             <input type="hidden" id="userID" name="userID" th:value="${profile.getUserID()}">
         </form>
     </div>

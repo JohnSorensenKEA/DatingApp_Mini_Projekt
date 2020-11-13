@@ -4,6 +4,7 @@ package com.example.demo.services;
 import org.springframework.web.multipart.MultipartFile;
 
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,6 +13,10 @@ import java.nio.file.Paths;
 public class PhotoHandler {
 
    public static String uploadDirectory = System.getProperty("user.dir")+ "/src/main/resources/static/user_photos";
+
+   private String deletePath = System.getProperty("user.dir")+ "/src/main/resources/static/";
+
+   private String stockPhoto = "user_photos/stock_photo.png";
 
 
    public String takePhoto(MultipartFile file, String fileName, int userID) {
@@ -34,11 +39,15 @@ public class PhotoHandler {
             return "user_photos/" + fileName;
         }
         return null;
-    }
+   }
 
-    public void deletePhoto(){
+   public void deletePhoto(String photo){
+       if (!photo.equals(stockPhoto)){
+           File file = new File(deletePath + photo);
+           file.delete();
+       }
 
-    }
+   }
 }
 
 /*

@@ -340,31 +340,11 @@ public class MainController {
         return "redirect:profile";
     }
 
-    //Not done, Profile
-    @PostMapping("/uploadPicture")
-    public String uploadPicture(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
-        UserIdentification userIden = checkUserService.checkUser(cookieID);
-        if(userIden == null){
-            return "redirect:login";
-        }
-        else if(userIden.isAdmin()){
-            return "redirect:userList";
-        }
-
-        return "redirect:profile";
-    }
-
     public static String uploadDirectory = System.getProperty("user.dir")+ "/src/main/resources/static/user_photos";
-
-    @RequestMapping("PhotoTest")
-    public String UploadPage() {
-        return "Uploadview";
-    }
-
 
     @RequestMapping("/upload")
     public String upload(@CookieValue(value = "cookieID", defaultValue = "") String cookieID,
-                         Model model,@RequestParam("file") MultipartFile file, @RequestParam("userID") String userIDString) {
+                         Model model,@RequestParam("file") MultipartFile file, @RequestParam("userID") String userIDString, @RequestParam("photoName") String photoName) {
         UserIdentification userIden = checkUserService.checkUser(cookieID);
 
         if (userIden == null) {
@@ -372,15 +352,16 @@ public class MainController {
         }
         else if(userIden.isAdmin()){
             int userID = Integer.parseInt(userIDString);
+            photoHandler.deletePhoto(photoName);
             String filename = photoHandler.takePhoto(file,file.getOriginalFilename(), userID);
             if (filename != null){
                 profileHandler.changePhoto(userIden.getUserID(),filename);
             }
             return "redirect:userList";
         }
+        photoHandler.deletePhoto(photoName);
+        System.out.println(photoName);
         String filename = photoHandler.takePhoto(file,file.getOriginalFilename(), userIden.getUserID());
-        //model.addAttribute("msg", "Successfully uploaded files " + file.getOriginalFilename());
-        //model.addAttribute("filepath", uploadDirectory);
         if (filename != null){
             profileHandler.changePhoto(userIden.getUserID(),filename);
         }
@@ -400,12 +381,21 @@ public class MainController {
     }
 
     //Not done, Profile
-    @PostMapping("/deletePicture")
-    public String deletePicture(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap){
+    @GetMapping("/deletePicture")
+    public String deletePicture(@CookieValue(value = "cookieID", defaultValue = "") String cookieID, HttpServletResponse response, ModelMap modelMap, WebRequest request){
         UserIdentification userIden = checkUserService.checkUser(cookieID);
+        String photoName = request.getParameter("photoName");
         if(userIden == null){
             return "redirect:login";
         }
+        else if(userIden.isAdmin()){
+            int userID = Integer.parseInt(request.getParameter("userID"));
+            photoHandler.deletePhoto(photoName);
+            profileHandler.changePhoto(userID,"user_photos/stock_photo.png");
+            return "redirect:userList";
+        }
+        photoHandler.deletePhoto(photoName);
+        profileHandler.changePhoto(userIden.getUserID(),"user_photos/stock_photo.png");
         return "redirect:profile";
     }
 

@@ -50,10 +50,6 @@ public class CandidateService {
         jdbc.deleteLike(userID, secondaryID);
     }
 
-    public void deleteAllUserReferencedCandidates(int userID){
-        //Deletes all "like" and relations referencing to userID
-    }
-
     public boolean addCandidate(int userID, int secondaryID){
         jdbc.createLike(userID,secondaryID);
         return makeMatchCheck(userID,secondaryID);

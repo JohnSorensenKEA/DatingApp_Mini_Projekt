@@ -58,4 +58,8 @@ public class ProfileHandler {
     public void changeKeywords(int userID, String keyword1, String keyword2, String keyword3){
         jdbc.changeKeywords(userID,keyword1,keyword2,keyword3);
     }
+
+    public void changePhoto(int userID, String photoname){
+        jdbc.changePhoto(userID, photoname);
+    }
 }
